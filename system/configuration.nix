@@ -7,9 +7,8 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./machines/dell-precision-7530/hardware-configuration.nix
     ];
-
 
   # Enable searching for and installing unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -32,9 +31,9 @@
     };
   };
 
-  networking.hostName = "dell-precision-7530-nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "dell-precision-7530"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
@@ -211,9 +210,6 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-
-  # Enable Docker
-  virtualisation.docker.enable = true;
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;
