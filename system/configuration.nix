@@ -12,6 +12,7 @@
 
   # Enable searching for and installing unfree packages
   nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = false;
@@ -50,98 +51,84 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
   # Enable the X11 windowing system.
-  # services.xserver = {
-  #   enable = true;
-  #   synaptics = {
-  #     enable = true;
-  #     vertTwoFingerScroll = true;
-  #     tapButtons = false;
-  #   };
-  #   displayManager = {
-  #     defaultSession = "none+xmonad";
-  #     autoLogin = {
-  #       enable = true;
-  #       user = "michalparusinski";
-  #     };
-  #     sessionCommands = ''
-  #       ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
-  #         Xft.dpi: 192
-  #         Xft.autohint:0
-  #         Xft.lcdfilter: lcddefault
-  #         Xft.hintstyle: hintfull
-  #         Xft.hinting: 1
-  #         Xft.antialias: 1
-  #         Xft.rgba: rgb
-  #         
-  #         st.font:			-*-dejavu sans mono-*-*-*-*-28-*-*-*-*-*-*-1
-  #         ! st.bold_font:			0
-  #         ! st.background:			#131415
-  #         ! st.foreground:			#A3BAD0
-  #         ! st.cursorColor:			#8d9b53
-  #         ! st.termname:			xterm-256color
-  #         ! st.shell:			/bin/sh
-  #         ! st.bellvolume:			100
-  #         ! st.tabspaces:			8
-  #         ! st.chscale:			1.0
-  #         ! st.cwscale:			1.0
-  #         
-  #         #define nord0 #2E3440
-  #         #define nord1 #3B4252
-  #         #define nord2 #434C5E
-  #         #define nord3 #4C566A
-  #         #define nord4 #D8DEE9
-  #         #define nord5 #E5E9F0
-  #         #define nord6 #ECEFF4
-  #         #define nord7 #8FBCBB
-  #         #define nord8 #88C0D0
-  #         #define nord9 #81A1C1
-  #         #define nord10 #5E81AC
-  #         #define nord11 #BF616A
-  #         #define nord12 #D08770
-  #         #define nord13 #EBCB8B
-  #         #define nord14 #A3BE8C
-  #         #define nord15 #B48EAD
-  #         
-  #         *.foreground:   nord4
-  #         *.background:   nord0
-  #         *.cursorColor:  nord4
-  #         *fading: 35
-  #         *fadeColor: nord3
-  #         
-  #         *.color0: nord1
-  #         *.color1: nord11
-  #         *.color2: nord14
-  #         *.color3: nord13
-  #         *.color4: nord9
-  #         *.color5: nord15
-  #         *.color6: nord8
-  #         *.color7: nord5
-  #         *.color8: nord3
-  #         *.color9: nord11
-  #         *.color10: nord14
-  #         *.color11: nord13
-  #         *.color12: nord9
-  #         *.color13: nord15
-  #         *.color14: nord7
-  #         *.color15: nord6
-  #         *.alpha: 0.8
-  #       EOF
-  #       ${pkgs.xorg.xset}/bin/xset r rate 200 50
-  #       ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
-  #       ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:ralt
-  #     '';
-  #   };
-  #   windowManager.xmonad = {
-  #     enable = true;
-  #     enableContribAndExtras = true;
-  #   };
-  #   dpi = 192;
-  # };
+  services.xserver = {
+    enable = true;
+    synaptics = {
+      enable = true;
+      vertTwoFingerScroll = true;
+      tapButtons = false;
+    };
+    displayManager = {
+      defaultSession = "none+xmonad";
+      autoLogin = {
+        enable = true;
+        user = "michalparusinski";
+      };
+      sessionCommands = ''
+        ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
+          Xft.dpi: 192
+          Xft.autohint:0
+          Xft.lcdfilter: lcddefault
+          Xft.hintstyle: hintfull
+          Xft.hinting: 1
+          Xft.antialias: 1
+          Xft.rgba: rgb
+          
+          ! special
+          *.foreground:   #d8caac
+          *.background:   #323d43
+          *.cursorColor:  #d8caac
+          
+          ! black
+          *.color0:       #868d80
+          *.color8:       #868d80
+          
+          ! red
+          *.color1:       #e68183
+          *.color9:       #e68183
+          
+          ! green
+          *.color2:       #a7c080
+          *.color10:      #a7c080
+          
+          ! yellow
+          *.color3:       #d9bb80
+          *.color11:      #d9bb80
+          
+          ! blue
+          *.color4:       #89beba
+          *.color12:      #89beba
+          
+          ! magenta
+          *.color5:       #d3a0bc
+          *.color13:      #d3a0bc
+          
+          ! cyan
+          *.color6:       #87c095
+          *.color14:      #87c095
+          
+          ! white
+          *.color7:       #d8caac
+          *.color15:      #d8caac
+
+          *.alpha: 0.8
+        EOF
+        ${pkgs.xorg.xset}/bin/xset r rate 200 50
+        ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
+        ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:ralt
+      '';
+    };
+    windowManager.xmonad = {
+      enable = true;
+      enableContribAndExtras = true;
+    };
+    dpi = 192;
+  };
 
   # Handling HiDPI
   # environment.variables = {
@@ -226,6 +213,9 @@
       '';
     };
   };
+
+  # Enable flatpak (useful for packages like Spotify)
+  # services.flatpak.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
