@@ -1,0 +1,30 @@
+{ config, lib, pkgs, ...}:
+
+{
+  programs.zsh = {
+    enable = true;
+    shellAliases = {
+      ll = "ls -l";
+      am = "pulsemixer";
+      gp = "git push";
+      ga = "git add";
+      gd = "git diff";
+    };
+    history = {
+      size = 10000;
+    };
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" "thefuck" "wd" "fzf" "vi-mode" ];
+      theme = "robbyrussell";
+    };
+    envExtra = ''
+      EDITOR=vim
+    '';
+    initExtra = ''
+      , () {
+        nix-shell -p $1 --run $1
+      }
+    '';
+  };
+}

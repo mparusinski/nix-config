@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ ./programs/zsh.nix ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "michalparusinski";
@@ -34,33 +35,6 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-  programs.zsh = {
-    enable = true;
-    shellAliases = {
-      ll = "ls -l";
-      am = "pulsemixer";
-      gp = "git push";
-      ga = "git add";
-      gd = "git diff";
-    };
-    history = {
-      size = 10000;
-    };
-    oh-my-zsh = {
-      enable = true;
-      plugins = [ "git" "thefuck" "wd" "fzf" "vi-mode" ];
-      theme = "robbyrussell";
-    };
-    envExtra = ''
-      EDITOR=vim
-    '';
-    initExtra = ''
-      , () {
-        nix-shell -p $1 --run $1
-      }
-    '';
-  };
 
   programs.git = {
     enable = true;

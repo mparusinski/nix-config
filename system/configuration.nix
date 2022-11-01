@@ -55,6 +55,17 @@
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
 
+  # Handling fonts
+  fonts.fonts = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    font-awesome_5
+    font-awesome
+    jetbrains-mono
+  ];
+
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
