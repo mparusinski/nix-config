@@ -14,6 +14,8 @@
     pkgs.thefuck
     pkgs.mc
     pkgs.tree
+    pkgs.restic
+    pkgs.pulsemixer
   ];
 
   services.syncthing = {
@@ -37,6 +39,7 @@
     enable = true;
     shellAliases = {
       ll = "ls -l";
+      am = "pulsemixer";
     };
     history = {
       size = 10000;
@@ -46,6 +49,11 @@
       plugins = [ "git" "thefuck" "wd" "fzf" "vi-mode" ];
       theme = "robbyrussell";
     };
+    initExtra = ''
+      , () {
+        nix-shell -p $1 --run $1
+      }
+    '';
   };
 
   programs.git = {
