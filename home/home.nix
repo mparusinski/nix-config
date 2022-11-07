@@ -17,6 +17,8 @@
     pkgs.tree
     pkgs.restic
     pkgs.pulsemixer
+    pkgs.arandr
+    pkgs.autorandr
   ];
 
   services.syncthing = {
