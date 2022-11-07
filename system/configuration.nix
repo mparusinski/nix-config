@@ -51,10 +51,6 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  # services.xserver.enable = true;
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
-
   # Handling fonts
   fonts.fonts = with pkgs; [
     noto-fonts
@@ -81,6 +77,7 @@
         user = "michalparusinski";
       };
       sessionCommands = ''
+        ${pkgs.feh}/bin/feh --bg-fill ${builtins.fetchurl "https://i.redd.it/0d7drj9okdv91.jpg"}
         ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
           Xft.dpi: 192
           Xft.autohint:0
