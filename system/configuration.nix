@@ -174,6 +174,9 @@
     packages = with pkgs; [
       firefox
       kitty
+      blueman
+      arandr
+      autorandr
     ];
   };
 

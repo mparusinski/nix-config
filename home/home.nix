@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./programs/zsh.nix ];
+  imports = [ ./programs/zsh.nix ./programs/kitty.nix ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "michalparusinski";
