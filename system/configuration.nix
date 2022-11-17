@@ -160,6 +160,9 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  # Backlight settings
+  hardware.acpilight.enable = true;
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -169,7 +172,7 @@
 
   users.users.michalparusinski = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "video" ]; # Enable ‘sudo’ for the user.
     hashedPassword = "$6$l1uvR/ebtdbjkm5q$77LijykP01hCqq9GhCai0OiJdBf5F8DUWd6b7lN.h1fYHIrTjbmCaGy3A6c0mQw2tnNEPmrejJI6fuVjppumW.";
     packages = with pkgs; [
       firefox
