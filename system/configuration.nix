@@ -172,7 +172,7 @@
 
   users.users.michalparusinski = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "video" "docker" ]; # Enable ‘sudo’ for the user.
     hashedPassword = "$6$l1uvR/ebtdbjkm5q$77LijykP01hCqq9GhCai0OiJdBf5F8DUWd6b7lN.h1fYHIrTjbmCaGy3A6c0mQw2tnNEPmrejJI6fuVjppumW.";
     packages = with pkgs; [
       firefox
@@ -215,6 +215,9 @@
   # Enable bluetooth
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
+
+  # Enable docker
+  virtualisation.docker.enable = true;
 
   # Enable Flatpak
   xdg.portal.enable = true;
