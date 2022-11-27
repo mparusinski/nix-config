@@ -180,6 +180,7 @@
       blueman
       arandr
       autorandr
+      docker-compose
     ];
   };
 
