@@ -9,6 +9,7 @@
       gp = "git push";
       ga = "git add";
       gd = "git diff";
+      saq = "eval \"$(ssh-agent -s)\"";
     };
     history = {
       size = 10000;
