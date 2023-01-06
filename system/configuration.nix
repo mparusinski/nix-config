@@ -15,30 +15,15 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = false;
+  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "btrfs" ];
-  boot.loader.grub = {
-    enable = true;
-    version = 2;
-    device = "nodev";
-    efiSupport = true;
-    enableCryptodisk = true;
-  };
-  boot.initrd.luks.devices = {
-    root = {
-      device = "/dev/disk/by-uuid/75cf08b9-e72b-4a4d-9561-669c8c900ae7";
-      preLVM =  true;
-    };
-  };
 
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.hostName = "dell-precision-7530"; # Define your hostname.
+  networking.hostName = "thor"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
-  time.timeZone = "Europe/Paris";
+  time.timeZone = "Europe/Amsterdam";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -123,7 +108,6 @@
           ! white
           *.color7:       #d8caac
           *.color15:      #d8caac
-
           *.alpha: 0.8
         EOF
         ${pkgs.xorg.xset}/bin/xset r rate 200 50
@@ -137,13 +121,6 @@
     };
     dpi = 192;
   };
-
-  # Handling HiDPI
-  # environment.variables = {
-  #   GDK_SCALE = "2";
-  #   GDK_DPI_SCALE = "0.5";
-  #   _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
-  # };
   
 
   # Configure keymap in X11
@@ -163,9 +140,6 @@
   # Backlight settings
   hardware.acpilight.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
@@ -181,6 +155,7 @@
       arandr
       autorandr
       docker-compose
+      git
     ];
   };
 
@@ -220,11 +195,6 @@
   # Enable docker
   virtualisation.docker.enable = true;
 
-  # Enable Flatpak
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  services.flatpak.enable = true;
-  
   # Enable snapper
   services.snapper = {
     configs.home = {
@@ -236,9 +206,6 @@
       '';
     };
   };
-
-  # Enable flatpak (useful for packages like Spotify)
-  # services.flatpak.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -257,7 +224,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "22.11"; # Did you read the comment?
 
 }
 

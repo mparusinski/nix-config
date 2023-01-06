@@ -8,29 +8,33 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "rtsx_pci_sdmmc" ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/cb7aecc7-e205-404b-a7a0-25c3b2a82b49";
+    { device = "/dev/disk/by-uuid/e1ff4e5f-d0d3-486b-9c1d-4d8053d79a51";
       fsType = "btrfs";
       options = [ "subvol=root" "compress=zstd" "noatime" ];
     };
 
+  boot.initrd.luks.devices."crypt".device = "/dev/disk/by-uuid/4d36b525-c774-4c0c-ae55-e84fd5d7c27d";
+
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/cb7aecc7-e205-404b-a7a0-25c3b2a82b49";
+    { device = "/dev/disk/by-uuid/e1ff4e5f-d0d3-486b-9c1d-4d8053d79a51";
       fsType = "btrfs";
-      options = [ "subvol=home" "compress=zstd" "noatime"  ];
+      options = [ "subvol=home" "compress=zstd" "noatime" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/DABB-B770";
+    { device = "/dev/disk/by-uuid/D871-69FC";
       fsType = "vfat";
     };
 
-  swapDevices = [ ];
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/decb4ebd-d39c-47a3-8eeb-26a48faa78e1"; }
+    ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
@@ -40,6 +44,7 @@
   # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp111s0.useDHCP = lib.mkDefault true;
 
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   # high-resolution display

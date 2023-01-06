@@ -19,6 +19,7 @@
     pkgs.pulsemixer
     pkgs.arandr
     pkgs.autorandr
+    pkgs.udiskie
   ];
 
   services.syncthing = {
