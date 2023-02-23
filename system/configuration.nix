@@ -23,11 +23,7 @@
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  time.timeZone = "Europe/Paris";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "fr_FR.UTF-8";
@@ -48,6 +44,7 @@
   ];
 
   # Enable the X11 windowing system.
+ # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
     synaptics = {
@@ -71,44 +68,6 @@
           Xft.hinting: 1
           Xft.antialias: 1
           Xft.rgba: rgb
-          
-          ! special
-          *.foreground:   #d8caac
-          *.background:   #323d43
-          *.cursorColor:  #d8caac
-          
-          ! black
-          *.color0:       #868d80
-          *.color8:       #868d80
-          
-          ! red
-          *.color1:       #e68183
-          *.color9:       #e68183
-          
-          ! green
-          *.color2:       #a7c080
-          *.color10:      #a7c080
-          
-          ! yellow
-          *.color3:       #d9bb80
-          *.color11:      #d9bb80
-          
-          ! blue
-          *.color4:       #89beba
-          *.color12:      #89beba
-          
-          ! magenta
-          *.color5:       #d3a0bc
-          *.color13:      #d3a0bc
-          
-          ! cyan
-          *.color6:       #87c095
-          *.color14:      #87c095
-          
-          ! white
-          *.color7:       #d8caac
-          *.color15:      #d8caac
-          *.alpha: 0.8
         EOF
         ${pkgs.xorg.xset}/bin/xset r rate 200 50
         ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
@@ -120,8 +79,7 @@
       enableContribAndExtras = true;
     };
     dpi = 192;
-  };
-  
+  }; 
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -137,7 +95,7 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  # Backlight settings
+  # Enable backlight
   hardware.acpilight.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -184,16 +142,9 @@
 
   # List services that you want to enable:
   systemd.services.upower.enable = true;
-  services.udisks2.enable = true;
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Enable bluetooth
+  services.udisks2.enable = true;  
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
-
-  # Enable docker
   virtualisation.docker.enable = true;
 
   # Enable snapper
