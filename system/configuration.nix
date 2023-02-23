@@ -184,6 +184,7 @@
 
   # List services that you want to enable:
   systemd.services.upower.enable = true;
+  services.udisks2.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;

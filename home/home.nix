@@ -19,10 +19,13 @@
     pkgs.pulsemixer
     pkgs.arandr
     pkgs.autorandr
-    pkgs.udiskie
   ];
 
   services.syncthing = {
+    enable = true;
+  };
+
+  services.udiskie = {
     enable = true;
   };
 
