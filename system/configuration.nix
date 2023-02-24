@@ -38,9 +38,7 @@
     noto-fonts-cjk
     noto-fonts-emoji
     liberation_ttf
-    font-awesome_5
-    font-awesome
-    jetbrains-mono
+    fira-code
   ];
 
   # Enable the X11 windowing system.
@@ -69,7 +67,7 @@
           Xft.antialias: 1
           Xft.rgba: rgb
         EOF
-        ${pkgs.xorg.xset}/bin/xset r rate 200 50
+        ${pkgs.xorg.xset}/bin/xset r rate 150 50
         ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
         ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:ralt
       '';
@@ -77,6 +75,7 @@
     windowManager.xmonad = {
       enable = true;
       enableContribAndExtras = true;
+      config = builtins.readFile ./xmonad/xmonad.hs;
     };
     dpi = 192;
   }; 
@@ -114,6 +113,8 @@
       autorandr
       docker-compose
       git
+      picom
+      light
     ];
   };
 

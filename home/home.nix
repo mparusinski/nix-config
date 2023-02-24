@@ -1,7 +1,12 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./programs/zsh.nix ./programs/kitty.nix ];
+  imports = [ 
+    ./programs/zsh.nix 
+    ./programs/kitty.nix 
+    ./programs/xmobar.nix 
+    ./programs/vim.nix
+  ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "michalparusinski";
@@ -49,9 +54,4 @@
     userEmail = "michal@parusinski.me";
   };
 
-  programs.vim = {
-    enable = true;
-    plugins = with pkgs.vimPlugins; [ vim-airline ];
-    settings = { ignorecase = true; };
-  };
 }
