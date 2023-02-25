@@ -39,6 +39,7 @@
     noto-fonts-emoji
     liberation_ttf
     fira-code
+    fira-code-symbols
   ];
 
   # Enable the X11 windowing system.
