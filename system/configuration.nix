@@ -111,6 +111,7 @@
       git
       picom
       light
+      distrobox
     ];
   };
 
