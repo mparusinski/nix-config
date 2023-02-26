@@ -40,6 +40,8 @@
     liberation_ttf
     fira-code
     fira-code-symbols
+    dejavu_fonts
+    vistafonts
   ];
 
   # Enable the X11 windowing system.
