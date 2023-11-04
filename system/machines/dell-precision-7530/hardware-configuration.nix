@@ -14,22 +14,40 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/fde11974-13c2-40be-bce3-72eb704cdb57";
+    { device = "/dev/disk/by-uuid/fa912933-2dcf-42c3-b6bc-92c37e7a01de";
       fsType = "btrfs";
-      options = [ "rw" "noatime" "compress-force=zstd:1" "space_cache=v2" "subvol=@" ];
+      options = [ "subvol=root" "compress=zstd" "noatime" ];
     };
 
-  boot.initrd.luks.devices."cryptdev".device = "/dev/disk/by-uuid/25083541-4456-47b2-ab9d-f3bfae0c2644";
+  boot.initrd.luks.devices."crypt".device = "/dev/disk/by-uuid/1e1bacb8-46cf-477b-926d-09c2c29623d1";
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/fde11974-13c2-40be-bce3-72eb704cdb57";
+    { device = "/dev/disk/by-uuid/fa912933-2dcf-42c3-b6bc-92c37e7a01de";
       fsType = "btrfs";
-      options = [ "rw" "noatime" "compress-force=zstd:1" "space_cache=v2" "subvol=@home" ];
+      options = [ "subvol=home" "compress=zstd" "noatime" ];
+    };
+
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/fa912933-2dcf-42c3-b6bc-92c37e7a01de";
+      fsType = "btrfs";
+      options = [ "subvol=nix" "compress=zstd" "noatime" ];
+    };
+
+  fileSystems."/log" =
+    { device = "/dev/disk/by-uuid/fa912933-2dcf-42c3-b6bc-92c37e7a01de";
+      fsType = "btrfs";
+      options = [ "subvol=log" "compress=zstd" "noatime" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/7248-C576";
+    { device = "/dev/disk/by-uuid/8C7F-59E5";
       fsType = "vfat";
+    };
+
+  fileSystems."/btr_pool" =
+    { device = "/dev/disk/by-uuid/fa912933-2dcf-42c3-b6bc-92c37e7a01de";
+      fsType = "btrfs";
+      options = [ "subvolid=5" ];
     };
 
   swapDevices = [ ];
@@ -40,12 +58,10 @@
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp57s0u2u4.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp111s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  # high-resolution display
-  hardware.video.hidpi.enable = lib.mkDefault true;
-  zramSwap.enable = true;
 }
