@@ -1,6 +1,6 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# and in the NixOS manual (accessible by running `nixos-help`).
 
 { config, pkgs, ... }:
 
@@ -19,11 +19,12 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "btrfs" ];
 
-  networking.hostName = "thor"; # Define your hostname.
+  networking.hostName = "thor-nixos"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
+  time.hardwareClockInLocalTime = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "fr_FR.UTF-8";
@@ -45,13 +46,12 @@
   ];
 
   # Enable the X11 windowing system.
- # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    synaptics = {
+    libinput = {
       enable = true;
-      vertTwoFingerScroll = true;
-      tapButtons = false;
+      touchpad.scrollMethod = "twofinger";
+      touchpad.tapping = false;
     };
     displayManager = {
       defaultSession = "none+xmonad";
@@ -78,17 +78,21 @@
     windowManager.xmonad = {
       enable = true;
       enableContribAndExtras = true;
-      config = builtins.readFile ./xmonad/xmonad.hs;
     };
     dpi = 192;
   }; 
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   # Enable backlight
   hardware.acpilight.enable = true;
@@ -97,6 +101,7 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
+  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.michalparusinski = {
     isNormalUser = true;
     extraGroups = [ "wheel" "video" "docker" ]; # Enable ‘sudo’ for the user.
@@ -112,6 +117,8 @@
       picom
       light
       distrobox
+      dmenu
+      xmobar
     ];
   };
 
@@ -119,8 +126,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    dmenu
-    xmobar
   ];
 
   # Enable steam
@@ -130,14 +135,6 @@
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   # List services that you want to enable:
   systemd.services.upower.enable = true;
   services.udisks2.enable = true;  
@@ -145,36 +142,72 @@
   services.blueman.enable = true;
   virtualisation.docker.enable = true;
 
-  # Enable snapper
-  services.snapper = {
-    configs.home = {
-      subvolume = "/home";
-      extraConfig = ''
-        ALLOW_USERS="michalparusinski"
-        TIMELINE_CREATE=yes
-        TIMELINE_CLEANUP=yes
-      '';
-    };
+  # Setting zswap
+  zramSwap = {
+    enable = true;
+    memoryPercent = 10;
   };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  # Setting BTRBK services
+  services.btrbk = {
+    instances."home-snapshots" = {
+      onCalendar = "hourly";
+      settings = {
+        snapshot_preserve = "7d";
+        snapshot_preserve_min = "2d";
+        
+        volume."/btr_pool" = {
+          snapshot_dir = "snapshots";
+          subvolume = "home";
+        };
+      };
+    };
+    instances."root-snapshots" = {
+      onCalendar = "daily";
+      settings = {
+        snapshot_preserve = "14d";
+        snapshot_preserve_min = "3d";
+
+        volume."/btr_pool" = {
+          snapshot_dir = "snapshots";
+          subvolume = "root";
+        };
+      };
+    };
+  };
+  security.sudo = {
+    enable = true;
+    extraRules = [{
+      commands = [
+        {
+          command = "${pkgs.coreutils-full}/bin/test";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "${pkgs.coreutils-full}/bin/readlink";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "${pkgs.btrfs-progs}/bin/btrfs";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+      users = [ "btrbk" ];
+    }];
+  };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
+  system.copySystemConfiguration = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
 
