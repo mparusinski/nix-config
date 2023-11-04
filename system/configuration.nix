@@ -135,6 +135,8 @@
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
+  programs.thunar.enable = true;
+
   # List services that you want to enable:
   systemd.services.upower.enable = true;
   services.udisks2.enable = true;  
