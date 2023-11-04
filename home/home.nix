@@ -4,6 +4,7 @@
   imports = [ 
     ./programs/zsh.nix 
     ./programs/kitty.nix 
+    ./programs/xmobar.nix 
     ./programs/vim.nix
   ];
   # Home Manager needs a bit of information about you and the
@@ -23,7 +24,6 @@
     pkgs.pulsemixer
     pkgs.arandr
     pkgs.autorandr
-    pkgs.neofetch
   ];
 
   services.syncthing = {

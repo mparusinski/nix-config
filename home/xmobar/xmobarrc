@@ -1,0 +1,31 @@
+Config
+    { font        = "Fira Code Regular 22"
+    , alpha       = 200
+    , position    = TopSize C 100 34
+    , commands    =
+        [ Run Cpu 
+          [ "-L", "5"
+          , "-H", "50"
+          , "--high", "red"
+          , "--normal", "yellow"
+          , "--low", "green"
+          ] 10
+        , Run Memory
+          [ "--template", "Mem: <usedratio>%" ] 10
+        , Run Battery
+          [ "-t", "<acstatus>: <left>% - <timeleft>"
+          , "--"
+          , "-O", "AC"
+          , "-o", "Bat"
+          , "-h", "green"
+          , "-m", "yellow"
+          , "-l", "red"
+          ] 10
+        , Run Alsa "default" "Master" [] 
+        , Run Date "%a %Y-%m-%d %H:%M" "date" 10
+        , Run XMonadLog
+        ]
+    , sepChar     = "%"
+    , alignSep    = "}{"
+    , template    = " %XMonadLog% }{ %alsa% | %battery% | %cpu% | %memory% | %date% "
+}
