@@ -12,9 +12,6 @@
 
   # Enable searching for and installing unfree packages
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "python-2.7.18.6"
-  ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Use the systemd-boot EFI boot loader.
@@ -123,6 +120,7 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wofi
+    cifs-utils
   ];
 
   # Enable steam
@@ -188,6 +186,22 @@
       ];
       users = [ "btrbk" ];
     }];
+  };
+
+  # Enable network shares
+  fileSystems."/mnt/nassie/public" = {
+    device = "//nassie/public";
+    fsType = "cifs";
+    options = let
+      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
+  };
+  fileSystems."/mnt/nassie/snapshots" = {
+    device = "//nassie/snapshots";
+    fsType = "cifs";
+    options = let
+      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
   };
 
   # Copy the NixOS configuration file and link it from the resulting system
