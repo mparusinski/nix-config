@@ -3,12 +3,6 @@
 {
   programs.kitty = {
     enable = true;
-    settings = {
-      background_opacity = "0.9";
-      enable_audio_bell = false;
-      confirm_os_window_close = 0;
-      font_size = "12.0";
-      font_family = "Fira Code";
-    };
+    settings.enable_audio_bell = false;
   };
 }

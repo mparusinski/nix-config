@@ -1,11 +1,12 @@
 { config, pkgs, ... }:
 
 {
+  nixpkgs.config.allowUnfree = true;
   imports = [ 
     ./programs/zsh.nix 
-    ./programs/kitty.nix 
-    ./programs/xmobar.nix 
     ./programs/vim.nix
+    ./programs/kitty.nix
+    ./themes/default.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -24,6 +25,10 @@
     pkgs.pulsemixer
     pkgs.arandr
     pkgs.autorandr
+    pkgs.discord
+    pkgs.spotify
+    pkgs.htop
+    pkgs.waybar
   ];
 
   services.syncthing = {

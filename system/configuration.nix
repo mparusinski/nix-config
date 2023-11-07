@@ -12,6 +12,9 @@
 
   # Enable searching for and installing unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "python-2.7.18.6"
+  ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Use the systemd-boot EFI boot loader.
@@ -43,45 +46,42 @@
     fira-code-symbols
     dejavu_fonts
     vistafonts
+    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
   ];
 
-  # Enable the X11 windowing system.
+  # Using hyprland
   services.xserver = {
     enable = true;
-    libinput = {
+    displayManager.sddm = {
       enable = true;
-      touchpad.scrollMethod = "twofinger";
-      touchpad.tapping = false;
+      enableHidpi = true;
     };
-    displayManager = {
-      defaultSession = "none+xmonad";
-      autoLogin = {
-        enable = true;
-        user = "michalparusinski";
-      };
-      sessionCommands = ''
-        ${pkgs.feh}/bin/feh --bg-fill ${builtins.fetchurl "https://i.redd.it/0d7drj9okdv91.jpg"}
-        ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
-          Xft.dpi: 192
-          Xft.autohint:0
-          Xft.lcdfilter: lcddefault
-          Xft.hintstyle: hintfull
-          Xft.hinting: 1
-          Xft.antialias: 1
-          Xft.rgba: rgb
-        EOF
-        ${pkgs.xorg.xset}/bin/xset r rate 150 50
-        ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
-        ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:ralt
-      '';
-    };
-    windowManager.xmonad = {
+    displayManager.autoLogin = {
       enable = true;
-      enableContribAndExtras = true;
+      user = "michalparusinski";
     };
-    dpi = 192;
-  }; 
+  };
+  programs.hyprland = {
+    enable = true;
+    xwayland.hidpi = true;
+    xwayland.enable = true;
+  };
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
 
+  # Thunar file manager
+  programs.thunar.enable = true;
+  programs.thunar.plugins = with pkgs.xfce; [
+   thunar-archive-plugin
+   thunar-volman
+  ];
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
+
+  # Enable bluetooth
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+  services.gnome.gnome-keyring.enable = true;
 
   # Enable sound.
   security.rtkit.enable = true;
@@ -93,9 +93,6 @@
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
   };
-
-  # Enable backlight
-  hardware.acpilight.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
@@ -118,7 +115,6 @@
       light
       distrobox
       dmenu
-      xmobar
     ];
   };
 
@@ -126,6 +122,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wofi
   ];
 
   # Enable steam
@@ -135,13 +132,8 @@
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  programs.thunar.enable = true;
-
   # List services that you want to enable:
-  systemd.services.upower.enable = true;
   services.udisks2.enable = true;  
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
   virtualisation.docker.enable = true;
 
   # Setting zswap
