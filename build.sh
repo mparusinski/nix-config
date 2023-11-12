@@ -27,4 +27,4 @@ while [ : ]; do
 done
             
 echo "Building configuration for machine $MACHINE"
-nixos-rebuild switch --flake ./#$MACHINE
+nixos-rebuild switch --flake ./#$MACHINE --show-trace

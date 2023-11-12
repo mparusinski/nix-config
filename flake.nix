@@ -38,6 +38,12 @@
           system = "x86_64_linux";
           modules = [ 
             ./system/nassie/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.michalparusinski = import ./home/home_console.nix;
+            }
           ];
         };
         # Main personal laptop (thor)
@@ -88,7 +94,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.michalparusinski = import ./home/home.nix;
+              home-manager.users.michalparusinski = import ./home/home_graphical.nix;
             }
           ];
         };
