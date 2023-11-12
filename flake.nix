@@ -20,6 +20,13 @@
 
   outputs = { self, nixpkgs, home-manager,... }@inputs : {
       nixosConfigurations = {
+        # NAS server
+        nassie = nixpkgs.lib.nixosSystem {
+          system = "x86_64_linux";
+          modules = [ 
+            ./system/nassie/configuration.nix
+          ];
+        };
         # Main personal laptop (thor)
         thor = nixpkgs.lib.nixosSystem {
           system = "x86_64_linux";
