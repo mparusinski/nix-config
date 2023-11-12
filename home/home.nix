@@ -29,6 +29,8 @@
     pkgs.spotify
     pkgs.htop
     pkgs.waybar
+    pkgs.baobab
+    pkgs.jq
   ];
 
   services.syncthing = {
