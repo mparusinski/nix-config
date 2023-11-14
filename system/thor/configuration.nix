@@ -34,7 +34,7 @@
   };
 
   # Handling fonts
-  fonts.packages = with pkgs; [
+  fonts.fonts = with pkgs; [
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
@@ -49,11 +49,8 @@
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-
-  # Enable bluetooth
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
-  services.gnome.gnome-keyring.enable = true;
+  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.user = "michalparusinski";
 
   # Enable sound.
   hardware.pulseaudio.enable = true;
@@ -157,14 +154,14 @@
   };
 
   # Enable network shares
-  fileSystems."/mnt/nassie/public" = {
+  fileSystems."/media/nassie/public" = {
     device = "//nassie/public";
     fsType = "cifs";
     options = let
       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
     in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
   };
-  fileSystems."/mnt/nassie/snapshots" = {
+  fileSystems."/media/nassie/snapshots" = {
     device = "//nassie/snapshots";
     fsType = "cifs";
     options = let
