@@ -108,7 +108,7 @@
     {
       commands = [
         {
-          command = "${pkgs.coreutils-full}/bin/pm-suspend";
+          command = "${pkgs.systemd}/bin/poweroff";
           options = [ "NOPASSWD" ];
         }
       ];
