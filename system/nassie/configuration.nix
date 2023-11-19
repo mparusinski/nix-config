@@ -49,6 +49,13 @@
     packages = with pkgs; [
     ];
   };
+  # This user is for homeassistant automation
+  users.users.hass = {
+    isNormalUser = true;
+    openssh.authorizedKeys.keys = [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDOV3DQgtYZK/ohlMaeSw5Jsz3jiUT3C05fmwAGDbpOSh5GpjUrJLraW92kBFeJW2FcTIWZ1MrG3uGErvkn8KhMAvMjk0QKO8Mm3JHXpjKXbGQgRTC/0KCUQtPrXnFB7hlSEsHveeR9/QmshrFTo6WUoc8Wcl4vS/e8RF1F1cohHNsr6N5oPz2tHvh4+ZveFslL8pluERxq2rhrEqUiyryrIa72wG4N1WJprMena3ed1yBpUaAw1+NbcZJb3km+OeuwjY+JMkbvntBMDC+650aydNDRBnS3Zb7Svxt4CAWJYK9LH/T7s/ZyH5OpLuGas4wvOTlmnu1t/FT20PZ7T9A9gYODsc1ISLRgVX9qRpKM3vx5BPWeXwLgxTYPkBlwsGG2xk+kLJeXo/+5gUQVRqK7f9S9IffvH8jMfZM8bFXjwkLK6GJdbSqql6aWWsz6S0tvOykthSRy3JQZ1kUWBOVM6O1Dt6URP2k8ZJiJ3nuu+Qm3JhGlcvVpfp+PXUFOcFU= root@rpi1"
+    ];
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -97,6 +104,15 @@
         }
       ];
       users = [ "btrbk" ];
+    }
+    {
+      commands = [
+        {
+          command = "${pkgs.coreutils-full}/bin/pm-suspend";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+      users = [ "hass" ];
     }];
   };
 
