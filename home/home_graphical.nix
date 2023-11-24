@@ -5,6 +5,8 @@
   imports = [ 
     ./programs/zsh.nix 
     ./programs/vim.nix
+    ./programs/kitty.nix
+    ./programs/xmobar.nix
     ./themes/default.nix
   ];
   # Home Manager needs a bit of information about you and the
@@ -30,6 +32,7 @@
     pkgs.waybar
     pkgs.baobab
     pkgs.jq
+    pkgs.dconf
   ];
 
   services.syncthing = {

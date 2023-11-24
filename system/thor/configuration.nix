@@ -4,6 +4,12 @@
 
 { config, pkgs, ... }:
 
+let
+  wallpaper = builtins.fetchurl {
+    url = "https://i.redd.it/0d7drj9okdv91.jpg";
+    sha256 = "sha256:0jz5id588nlvlprnvhw12p919br3lqm27bfd7lqv3pm35qxw6d8j";
+  };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -46,15 +52,52 @@
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
   ];
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "michalparusinski";
+  # XMonad
+  services.xserver = {
+    enable = true;
+    libinput = {
+      enable = true;
+      touchpad.tapping = false;
+    };
+    displayManager = {
+      defaultSession = "none+xmonad";
+      autoLogin = {
+        enable = true;
+        user = "michalparusinski";
+      };
+      sessionCommands = ''
+        ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
+        ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
+          Xft.dpi: 192
+          Xft.autohint:0
+          Xft.lcdfilter: lcddefault
+          Xft.hintstyle: hintfull
+          Xft.hinting: 1
+          Xft.antialias: 1
+          Xft.rgba: rgb
+        EOF
+        ${pkgs.xorg.xset}/bin/xset r rate 150 50
+        ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
+        ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:ralt
+      '';
+    };
+    windowManager.xmonad = {
+      enable = true;
+      enableContribAndExtras = true;
+      config = builtins.readFile ../xmonad/xmonad.hs;
+    };
+    dpi = 192;
+  };
 
   # Enable sound.
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;    ## If compatibility with 32-bit applications
+  sound.enable = true;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
@@ -159,14 +202,14 @@
     fsType = "cifs";
     options = let
       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-    in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets,uid=1000,gid=100"];
   };
   fileSystems."/media/nassie/snapshots" = {
     device = "//nassie/snapshots";
     fsType = "cifs";
     options = let
       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-    in ["${automount_opts},credentials=/etc/nixos/smb-secrets"];
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets,uid=1000,gid=100"];
   };
 
   # This value determines the NixOS release from which the default

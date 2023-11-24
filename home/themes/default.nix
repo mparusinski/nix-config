@@ -4,11 +4,6 @@
   gtk = {
     enable = true;
 
-    theme = {
-      name = "Venta";
-      package = pkgs.venta;
-    };
-
     iconTheme = {
       name = "Paper";
       package = pkgs.paper-icon-theme;
