@@ -7,6 +7,7 @@
     ./programs/vim.nix
     ./programs/kitty.nix
     ./programs/hyprland.nix
+    ./programs/wofi.nix
     ./themes/default.nix
   ];
   # Home Manager needs a bit of information about you and the
@@ -24,15 +25,12 @@
     pkgs.tree
     pkgs.restic
     pkgs.pulsemixer
-    pkgs.arandr
-    pkgs.autorandr
     pkgs.discord
     pkgs.spotify
     pkgs.htop
     pkgs.waybar
     pkgs.baobab
     pkgs.jq
-    pkgs.dconf
     pkgs.bottom
   ];
 
@@ -41,6 +39,10 @@
   };
 
   services.udiskie = {
+    enable = true;
+  };
+
+  services.kdeconnect = {
     enable = true;
   };
 
@@ -59,6 +61,10 @@
     lfs.enable = true;
     userName = "Michal Parusinski";
     userEmail = "michal@parusinski.me";
+  };
+
+  programs.bat = {
+    config.theme = "base16";
   };
 
   programs.home-manager.enable = true;

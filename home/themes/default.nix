@@ -5,8 +5,8 @@
     enable = true;
 
     iconTheme = {
-      name = "Paper";
-      package = pkgs.paper-icon-theme;
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
     };
 
     cursorTheme = {

@@ -8,7 +8,7 @@ let
 in
 {
   wayland.windowManager.hyprland.extraConfig = ''
-    exec-once = waybar
+    exec-once = waybar, kdeconnect-indicator, discord
 
     $mainMod = SUPER
 
@@ -52,7 +52,9 @@ in
     # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
     bind = $mainMod, C, killactive, 
     bind = $mainMod, M, exit, 
+    bind = $mainMod, Q, exec, kitty
     bind = $mainMod, E, exec, thunar
+    bind = $mainMod, Y, exec, firefox
     bind = $mainMod, V, togglefloating, 
     bind = $mainMod, R, exec, wofi --show drun
     bind = $mainMod, P, pseudo, # dwindle
@@ -87,5 +89,9 @@ in
    bindm = $mainMod, mouse:272, movewindow
    bindm = $mainMod, mouse:273, resizewindow
   '';
+  programs.waybar = {
+    enable = true;
+    systemd.enable = true;
+  };
 }
 
