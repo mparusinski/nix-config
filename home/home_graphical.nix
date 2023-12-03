@@ -6,7 +6,7 @@
     ./programs/zsh.nix 
     ./programs/vim.nix
     ./programs/kitty.nix
-    ./programs/xmobar.nix
+    ./programs/hyprland.nix
     ./themes/default.nix
   ];
   # Home Manager needs a bit of information about you and the
@@ -33,6 +33,7 @@
     pkgs.baobab
     pkgs.jq
     pkgs.dconf
+    pkgs.bottom
   ];
 
   services.syncthing = {
@@ -53,9 +54,6 @@
   # changes in each release.
   home.stateVersion = "23.05";
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-
   programs.git = {
     enable = true;
     lfs.enable = true;
@@ -63,4 +61,5 @@
     userEmail = "michal@parusinski.me";
   };
 
+  programs.home-manager.enable = true;
 }
