@@ -52,6 +52,13 @@
           ./home/home_graphical.nix 
         ];
       };
+      "mparusinski@DESKTOP-5A9CEH7" = lib.homeManagerConfiguration {
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = { inherit inputs; };
+        modules = [ 
+          ./home/home_wsl.nix 
+        ];
+      };
     };
     nixosConfigurations = {
       # NAS server

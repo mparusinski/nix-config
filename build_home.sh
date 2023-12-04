@@ -26,4 +26,4 @@ done
             
 CONFIG="$(whoami)@$(hostname)"
 echo "Building configuration for user $CONFIG"
-home-manager switch --flake ./#$CONFIG --show-trace
+home-manager --extra-experimental-features "nix-command flakes" switch --flake ./#$CONFIG --show-trace
