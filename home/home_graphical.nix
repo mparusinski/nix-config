@@ -32,6 +32,7 @@
     pkgs.baobab
     pkgs.jq
     pkgs.bottom
+    pkgs.libreoffice
   ];
 
   services.syncthing = {
