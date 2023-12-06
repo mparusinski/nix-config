@@ -8,6 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../common/hosts.nix
+      ../common/users.nix
     ];
 
   # Enable searching for and installing unfree packages
@@ -70,25 +72,16 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.michalparusinski = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "video" "docker" ]; # Enable ‘sudo’ for the user.
-    hashedPassword = "$6$l1uvR/ebtdbjkm5q$77LijykP01hCqq9GhCai0OiJdBf5F8DUWd6b7lN.h1fYHIrTjbmCaGy3A6c0mQw2tnNEPmrejJI6fuVjppumW.";
-    packages = with pkgs; [
-      firefox
-      kitty
-      blueman
-      arandr
-      autorandr
-      docker-compose
-      git
-      picom
-      light
-      distrobox
-      dmenu
-    ];
-  };
+  users.users.michalparusinski.extraGroups = [ "docker" "video" ];
+  users.users.michalparusinski.packages = with pkgs; [
+    firefox
+    kitty
+    blueman
+    docker-compose
+    git
+    light
+    distrobox
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
