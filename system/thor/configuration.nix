@@ -49,24 +49,13 @@
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
   ];
 
-  # Hyprland
+  # GDM
   services.xserver.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.enableHidpi = true;
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "michalparusinski";
-  programs.hyprland.enable = true;
-  programs.hyprland.xwayland.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Enable sound.
   sound.enable = true;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
@@ -75,30 +64,16 @@
   users.users.michalparusinski.extraGroups = [ "docker" "video" ];
   users.users.michalparusinski.packages = with pkgs; [
     firefox
-    kitty
-    blueman
     docker-compose
     git
-    light
     distrobox
   ];
-
-  # Setting up bluetooth
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wofi
     cifs-utils
-    xfce.thunar
-  ];
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-    thunar-volman
   ];
   services.gvfs.enable = true;
   services.tumbler.enable = true;
@@ -111,7 +86,6 @@
   };
 
   # List services that you want to enable:
-  services.udisks2.enable = true;  
   virtualisation.docker.enable = true;
 
   # Setting zswap
@@ -203,6 +177,8 @@
     ];  
   };  
 
+  # Enabling tailscale
+  services.tailscale.enable = true;
 
 }
 
