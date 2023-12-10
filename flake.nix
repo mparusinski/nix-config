@@ -82,7 +82,7 @@
         ];
       };
       # Gandi VPS server
-      "heavens.novalocal" = nixpkgs.lib.nixosSystem {
+      heavens = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [ 
           ./system/heavens/configuration.nix

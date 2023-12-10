@@ -7,7 +7,7 @@
       ../common/users.nix
     ];
 
-  # networking.hostName = "heavens"; # Define your hostname.
+  networking.hostName = "heavens"; # Define your hostname.
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
