@@ -25,4 +25,35 @@
 
   # Tailscale
   services.tailscale.enable = true;
+
+  # Setting NGINX
+  security.pam.services.nginx.setEnvironment = false;
+  systemd.services.nginx.serviceConfig = {
+    SupplementaryGroups = [ "shadow" ];
+  };
+
+  security.acme.acceptTerms = true;
+  security.acme.defaults.email = "michal+acme@parusinski.me";
+  services.nginx = {
+    enable = true;
+    recommendedTlsSettings = true;
+    recommendedOptimisation = true;
+    recommendedGzipSettings = true;
+    recommendedProxySettings = true;
+
+    additionalModules = [ pkgs.nginxModules.pam ];
+    virtualHosts."nassie-waker.parusinski.me" = {
+      addSSL = true;
+      enableACME = true;
+      locations."/" = {
+        proxyPass = "http://rpi1.parusinski.me:9000";
+      };
+      extraConfig = ''
+        auth_pam  "Password Required";
+        auth_pam_service_name "nginx";
+      '';
+    };
+  };
+
+  networking.firewall.allowedTCPPorts = [ 80 443 2222 ];
 }
