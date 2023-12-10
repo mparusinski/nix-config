@@ -16,4 +16,10 @@
     vim 
     git
   ];
+
+  # Changing SSH port
+  services.openssh = {
+    enable = true;
+    ports = [2222];
+  };
 }
