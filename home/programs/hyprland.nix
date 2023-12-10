@@ -7,6 +7,7 @@ let
   };
 in
 {
+  wayland.windowManager.hyprland.xwayland.enable = true;
   wayland.windowManager.hyprland.extraConfig = ''
     exec-once = waybar, kdeconnect-indicator, discord
 

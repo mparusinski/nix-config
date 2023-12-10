@@ -5,10 +5,6 @@
   imports = [ 
     ./programs/zsh.nix 
     ./programs/vim.nix
-    ./programs/kitty.nix
-    ./programs/hyprland.nix
-    ./programs/wofi.nix
-    ./themes/default.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -23,27 +19,17 @@
     pkgs.thefuck
     pkgs.mc
     pkgs.tree
-    pkgs.restic
-    pkgs.pulsemixer
     pkgs.discord
     pkgs.spotify
     pkgs.htop
-    pkgs.waybar
     pkgs.baobab
     pkgs.jq
     pkgs.bottom
     pkgs.libreoffice
+    pkgs.thunderbird
   ];
 
   services.syncthing = {
-    enable = true;
-  };
-
-  services.udiskie = {
-    enable = true;
-  };
-
-  services.kdeconnect = {
     enable = true;
   };
 
