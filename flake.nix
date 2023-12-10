@@ -63,7 +63,7 @@
     nixosConfigurations = {
       # NAS server
       nassie = nixpkgs.lib.nixosSystem {
-        system = "x86_64_linux";
+        system = "x86_64-linux";
         modules = [ 
           ./system/nassie/configuration.nix
           home-manager.nixosModules.home-manager
@@ -76,14 +76,14 @@
       };
       # Main personal laptop (thor)
       thor = nixpkgs.lib.nixosSystem {
-        system = "x86_64_linux";
+        system = "x86_64-linux";
         modules = [ 
           ./system/thor/configuration.nix
         ];
       };
       # Gandi VPS server
       "heavens.novalocal" = nixpkgs.lib.nixosSystem {
-        system = "x86_64_linux";
+        system = "x86_64-linux";
         modules = [ 
           ./system/heavens/configuration.nix
         ];
