@@ -22,4 +22,7 @@
     enable = true;
     ports = [2222];
   };
+
+  # Tailscale
+  services.tailscale.enable = true;
 }
