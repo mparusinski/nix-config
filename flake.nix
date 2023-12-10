@@ -59,6 +59,13 @@
           ./home/home_wsl.nix 
         ];
       };
+      "michalparusinski@heavens" = lib.homeManagerConfiguration {
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = { inherit inputs; };
+        modules = [ 
+          ./home/home_console.nix 
+        ];
+      };
     };
     nixosConfigurations = {
       # NAS server
