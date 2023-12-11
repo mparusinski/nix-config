@@ -36,23 +36,11 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  # Handling fonts
-  fonts.fonts = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    dejavu_fonts
-    vistafonts
-    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
-  ];
-
   # GDM
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  services.flatpak.enable = true;
 
   # Enable sound.
   sound.enable = true;
