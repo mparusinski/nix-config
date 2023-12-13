@@ -47,13 +47,22 @@
       enableACME = true;
       locations."/" = {
         proxyPass = "http://rpi1.parusinski.me:9000";
+        extraConfig = ''
+          auth_pam  "Password Required";
+          auth_pam_service_name "nginx";
+        '';
       };
-      extraConfig = ''
-        auth_pam  "Password Required";
-        auth_pam_service_name "nginx";
-      '';
+      locations."/ping" = {
+        # Intentionally omitting authentication because we want 
+        # this monitored by UptimeRobot
+        proxyPass = "http://rpi1.parusinski.me:9000/ping";
+      };
     };
   };
+
+  # Set up ZSH
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
 
   networking.firewall.allowedTCPPorts = [ 80 443 2222 ];
 }
