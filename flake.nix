@@ -29,10 +29,9 @@
       # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
     };
-	hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { self, nixpkgs, home-manager, hyprland, ... }@inputs :
+  outputs = { self, nixpkgs, home-manager, ... }@inputs :
   let
     lib = nixpkgs.lib // home-manager.lib;
 	systems = [ "x86_64-linux" ];
@@ -47,8 +46,6 @@
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = { inherit inputs; };
         modules = [ 
-          hyprland.homeManagerModules.default
-          { wayland.windowManager.hyprland.enable = true; }
           ./home/home_graphical.nix 
         ];
       };
