@@ -16,8 +16,8 @@
     };
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "thefuck" "wd" "fzf" "vi-mode" ];
-      theme = "robbyrussell";
+      plugins = [ "git" "wd" "fzf" "vi-mode" ];
+      theme = "gianu";
     };
     envExtra = ''
       EDITOR=vim

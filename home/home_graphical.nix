@@ -27,6 +27,7 @@
     pkgs.bottom
     pkgs.libreoffice
     pkgs.thunderbird
+    pkgs.stellarium
   ];
 
   services.syncthing = {
