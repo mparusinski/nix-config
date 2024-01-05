@@ -15,8 +15,6 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.NoBorders ( noBorders, smartBorders )
 
 myStartupHook = do
-  spawnOnce "xset r rate 150 40"
-  spawnOnce "setxkbmap -option caps:super -option compose:ralt"
   spawnOnce "picom --vsync -b"
 
 myModMask  = mod4Mask

@@ -9,4 +9,11 @@
 
   # Enable sound.
   sound.enable = true;
+
+  # Gnome extras
+  environment.systemPackages = with pkgs; [
+    gnome3.gnome-tweaks
+  ];
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
 }

@@ -10,7 +10,7 @@
       ./hardware-configuration.nix
       ../common/hosts.nix
       ../common/users.nix
-      ../common/gnome.nix
+      ../common/xmonad.nix
     ];
 
   # Enable searching for and installing unfree packages
@@ -54,10 +54,8 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     cifs-utils
-    gnome3.gnome-tweaks
   ];
   services.gvfs.enable = true;
-  services.tumbler.enable = true;
 
   # Enable steam
   programs.steam = {
