@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
       ../common/hosts.nix
       ../common/users.nix
+      ../common/gnome.nix
     ];
 
   # Enable searching for and installing unfree packages
@@ -35,15 +36,6 @@
     font = "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
     useXkbConfig = true; # use xkbOptions in tty.
   };
-
-  # GDM
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.flatpak.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.zsh.enable = true;
