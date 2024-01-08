@@ -63,6 +63,13 @@
           ./home/home_console.nix 
         ];
       };
+      "michalparusinski@nassie" = lib.homeManagerConfiguration {
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = { inherit inputs; };
+        modules = [ 
+          ./home/home_console.nix 
+        ];
+      };
     };
     nixosConfigurations = {
       # NAS server
@@ -70,12 +77,6 @@
         system = "x86_64-linux";
         modules = [ 
           ./system/nassie/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.michalparusinski = import ./home/home_console.nix;
-          }
         ];
       };
       # Main personal laptop (thor)
