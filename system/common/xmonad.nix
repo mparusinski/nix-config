@@ -2,8 +2,8 @@
 
 let 
   wallpaper = builtins.fetchurl {
-    url = "https://i.redd.it/0d7drj9okdv91.jpg";
-    sha256 = "sha256:0jz5id588nlvlprnvhw12p919br3lqm27bfd7lqv3pm35qxw6d8j";
+    url = "https://i.redd.it/wkp1biib47da1.png";
+    sha256 = "sha256:1n7qvpynyvvv84ma6c9fwnhy1mnbdx17i0cnmvjnhpfaxbkss6hp";
   };
 in
 {
@@ -26,7 +26,7 @@ in
         Xft.antialias: 1
         Xft.rgba: rgb
       EOF
-      ${pkgs.xorg.xset}/bin/xset r rate 150 50
+      ${pkgs.xorg.xset}/bin/xset r rate 200 50
       ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
       ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:ralt
     '';
@@ -40,6 +40,14 @@ in
   };
   services.xserver.dpi = 192;
 
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    fira-code
+    fira-code-symbols
+  ];
+
   # Enable sound.
   sound.enable = true;
   security.rtkit.enable = true;
@@ -50,12 +58,16 @@ in
     pulse.enable = true;
   };
 
+  # Enable brightness control
+  programs.light.enable = true;
+
   # Packages for XMonad
   environment.systemPackages = with pkgs; [
     xfce.thunar
     arandr
     picom
     dmenu
+    xmobar
   ];
 
   services.udisks2.enable = true;
