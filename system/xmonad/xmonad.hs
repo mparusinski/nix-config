@@ -36,8 +36,7 @@ myLayout = avoidStruts $ spacing 5 $ smartBorders tiled ||| smartBorders (Mirror
     delta   = 3 / 100
     ratio   = 1 / 2
 
--- mySB num = statusBarProp ( "xmobar -x " ++ show num ++ " ~/.config/xmobar/xmobarrc") (pure myXmobarPP)
-mySB num = statusBarProp ( "xmobar" ) (pure myXmobarPP)
+mySB num = statusBarProp ( "xmobar -x " ++ show num ++ " ~/.config/xmobar/.xmobarrc") (pure myXmobarPP)
 
 main :: IO ()
 main = xmonad 

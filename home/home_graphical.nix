@@ -30,6 +30,8 @@
     pkgs.libreoffice
     pkgs.thunderbird
     pkgs.stellarium
+    pkgs.pulsemixer
+    pkgs.mangohud
   ];
 
   services.syncthing = {

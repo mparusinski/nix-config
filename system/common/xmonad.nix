@@ -15,6 +15,8 @@ in
   };
   services.xserver.displayManager = {
     defaultSession = "none+xmonad";
+    autoLogin.user = "michalparusinski";
+    autoLogin.enable = true;
     sessionCommands = ''
       ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
       ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
@@ -69,6 +71,9 @@ in
     dmenu
     xmobar
   ];
+
+  # Settings for bluetoothctl
+  services.blueman.enable = true;
 
   services.udisks2.enable = true;
 }
