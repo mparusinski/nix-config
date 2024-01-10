@@ -70,10 +70,8 @@ in
     picom
     dmenu
     xmobar
+    glxinfo
   ];
-
-  # Settings for bluetoothctl
-  services.blueman.enable = true;
 
   services.udisks2.enable = true;
 }
