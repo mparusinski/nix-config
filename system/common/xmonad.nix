@@ -71,6 +71,7 @@ in
     dmenu
     xmobar
     glxinfo
+    vulkan-tools
   ];
 
   services.udisks2.enable = true;

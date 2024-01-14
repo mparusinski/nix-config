@@ -10,7 +10,7 @@
       ./hardware-configuration.nix
       ../common/hosts.nix
       ../common/users.nix
-      ../common/xmonad.nix
+      ../common/hyprland.nix
     ];
 
   # Enable searching for and installing unfree packages
@@ -33,7 +33,9 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "fr_FR.UTF-8";
   console = {
-    font = "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
+    earlySetup = true;
+    font = "${pkgs.terminus_font}/share/consolefonts/ter-u32n.psf.gz";
+    packages = with pkgs; [ terminus_font ];
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
