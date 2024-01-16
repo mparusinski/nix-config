@@ -12,16 +12,27 @@ import XMonad.Util.SpawnOnce
 import XMonad.Actions.Volume
 import XMonad.Layout
 import XMonad.Layout.Spacing
-import XMonad.Layout.NoBorders ( noBorders, smartBorders )
+-- import XMonad.Layout.NoBorders ( noBorders, smartBorders )
 
 myStartupHook = do
-  spawnOnce "picom --vsync -b"
+    spawnOnce "picom --vsync -b"
+
+myBorderWidth        = 5
+myFocusedBorderColor = "#7FBBB3"
+myNormalBorderColor  = "#A7C080"
+
+-- TODO: Change this later
+myWorkspaces = [
+    "dev", "web", "sys", 
+    "doc", "fun", "cht", 
+    "mus", "vid", "xtr" ]
 
 myModMask  = mod4Mask
 myTerminal = "kitty"
 myKeys     = 
   [ ("M-u",                     spawn "firefox")
   , ("M-v",                     toggleSmartSpacing)
+  , ("M-p",                     spawn "dmenu")
   , ("<XF86MonBrightnessUp>",   spawn "light -A 5")
   , ("<XF86MonBrightnessDown>", spawn "light -U 5")
   , ("<XF86AudioRaiseVolume>",  raiseVolume 3 >> return ())
@@ -29,7 +40,8 @@ myKeys     =
   , ("<XF86AudioMute>",         toggleMute >> return ())
   ]
 
-myLayout = avoidStruts $ spacing 5 $ smartBorders tiled ||| smartBorders (Mirror tiled) ||| noBorders Full
+-- myLayout = avoidStruts $ spacing 7 $ smartBorders tiled ||| smartBorders (Mirror tiled) ||| noBorders Full
+myLayout = avoidStruts $ spacing 7 $ tiled ||| (Mirror tiled) ||| Full
   where
     tiled   = Tall nmaster delta ratio
     nmaster = 1
@@ -51,14 +63,23 @@ main = xmonad
 
 myXmobarPP :: PP
 myXmobarPP = def
-  { ppSep = xmobarColor "#ff79c6" "" " . " 
-  , ppTitleSanitize = xmobarStrip
+  { ppSep             = " | " 
+  , ppCurrent         = xmobarColor "#7FBBB3" "" . wrap "[" "]"
+  , ppVisible         = xmobarColor "#A7C080" "" . wrap "[" "]"
+  , ppHidden          = xmobarColor "#E67E80" "" . wrap "(" ")"
+  , ppHiddenNoWindows = xmobarColor "#D3C6AA" "" . wrap " " " "
+  , ppTitle           = xmobarColor "#D3C6AA" "" . shorten 60
+  , ppTitleSanitize   = xmobarStrip
   }
 
 myConfig = def
-  { modMask     = myModMask
-  , terminal    = myTerminal
-  , layoutHook  = myLayout
-  , startupHook = myStartupHook
+  { modMask            = myModMask
+  , terminal           = myTerminal
+  , layoutHook         = myLayout
+  , borderWidth        = myBorderWidth
+  , startupHook        = myStartupHook
+  , workspaces         = myWorkspaces
+  , focusedBorderColor = myFocusedBorderColor
+  , normalBorderColor  = myNormalBorderColor
   }
   `additionalKeysP` myKeys  

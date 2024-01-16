@@ -8,6 +8,9 @@
     ./programs/kitty.nix
     ./programs/kdeconnect.nix
     ./programs/waybar.nix
+    ./programs/xmonad.nix
+    ./programs/xmobar.nix
+    ./themes/default.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -35,6 +38,7 @@
     pkgs.mangohud
     pkgs.gamescope
     pkgs.direnv
+    pkgs.rofi
   ];
 
   services.syncthing = {

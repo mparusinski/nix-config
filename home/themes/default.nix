@@ -8,11 +8,12 @@
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
+  };
 
-    cursorTheme = {
-      name = "Bibata-Modern-Ice";
-      package = pkgs.bibata-cursors;
-    };
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.gnome.adwaita-icon-theme;
+    size = 32;
   };
 
   qt = {
