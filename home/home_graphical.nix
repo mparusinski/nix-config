@@ -10,6 +10,7 @@
     ./programs/waybar.nix
     ./programs/xmonad.nix
     ./programs/xmobar.nix
+    ./programs/hyprland.nix
     ./themes/default.nix
   ];
   # Home Manager needs a bit of information about you and the
