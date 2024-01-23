@@ -40,6 +40,8 @@
     pkgs.gamescope
     pkgs.direnv
     pkgs.rofi
+    pkgs.ripgrep
+    pkgs.fractal
   ];
 
   services.syncthing = {
@@ -65,6 +67,10 @@
 
   programs.bat = {
     config.theme = "base16";
+  };
+
+  programs.zathura = {
+    enable = true;
   };
 
   programs.home-manager.enable = true;

@@ -174,5 +174,9 @@
   # Enabling tailscale
   services.tailscale.enable = true;
 
+  # Enabling Gnome keyring
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.lightdm.enableGnomeKeyring = true;
+
 }
 
