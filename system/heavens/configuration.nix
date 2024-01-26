@@ -1,4 +1,4 @@
-{ config, pkgs, lib, modulesPath, ... }:
+{ config, pkgs, lib, modulesPath, splitwise-exporter, ... }:
 
 {
   imports = 
@@ -12,9 +12,11 @@
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
+  # nix.registry.splitwise-exporter.flake = inputs.splitwise-exporter;
   environment.systemPackages = with pkgs; [
     vim 
     git
+    splitwise-exporter.packages.${pkgs.system}.splitwise-exporter
   ];
 
   # Changing SSH port
@@ -59,6 +61,27 @@
       };
     };
   };
+
+  # # Autoexporting splitwise systemd unit
+  # systemd.services.splitwise-exporter = {
+  #   wantedBy = [ "multi-user.target" ];
+  #   after = [ "network.target" ];
+  #   description = "Automatic export of splitwise data (SERVICE)";
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     User = "michalparusinski";
+  #     ExecStart = ''${inputs.splitwise-exporter.packages.x86_64-linux.splitwise-exporter}/bin/splitwise_exporter'';
+  #   };
+  # };
+  # systemd.timers.splitwise-exporter = {
+  #   wantedBy = [ "multi-user.target" ];
+  #   after = [ "network.target" ];
+  #   description = "Automatic export of splitwise data (TIMER)";
+  #   timerConfig = {
+  #     OnCalendar = "daily";
+  #     Unit = "splitwise-exporter.service";
+  #   };
+  # };
 
   # Set up ZSH
   programs.zsh.enable = true;

@@ -29,9 +29,10 @@
       # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    splitwise-exporter.url = "github:mparusinski/splitwise_exporter";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs :
+  outputs = { self, nixpkgs, home-manager, splitwise-exporter, ... }@inputs :
   let
     lib = nixpkgs.lib // home-manager.lib;
 	systems = [ "x86_64-linux" ];
@@ -89,8 +90,10 @@
       # Gandi VPS server
       heavens = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = inputs; 
         modules = [ 
           ./system/heavens/configuration.nix
+          # ({ config, pkgs, ...}: { nixpkgs.overlays = [ splitwise-exporter.overlays.default]; })
         ];
       };
     };
