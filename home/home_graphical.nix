@@ -42,6 +42,7 @@
     pkgs.rofi
     pkgs.ripgrep
     pkgs.fractal
+    pkgs.dunst
   ];
 
   services.syncthing = {

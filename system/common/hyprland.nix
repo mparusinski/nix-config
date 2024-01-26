@@ -42,5 +42,11 @@
   # File manager
   programs.thunar.enable = true;
 
+  # Xdg portal
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  };
+
   services.udisks2.enable = true;
 }
