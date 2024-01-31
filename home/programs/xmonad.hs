@@ -10,6 +10,7 @@ import XMonad.Util.Loggers
 import XMonad.Util.SpawnOnce
 
 import XMonad.Actions.Volume
+import XMonad.Actions.SpawnOn
 import XMonad.Layout
 import XMonad.Layout.Spacing
 -- import XMonad.Layout.NoBorders ( noBorders, smartBorders )
@@ -21,18 +22,19 @@ myBorderWidth        = 5
 myFocusedBorderColor = "#7FBBB3"
 myNormalBorderColor  = "#A7C080"
 
--- TODO: Change this later
+
+defaultWorkspace = "xtr"
 myWorkspaces = [
     "dev", "web", "sys", 
     "doc", "fun", "cht", 
-    "mus", "vid", "xtr" ]
+    "mus", "vid", defaultWorkspace ]
+validateWorkspace name = if elem name myWorkspaces then name else defaultWorkspace
 
 myModMask  = mod4Mask
 myTerminal = "kitty"
 myKeys     = 
-  [ ("M-u",                     spawn "firefox")
+  [ ("M-u",                     spawnOn (validateWorkspace "web") "firefox")
   , ("M-v",                     toggleSmartSpacing)
-  , ("M-p",                     spawn "dmenu")
   , ("<XF86MonBrightnessUp>",   spawn "light -A 5")
   , ("<XF86MonBrightnessDown>", spawn "light -U 5")
   , ("<XF86AudioRaiseVolume>",  raiseVolume 3 >> return ())

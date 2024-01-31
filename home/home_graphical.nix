@@ -10,6 +10,7 @@
     ./programs/waybar.nix
     ./programs/xmonad.nix
     ./programs/xmobar.nix
+    ./programs/hyprland.nix
     ./themes/default.nix
   ];
   # Home Manager needs a bit of information about you and the
@@ -39,6 +40,9 @@
     pkgs.gamescope
     pkgs.direnv
     pkgs.rofi
+    pkgs.ripgrep
+    pkgs.fractal
+    pkgs.dunst
   ];
 
   services.syncthing = {
@@ -64,6 +68,10 @@
 
   programs.bat = {
     config.theme = "base16";
+  };
+
+  programs.zathura = {
+    enable = true;
   };
 
   programs.home-manager.enable = true;

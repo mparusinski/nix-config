@@ -4,12 +4,6 @@
 
 { config, pkgs, ... }:
 
-let 
-  wallpaper = builtins.fetchurl {
-    url = "https://i.redd.it/mvfstmc8lcla1.png";
-    sha256 = "sha256:0n66n4if7fifhlkiv527cbgfdwyk036h9cp63dyd8xv4jvqnxs9n";
-  };
-in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -52,26 +46,10 @@ in
 
   # Enable xserver
   services.xserver.displayManager = {
-    defaultSession = "none+xmonad";
+    defaultSession = "hyprland";
     autoLogin.user = "michalparusinski";
     autoLogin.enable = true;
-    sessionCommands = ''
-      ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
-      ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
-        Xft.dpi: 192
-        Xft.autohint:0
-        Xft.lcdfilter: lcddefault
-        Xft.hintstyle: hintfull
-        Xft.hinting: 1
-        Xft.antialias: 1
-        Xft.rgba: rgb
-      EOF
-      ${pkgs.xorg.xset}/bin/xset r rate 200 50
-      ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
-      ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:ralt
-    '';
   };
-  services.xserver.windowManager.xmonad.enable = true;
 
   users.users.michalparusinski.extraGroups = [ "docker" "video" ];
   users.users.michalparusinski.packages = with pkgs; [
@@ -195,6 +173,10 @@ in
 
   # Enabling tailscale
   services.tailscale.enable = true;
+
+  # Enabling Gnome keyring
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.lightdm.enableGnomeKeyring = true;
 
 }
 
