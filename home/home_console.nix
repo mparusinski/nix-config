@@ -3,7 +3,7 @@
 {
   nixpkgs.config.allowUnfree = true;
   imports = [ 
-    ./programs/zsh.nix 
+    ./programs/zsh_server.nix 
     ./programs/vim.nix
   ];
   # Home Manager needs a bit of information about you and the
