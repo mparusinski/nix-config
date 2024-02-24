@@ -4,7 +4,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.michalparusinski = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "cdrom" "libvirtd" ]; # Enable ‘sudo’ for the user.
     hashedPassword = "$6$l1uvR/ebtdbjkm5q$77LijykP01hCqq9GhCai0OiJdBf5F8DUWd6b7lN.h1fYHIrTjbmCaGy3A6c0mQw2tnNEPmrejJI6fuVjppumW.";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdFq2P7sTwlSFXtNFo6COusxYsurhplAqfVKUYTTdtK michalparusinski@thor-2023-10-15"

@@ -21,7 +21,7 @@ in
       }
 
       #workspaces button.empty {
-        color: @overlay0;
+        color: @red;
       }
 
       #workspaces button.visible {
@@ -51,16 +51,20 @@ in
       ];
       "hyprland/workspaces" = {
         format = "{icon}";
+        "disable-scroll" = false;
+        "on-scroll-down" = "hyprctl dispatch workspace -1";
+        "on-scroll-up" = "hyprctl dispatch workspace +1";
         "format-icons" = {
-          "1" = "";
-          "2" = "";
-          "3" = "";
-          "4" = "";
-          "5" = "";
-          "6" = "";
-          "7" = "";
-          "8" = "";
-          "9" = "";
+          "1" = "一";
+          "2" = "二";
+          "3" = "三";
+          "4" = "四";
+          "5" = "五";
+          "6" = "六";
+          "7" = "七";
+          "8" = "八";
+          "9" = "九";
+          "10" = "〇";
         };
       };
       image = {

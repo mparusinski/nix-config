@@ -10,8 +10,10 @@
       ./hardware-configuration.nix
       ../common/hosts.nix
       ../common/users.nix
-      ../common/hyprland.nix
+      # ../common/gnome.nix
+      # ../common/hyprland.nix
       ../common/xmonad.nix
+      ../common/pipewire.nix
     ];
 
   # Enable searching for and installing unfree packages
@@ -45,11 +47,10 @@
   users.defaultUserShell = pkgs.zsh;
 
   # Enable xserver
-  services.xserver.displayManager = {
-    defaultSession = "hyprland";
-    autoLogin.user = "michalparusinski";
-    autoLogin.enable = true;
-  };
+  services.xserver.enable = true;
+  services.xserver.displayManager.defaultSession = "none+xmonad";
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
   users.users.michalparusinski.extraGroups = [ "docker" "video" ];
   users.users.michalparusinski.packages = with pkgs; [
@@ -65,6 +66,11 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     cifs-utils
     light
+    cdrtools
+    lame
+    easytag
+    virt-viewer
+    taskwarrior
   ];
   services.gvfs.enable = true;
 
@@ -174,9 +180,18 @@
   # Enabling tailscale
   services.tailscale.enable = true;
 
+  # Virt-manager
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
   # Enabling Gnome keyring
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.lightdm.enableGnomeKeyring = true;
 
+  # Enable auto upgrade
+  system.autoUpgrade = {
+    enable = true;
+  };
+  
 }
 

@@ -16,16 +16,6 @@
     font-awesome
   ];
 
-  # Enable sound.
-  sound.enable = true;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
   # Enable brightness control
   programs.light.enable = true;
 
@@ -37,6 +27,7 @@
     vulkan-tools
     hyprpaper
     pulseaudio
+    kitty
   ];
 
   # File manager

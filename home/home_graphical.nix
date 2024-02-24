@@ -6,11 +6,10 @@
     ./programs/zsh.nix 
     ./programs/vim.nix
     ./programs/kitty.nix
-    ./programs/kdeconnect.nix
-    ./programs/waybar.nix
+    # ./programs/waybar.nix
     ./programs/xmonad.nix
     ./programs/xmobar.nix
-    ./programs/hyprland.nix
+    # ./programs/hyprland.nix
     ./themes/default.nix
   ];
   # Home Manager needs a bit of information about you and the
@@ -18,31 +17,36 @@
   home.username = "michalparusinski";
   home.homeDirectory = "/home/michalparusinski";
   
-  home.packages = [
-    pkgs.git
-    pkgs.keepassxc
-    pkgs.bat
-    pkgs.fzf
-    pkgs.thefuck
-    pkgs.mc
-    pkgs.tree
-    pkgs.discord
-    pkgs.spotify
-    pkgs.htop
-    pkgs.baobab
-    pkgs.jq
-    pkgs.bottom
-    pkgs.libreoffice
-    pkgs.thunderbird
-    pkgs.stellarium
-    pkgs.pulsemixer
-    pkgs.mangohud
-    pkgs.gamescope
-    pkgs.direnv
-    pkgs.rofi
-    pkgs.ripgrep
-    pkgs.fractal
-    pkgs.dunst
+  home.packages = with pkgs; [
+    git
+    keepassxc
+    bat
+    fzf
+    thefuck
+    mc
+    tree
+    discord
+    spotify
+    htop
+    baobab
+    jq
+    bottom
+    libreoffice
+    thunderbird
+    stellarium
+    pulsemixer
+    mangohud
+    gamescope
+    direnv
+    rofi
+    ripgrep
+    fractal
+    dunst
+    gpodder
+    vlc
+    gnumake
+    w3m
+    tmux
   ];
 
   services.syncthing = {
@@ -64,6 +68,9 @@
     lfs.enable = true;
     userName = "Michal Parusinski";
     userEmail = "michal@parusinski.me";
+    extraConfig = {
+      init.defaultBranch = "main";
+    };
   };
 
   programs.bat = {
