@@ -11,7 +11,7 @@
       ../common/hosts.nix
       ../common/users.nix
       # ../common/gnome.nix
-      # ../common/hyprland.nix
+      ../common/hyprland.nix
       ../common/xmonad.nix
       ../common/pipewire.nix
     ];
@@ -173,6 +173,17 @@
     ];  
   };  
 
+  # rtkit is optional but recommended
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
+
   # Enabling bluetooth
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -188,10 +199,6 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.lightdm.enableGnomeKeyring = true;
 
-  # Enable auto upgrade
-  system.autoUpgrade = {
-    enable = true;
-  };
-  
+  nix.settings.trusted-users = [ "root" "michalparusinski" ];
 }
 
