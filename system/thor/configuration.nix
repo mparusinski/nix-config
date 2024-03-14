@@ -12,7 +12,7 @@
       ../common/users.nix
       # ../common/gnome.nix
       ../common/hyprland.nix
-      ../common/xmonad.nix
+      # ../common/xmonad.nix
       ../common/pipewire.nix
     ];
 
@@ -47,8 +47,8 @@
   users.defaultUserShell = pkgs.zsh;
 
   # Enable xserver
-  services.xserver.enable = true;
-  services.xserver.displayManager.defaultSession = "none+xmonad";
+  # services.xserver.enable = true;
+  # services.xserver.displayManager.defaultSession = "none+xmonad";
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
 
@@ -197,7 +197,7 @@
 
   # Enabling Gnome keyring
   services.gnome.gnome-keyring.enable = true;
-  security.pam.services.lightdm.enableGnomeKeyring = true;
+  # security.pam.services.lightdm.enableGnomeKeyring = true;
 
   nix.settings.trusted-users = [ "root" "michalparusinski" ];
 }

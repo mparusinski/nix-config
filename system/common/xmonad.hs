@@ -23,23 +23,18 @@ myFocusedBorderColor = "#7FBBB3"
 myNormalBorderColor  = "#A7C080"
 
 
-defaultWorkspace = "xtr"
-myWorkspaces = [
-    "dev", "web", "sys", 
-    "doc", "fun", "cht", 
-    "mus", "vid", defaultWorkspace ]
-validateWorkspace name = if elem name myWorkspaces then name else defaultWorkspace
+myWorkspaces = map show [1..9]
 
 myModMask  = mod4Mask
 myTerminal = "kitty"
 myKeys     = 
-  [ ("M-u",                     spawnOn (validateWorkspace "web") "firefox")
-  , ("M-v",                     toggleSmartSpacing)
+  [ ("M-v",                     toggleSmartSpacing)
   , ("<XF86MonBrightnessUp>",   spawn "light -A 5")
   , ("<XF86MonBrightnessDown>", spawn "light -U 5")
   , ("<XF86AudioRaiseVolume>",  raiseVolume 3 >> return ())
   , ("<XF86AudioLowerVolume>",  lowerVolume 3 >> return ())
   , ("<XF86AudioMute>",         toggleMute >> return ())
+  , ("C-<Print>",               spawn "scrot -s")
   ]
 
 -- myLayout = avoidStruts $ spacing 7 $ smartBorders tiled ||| smartBorders (Mirror tiled) ||| noBorders Full
