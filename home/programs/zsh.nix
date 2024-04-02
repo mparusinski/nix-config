@@ -22,10 +22,5 @@
     envExtra = ''
       EDITOR=vim
     '';
-    initExtra = ''
-      , () {
-        nix-shell -p $1 --run $1
-      }
-    '';
   };
 }

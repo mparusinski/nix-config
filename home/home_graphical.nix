@@ -58,6 +58,10 @@
     haskellPackages.haskell-language-server
     bottom
     iotop
+    vscodium
+    comma
+    taskwarrior
+    taskwarrior-tui
   ];
 
   services.syncthing = {
