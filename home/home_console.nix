@@ -11,16 +11,17 @@
   home.username = "michalparusinski";
   home.homeDirectory = "/home/michalparusinski";
   
-  home.packages = [
-    pkgs.git
-    pkgs.bat
-    pkgs.fzf
-    pkgs.thefuck
-    pkgs.mc
-    pkgs.tree
-    pkgs.restic
-    pkgs.htop
-    pkgs.jq
+  home.packages = with pkgs; [
+    git
+    bat
+    fzf
+    thefuck
+    mc
+    tree
+    restic
+    htop
+    jq
+    ripgrep
   ];
 
   # This value determines the Home Manager release that your

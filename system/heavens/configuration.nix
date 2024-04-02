@@ -92,11 +92,22 @@ in
     };
   };
 
+  services = {
+    syncthing = {
+      enable = true;
+      user = "michalparusinski";
+      dataDir = "/home/michalparusinski/Documents";
+      configDir = "/home/michalparusinski/Documents/.config/syncthing";
+      guiAddress = "0.0.0.0:8384";
+    };
+  };
+
   # Set up ZSH
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
-  networking.firewall.allowedTCPPorts = [ 80 443 2222 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 2222 8384 22000 ];
+  networking.firewall.allowedUDPPorts = [ 22000 21027 ];
 
   # Setting up docker containers
   virtualisation.docker.enable = true;
