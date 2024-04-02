@@ -10,6 +10,7 @@
     ./programs/xmonad.nix
     ./programs/xmobar.nix
     # ./programs/hyprland.nix
+    ./programs/nnn.nix
     ./themes/default.nix
   ];
   # Home Manager needs a bit of information about you and the
@@ -47,6 +48,16 @@
     gnumake
     w3m
     tmux
+    autorandr
+    appimage-run
+    ihp-new
+    ghc
+    cabal2nix
+    cabal-install
+    nodejs # For coc-nvim
+    haskellPackages.haskell-language-server
+    bottom
+    iotop
   ];
 
   services.syncthing = {
@@ -79,6 +90,11 @@
 
   programs.zathura = {
     enable = true;
+  };
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.home-manager.enable = true;

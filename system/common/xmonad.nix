@@ -23,7 +23,7 @@ in
       Xft.antialias: 1
       Xft.rgba: rgb
     EOF
-    ${pkgs.xorg.xset}/bin/xset r rate 150 50
+    ${pkgs.xorg.xset}/bin/xset r rate 200 50
     ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
     ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:
   '';
