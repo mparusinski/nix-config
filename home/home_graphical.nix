@@ -62,6 +62,7 @@
     comma
     taskwarrior
     taskwarrior-tui
+    zoom-us
   ];
 
   services.syncthing = {
@@ -92,13 +93,14 @@
     config.theme = "base16";
   };
 
-  programs.zathura = {
-    enable = true;
-  };
-
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
+  };
+
+  programs.zathura = {
+    enable = true;
+    # package = "zathura-pdf-mupdf";
   };
 
   programs.home-manager.enable = true;

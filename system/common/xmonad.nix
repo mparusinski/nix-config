@@ -2,8 +2,8 @@
 
 let
   wallpaper = builtins.fetchurl {
-    url = "https://i.redd.it/0d7drj9okdv91.jpg";
-    sha256 = "sha256:0jz5id588nlvlprnvhw12p919br3lqm27bfd7lqv3pm35qxw6d8j";
+    url = "https://i.redd.it/t0ofiw8c1rqc1.jpeg";
+    sha256 = "sha256:1yz8dl0czycawwgglg8gx23ak530sbbjhz1mdj1ghdbd2kqa5nq2";
   };
 in
 {
@@ -12,6 +12,7 @@ in
     enable = true;
     enableContribAndExtras = true;
   };
+  services.xserver.displayManager.defaultSession = "none+xmonad";
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
     ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
@@ -25,7 +26,7 @@ in
     EOF
     ${pkgs.xorg.xset}/bin/xset r rate 200 50
     ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
-    ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:
+    ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:ralt
   '';
 
   # GDM

@@ -10,10 +10,10 @@
       ./hardware-configuration.nix
       ../common/hosts.nix
       ../common/users.nix
-      ../common/gnome.nix
+      # ../common/gnome.nix
       # ../common/hyprland.nix
-      # ../common/xmonad.nix
-      # ../common/pipewire.nix
+      ../common/xmonad.nix
+      ../common/pipewire.nix
     ];
 
   # Enable searching for and installing unfree packages
@@ -70,7 +70,6 @@
     lame
     easytag
     virt-viewer
-    taskwarrior
   ];
   services.gvfs.enable = true;
 
@@ -175,18 +174,26 @@
   };  
 
   # rtkit is optional but recommended
-  # security.rtkit.enable = true;
-  # services.pipewire = {
-  #   enable = true;
-  #   alsa.enable = true;
-  #   alsa.support32Bit = true;
-  #   pulse.enable = true;
-  #   # If you want to use JACK applications, uncomment this
-  #   #jack.enable = true;
-  # };
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   # Enabling bluetooth
   hardware.bluetooth.enable = true;
+  hardware.bluetooth.settings = {
+    General = {
+      Enable = "Source,Sink,Media,Socket";
+    };
+  };
+  hardware.pulseaudio = {
+    package = pkgs.pulseaudioFull;
+  };
   services.blueman.enable = true;
 
   # Enabling tailscale
