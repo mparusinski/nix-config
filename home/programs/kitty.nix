@@ -8,6 +8,12 @@
     settings.confirm_os_window_close = 0;
     settings.font_size = "12.0";
     settings.font_family = "Fira Code";
+    settings.allow_remote_control = true;
+    settings.listen_on = "unix:/tmp/mykitty";
+    settings.enabled_layouts = "splits";
     theme = "Everforest Dark Medium";
   };
+  home.packages = [
+    (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+  ];
 }

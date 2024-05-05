@@ -11,8 +11,8 @@
       ../common/hosts.nix
       ../common/users.nix
       # ../common/gnome.nix
-      # ../common/hyprland.nix
-      ../common/xmonad.nix
+      ../common/hyprland.nix
+      # ../common/xmonad.nix
       ../common/pipewire.nix
     ];
 
@@ -94,24 +94,12 @@
     instances."home-snapshots" = {
       onCalendar = "hourly";
       settings = {
-        snapshot_preserve = "7d";
-        snapshot_preserve_min = "2d";
+        snapshot_preserve = "14d";
+        snapshot_preserve_min = "3d";
         
         volume."/btr_pool" = {
           snapshot_dir = "snapshots";
           subvolume = "home";
-        };
-      };
-    };
-    instances."root-snapshots" = {
-      onCalendar = "daily";
-      settings = {
-        snapshot_preserve = "14d";
-        snapshot_preserve_min = "3d";
-
-        volume."/btr_pool" = {
-          snapshot_dir = "snapshots";
-          subvolume = "root";
         };
       };
     };
@@ -216,6 +204,13 @@
   services.printing = {
     enable = true;
     drivers = [ pkgs.cnijfilter2 ];
+  };
+
+  # Auto garbage collect
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
   };
 
   nix.settings.trusted-users = [ "root" "michalparusinski" ];

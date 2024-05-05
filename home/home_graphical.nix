@@ -5,10 +5,11 @@
   imports = [ 
     ./programs/zsh.nix 
     ./programs/vim.nix
+    ./programs/emacs.nix
     ./programs/kitty.nix
     # ./programs/waybar.nix
-    ./programs/xmonad.nix
-    ./programs/xmobar.nix
+    # ./programs/xmonad.nix
+    # ./programs/xmobar.nix
     # ./programs/hyprland.nix
     ./programs/nnn.nix
     ./themes/default.nix
@@ -63,6 +64,7 @@
     taskwarrior
     taskwarrior-tui
     zoom-us
+    nomacs
   ];
 
   services.syncthing = {

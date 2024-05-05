@@ -10,6 +10,8 @@
       ga = "git add";
       gd = "git diff";
       saq = "eval \"$(ssh-agent -s)\"";
+      emacs = "emacs -nw";
+      nnn = "NNN_FIFO=/tmp/nnn.fifo nnn -de";
     };
     history = {
       size = 10000;
@@ -19,8 +21,8 @@
       plugins = [ "git" "wd" "fzf" "vi-mode" ];
       theme = "gianu";
     };
-    envExtra = ''
-      EDITOR=vim
-    '';
+    sessionVariables = {
+      EDITOR = "vim";
+    };
   };
 }
