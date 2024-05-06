@@ -58,6 +58,7 @@
     haskellPackages.haskell-language-server
     bottom
     iotop
+    taskwarrior
   ];
 
   services.syncthing = {

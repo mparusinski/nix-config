@@ -22,6 +22,7 @@
     htop
     jq
     ripgrep
+    taskwarrior
   ];
 
   # This value determines the Home Manager release that your

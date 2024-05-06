@@ -102,11 +102,22 @@ in
     };
   };
 
+  # Taskserver
+
   # Set up ZSH
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
-  networking.firewall.allowedTCPPorts = [ 80 443 2222 8384 22000 ];
+  # Taskserver
+  services.taskserver = {
+    enable = true;
+    fqdn = "taskd.parusinski.me";
+    listenHost = "::";
+    openFirewall = true;
+    organisations.personal.users = [ "michalparusinski" ];
+  };
+
+  networking.firewall.allowedTCPPorts = [ 80 443 2222 8384 22000 53589 ];
   networking.firewall.allowedUDPPorts = [ 22000 21027 ];
 
   # Setting up docker containers
