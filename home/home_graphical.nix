@@ -5,10 +5,11 @@
   imports = [ 
     ./programs/zsh.nix 
     ./programs/vim.nix
+    ./programs/emacs.nix
     ./programs/kitty.nix
     # ./programs/waybar.nix
-    ./programs/xmonad.nix
-    ./programs/xmobar.nix
+    # ./programs/xmonad.nix
+    # ./programs/xmobar.nix
     # ./programs/hyprland.nix
     ./programs/nnn.nix
     ./themes/default.nix
@@ -58,7 +59,12 @@
     haskellPackages.haskell-language-server
     bottom
     iotop
+    vscodium
+    comma
     taskwarrior
+    taskwarrior-tui
+    zoom-us
+    nomacs
   ];
 
   services.syncthing = {
@@ -89,13 +95,14 @@
     config.theme = "base16";
   };
 
-  programs.zathura = {
-    enable = true;
-  };
-
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
+  };
+
+  programs.zathura = {
+    enable = true;
+    # package = "zathura-pdf-mupdf";
   };
 
   programs.home-manager.enable = true;

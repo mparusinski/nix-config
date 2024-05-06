@@ -13,6 +13,7 @@
   # Gnome extras
   environment.systemPackages = with pkgs; [
     gnome3.gnome-tweaks
+    evince
   ];
   services.gvfs.enable = true;
   services.tumbler.enable = true;

@@ -47,4 +47,8 @@ To build a new home manager configuration
 ./build_home.sh
 ```
 
+## Upgrading
 
+```bash
+nix flake update
+```

@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+#  Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
@@ -12,7 +12,7 @@
       ../common/users.nix
       # ../common/gnome.nix
       ../common/hyprland.nix
-      ../common/xmonad.nix
+      # ../common/xmonad.nix
       ../common/pipewire.nix
     ];
 
@@ -47,8 +47,8 @@
   users.defaultUserShell = pkgs.zsh;
 
   # Enable xserver
-  services.xserver.enable = true;
-  services.xserver.displayManager.defaultSession = "none+xmonad";
+  # services.xserver.enable = true;
+  # services.xserver.displayManager.defaultSession = "none+xmonad";
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
 
@@ -70,7 +70,6 @@
     lame
     easytag
     virt-viewer
-    taskwarrior
   ];
   services.gvfs.enable = true;
 
@@ -95,24 +94,12 @@
     instances."home-snapshots" = {
       onCalendar = "hourly";
       settings = {
-        snapshot_preserve = "7d";
-        snapshot_preserve_min = "2d";
+        snapshot_preserve = "14d";
+        snapshot_preserve_min = "3d";
         
         volume."/btr_pool" = {
           snapshot_dir = "snapshots";
           subvolume = "home";
-        };
-      };
-    };
-    instances."root-snapshots" = {
-      onCalendar = "daily";
-      settings = {
-        snapshot_preserve = "14d";
-        snapshot_preserve_min = "3d";
-
-        volume."/btr_pool" = {
-          snapshot_dir = "snapshots";
-          subvolume = "root";
         };
       };
     };
@@ -162,6 +149,7 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 
+  programs.kdeconnect.enable = true;
   networking.firewall = { 
     enable = true;
     allowedTCPPortRanges = [ 
@@ -186,6 +174,14 @@
 
   # Enabling bluetooth
   hardware.bluetooth.enable = true;
+  hardware.bluetooth.settings = {
+    General = {
+      Enable = "Source,Sink,Media,Socket";
+    };
+  };
+  hardware.pulseaudio = {
+    package = pkgs.pulseaudioFull;
+  };
   services.blueman.enable = true;
 
   # Enabling tailscale
@@ -197,7 +193,25 @@
 
   # Enabling Gnome keyring
   services.gnome.gnome-keyring.enable = true;
-  security.pam.services.lightdm.enableGnomeKeyring = true;
+  # security.pam.services.lightdm.enableGnomeKeyring = true;
+
+  # Enabling printing
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    openFirewall = true;
+  };
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.cnijfilter2 ];
+  };
+
+  # Auto garbage collect
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
 
   nix.settings.trusted-users = [ "root" "michalparusinski" ];
 }
