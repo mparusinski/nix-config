@@ -23,8 +23,6 @@ in
     vim 
     git
     splitwise-exporter.packages.${pkgs.system}.splitwise-exporter
-    docker-compose
-    docker
   ];
 
   # Changing SSH port
@@ -119,7 +117,4 @@ in
 
   networking.firewall.allowedTCPPorts = [ 80 443 2222 8384 22000 53589 ];
   networking.firewall.allowedUDPPorts = [ 22000 21027 ];
-
-  # Setting up docker containers
-  virtualisation.docker.enable = true;
 }
