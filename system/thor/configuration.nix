@@ -14,6 +14,7 @@
       ../common/hyprland.nix
       # ../common/xmonad.nix
       ../common/pipewire.nix
+      ../common/gc.nix
     ];
 
   # Enable searching for and installing unfree packages
@@ -204,13 +205,6 @@
   services.printing = {
     enable = true;
     drivers = [ pkgs.cnijfilter2 ];
-  };
-
-  # Auto garbage collect
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
   };
 
   nix.settings.trusted-users = [ "root" "michalparusinski" ];

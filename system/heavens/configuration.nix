@@ -11,6 +11,8 @@ in
     [ ./gandicloud.nix 
       ../common/hosts.nix
       ../common/users.nix
+      ../common/gc.nix
+      ../common/ssh.nix
     ];
 
   networking.hostName = "heavens"; # Define your hostname.
@@ -24,12 +26,6 @@ in
     git
     splitwise-exporter.packages.${pkgs.system}.splitwise-exporter
   ];
-
-  # Changing SSH port
-  services.openssh = {
-    enable = true;
-    ports = [2222];
-  };
 
   # Tailscale
   services.tailscale.enable = true;

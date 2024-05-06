@@ -10,6 +10,8 @@
       ./hardware-configuration.nix
       ../common/hosts.nix
       ../common/users.nix
+      ../common/gc.nix
+      ../common/ssh.nix
     ];
 
   # Use the GRUB 2 boot loader.
@@ -50,13 +52,6 @@
     curl
     git
   ];
-
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-  };
 
   services.btrbk = {
     instances."nas-snapshots" = {

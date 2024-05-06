@@ -1,0 +1,10 @@
+{ config, pkgs, ... }:
+
+{
+  # Auto garbage collect
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+}
