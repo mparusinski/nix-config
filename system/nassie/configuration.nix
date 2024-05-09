@@ -123,7 +123,7 @@
   # Open ports in the firewall.
   networking.firewall.enable = true;
   networking.firewall.allowPing = true;
-  networking.firewall.allowedTCPPorts = [ 7575 ];
+  networking.firewall.allowedTCPPorts = [ 2222 7575 ];
   services.samba.openFirewall = true;
 
   # This value determines the NixOS release from which the default
