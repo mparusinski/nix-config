@@ -71,6 +71,13 @@
           ./home/home_console.nix 
         ];
       };
+      "michalparusinski@database" = lib.homeManagerConfiguration {
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = { inherit inputs; };
+        modules = [
+          ./home/home_console.nix
+        ];
+      };
     };
     nixosConfigurations = {
       # NAS server
@@ -94,6 +101,13 @@
         modules = [ 
           ./system/heavens/configuration.nix
           # ({ config, pkgs, ...}: { nixpkgs.overlays = [ splitwise-exporter.overlays.default]; })
+        ];
+      };
+      database = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = inputs;
+        modules = [
+          ./system/database/configuration.nix
         ];
       };
     };
