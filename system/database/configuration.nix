@@ -34,6 +34,8 @@
     authentication = pkgs.lib.mkOverride 10 ''
       # type database  DBuser auth-method
       local all all trust
+      # ipv4
+      host  all all 100.64.0.0/10 scram-sha-256
     '';
     enableTCPIP = true;
   };
