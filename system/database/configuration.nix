@@ -27,5 +27,16 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
-  networking.firewall.allowedTCPPorts = [ 2222 ];
+  # Setting up PostgreSQL
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "dailyInput" ];
+    authentication = pkgs.lib.mkOverride 10 ''
+      # type database  DBuser auth-method
+      local all all trust
+    '';
+    enableTCPIP = true;
+  };
+
+  networking.firewall.allowedTCPPorts = [ 2222 5432 ];
 }
