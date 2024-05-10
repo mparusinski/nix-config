@@ -13,6 +13,7 @@ in
       ../common/users.nix
       ../common/gc.nix
       ../common/ssh.nix
+      ../common/pg.nix
     ];
 
   networking.hostName = "heavens"; # Define your hostname.
@@ -96,8 +97,6 @@ in
     };
   };
 
-  # Taskserver
-
   # Set up ZSH
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
@@ -110,6 +109,8 @@ in
     openFirewall = true;
     organisations.personal.users = [ "michalparusinski" ];
   };
+
+  services.postgresql.ensureDatabases = [ "simpleDailyInput" ];
 
   networking.firewall.allowedTCPPorts = [ 80 443 2222 8384 22000 53589 ];
   networking.firewall.allowedUDPPorts = [ 22000 21027 ];
