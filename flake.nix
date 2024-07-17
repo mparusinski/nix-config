@@ -20,9 +20,9 @@
   # Each item in `inputs` will be passed as a parameter to
   # the `outputs` function after being pulled and built.
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager/release-24.05";
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with
       # the `inputs.nixpkgs` of the current flake,
@@ -41,75 +41,28 @@
       inherit system;
       config.allowUnfree = true;
     });
+    machines = ["nassie" "thor" "heavens" "work-nix-vm"];
   in {
-    homeConfigurations = {
-      "michalparusinski@thor" = lib.homeManagerConfiguration {
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [ 
-          ./home/home_graphical.nix 
-        ];
-      };
-      "mparusinski@DESKTOP-5A9CEH7" = lib.homeManagerConfiguration {
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [ 
-          ./home/home_wsl.nix 
-        ];
-      };
-      "michalparusinski@heavens" = lib.homeManagerConfiguration {
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [ 
-          ./home/home_console.nix 
-        ];
-      };
-      "michalparusinski@nassie" = lib.homeManagerConfiguration {
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [ 
-          ./home/home_console.nix 
-        ];
-      };
-      "michalparusinski@database" = lib.homeManagerConfiguration {
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [
-          ./home/home_console.nix
-        ];
-      };
-    };
-    nixosConfigurations = {
-      # NAS server
-      nassie = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [ 
-          ./system/nassie/configuration.nix
-        ];
-      };
-      # Main personal laptop (thor)
-      thor = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [ 
-          ./system/thor/configuration.nix
-        ];
-      };
-      # Gandi VPS server
-      heavens = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs; 
-        modules = [ 
-          ./system/heavens/configuration.nix
-          # ({ config, pkgs, ...}: { nixpkgs.overlays = [ splitwise-exporter.overlays.default]; })
-        ];
-      };
-      database = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules = [
-          ./system/database/configuration.nix
-        ];
-      };
-    };
+    homeConfigurations =
+      builtins.listToAttrs (builtins.map(m: {
+        name = "michalparusinski@" + m;
+        value = lib.homeManagerConfiguration {
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs; };
+          modules = [
+            (./home + ("/" + m + ".nix"))
+          ];
+        };
+      }) machines );
+    nixosConfigurations = 
+      builtins.listToAttrs (builtins.map(m: {
+        name = m;
+        value = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            (./system + ("/" + m) + /configuration.nix)
+          ];
+        };
+      }) machines );
   };
 }
