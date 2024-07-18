@@ -43,10 +43,6 @@
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-
   # Enable xserver
   # services.xserver.enable = true;
   # services.xserver.displayManager.defaultSession = "none+xmonad";
