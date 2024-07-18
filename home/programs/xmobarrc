@@ -5,8 +5,8 @@ Config { overrideRedirect = False
                            ]
        , bgColor   = "#2E383C"
        , fgColor   = "#D3C6AA"
-       , dpi       = 192
-       , position  = TopH 45
+       , dpi       = 96
+       , position  = TopH 30
        , commands  = [ Run Cpu
                         [ "-L", "5"
                         , "-H", "50"

@@ -16,7 +16,7 @@ import XMonad.Layout.Spacing
 -- import XMonad.Layout.NoBorders ( noBorders, smartBorders )
 
 myStartupHook = do
-    spawnOnce "picom --vsync -b"
+    spawnOnce "picom -b"
 
 myBorderWidth        = 5
 myFocusedBorderColor = "#7FBBB3"
