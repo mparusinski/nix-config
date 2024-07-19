@@ -17,4 +17,7 @@
   ];
   services.gvfs.enable = true;
   services.tumbler.enable = true;
+
+  # Enable DConf
+  programs.dconf.enable = true;
 }
