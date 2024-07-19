@@ -8,7 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../common/xmonad.nix
+      ../common/gnome.nix
       ../common/hosts.nix
       ../common/users.nix
       ../common/gc.nix

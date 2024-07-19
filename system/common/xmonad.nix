@@ -12,11 +12,11 @@ in
     enable = true;
     enableContribAndExtras = true;
   };
-  services.xserver.displayManager.defaultSession = "none+xmonad";
+  services.displayManager.defaultSession = "none+xmonad";
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
     ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
-      Xft.dpi: 192
+      Xft.dpi: 96
       Xft.autohint:0
       Xft.lcdfilter: lcddefault
       Xft.hintstyle: hintfull
@@ -28,14 +28,15 @@ in
     ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
     ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:ralt
   '';
+  services.xserver.windowManager.xmonad.config = builtins.readFile ../common/xmonad.hs;
 
   # GDM
   services.xserver.enable = true;
-  services.xserver.libinput = {
+  services.libinput = {
     enable = true;
     touchpad.tapping = false;
   };
-  services.xserver.dpi = 192;
+  services.xserver.dpi = 96;
 
   fonts.packages = with pkgs; [
     noto-fonts
@@ -45,9 +46,6 @@ in
     fira-code-symbols
     font-awesome
   ];
-
-  # Enable brightness control
-  programs.light.enable = true;
 
   # Packages for XMonad
   environment.systemPackages = with pkgs; [
