@@ -2,12 +2,19 @@
 
 let
   wallpaper = builtins.fetchurl {
-    url = "https://i.redd.it/t0ofiw8c1rqc1.jpeg";
-    sha256 = "sha256:1yz8dl0czycawwgglg8gx23ak530sbbjhz1mdj1ghdbd2kqa5nq2";
+    url = "https://files.catbox.moe/io9ug6.jpeg";
+    sha256 = "sha256:1901xjk719inl14ix4gm9wyylawn0wd1p6wdsamk8p0lj5dpjjvm";
   };
 in
 {
   dconf.settings = {
+    "org/gnome/shell" = {
+      "favorite-apps" = [
+        "firefox.desktop"
+        "org.gnome.Console.desktop"
+        "org.gnome.Nautilus.desktop"
+      ];
+    };
     "org/gnome/desktop/wm/preferences" = {
       button-layout = "appmenu:minimize,maximize,close";
     };
