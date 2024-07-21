@@ -10,6 +10,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEdFq2P7sTwlSFXtNFo6COusxYsurhplAqfVKUYTTdtK michalparusinski@thor-2023-10-15"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICQGLsxxOqk73YS+kYTm3Vmv3vGBrjAuBYhzER2nSJ2R michal@parusinski.me"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP0aD+rWthlxWD2ruuqiz0NOuG4lLxF4SFQmOfQO/tgK michal@parusinski.me"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPpkr01G9ysaV64zmETrwhpwqQoRDaMCzmbUOy0wMHpr michal@parusinski.me"
     ];
   };
   users.users.marjolaineperez = {
