@@ -13,36 +13,41 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/6EDD-674E";
+      fsType = "vfat";
+    };
+
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/eac9a2d4-88bf-4525-870d-763f0c52df51";
+    { device = "/dev/disk/by-uuid/c2f92d55-164d-4c44-a933-c65acc3a1c13";
       fsType = "ext4";
     };
 
   fileSystems."/btr_pool" =
-    { device = "/dev/sda2";
+    { device = "/dev/disk/by-uuid/6be961af-d128-4bf8-9c83-36b918fdc843";
       fsType = "btrfs";
     };
 
   fileSystems."/home" =
-    { device = "/dev/sda2";
+    { device = "/dev/disk/by-uuid/6be961af-d128-4bf8-9c83-36b918fdc843";
       fsType = "btrfs";
       options = [ "subvol=home" "compress=zstd" "noatime" ];
     };
 
   fileSystems."/nas" =
-    { device = "/dev/sda2";
+    { device = "/dev/disk/by-uuid/6be961af-d128-4bf8-9c83-36b918fdc843";
       fsType = "btrfs";
       options = [ "subvol=nas" "compress=zstd" "noatime" ];
     };
 
   fileSystems."/var/lib/docker" =
-    { device = "/dev/sda2";
+    { device = "/dev/disk/by-uuid/6be961af-d128-4bf8-9c83-36b918fdc843";
       fsType = "btrfs";
       options = [ "subvol=docker" "compress=zstd" "noatime" ];
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/81c4a024-8238-48fc-8c4d-341b1182d3c8"; }
+    [ { device = "/dev/disk/by-uuid/751545de-69d3-4b3b-99a2-3af60ad7f109"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
