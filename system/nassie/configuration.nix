@@ -14,6 +14,8 @@
       ../common/ssh.nix
     ];
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -123,5 +125,8 @@
   networking.firewall.allowPing = true;
   networking.firewall.allowedTCPPorts = [ 2222 7575 ];
   services.samba.openFirewall = true;
+
+  # Version
+  system.stateVersion = "24.05"; # Did you read the comment?
 }
 
