@@ -1,4 +1,4 @@
-{ config, pkgs, lib, modulesPath, ... }:
+{ config, pkgs, lib, modulesPath, agenix, ... }:
 
 {
   imports = 
@@ -15,9 +15,10 @@
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
-  environment.systemPackages = with pkgs; [
-    vim 
-    git
+  environment.systemPackages = [
+    pkgs.vim 
+    pkgs.git
+    agenix.packages.x86_64-linux.default
   ];
 
   # Tailscale

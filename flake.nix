@@ -21,6 +21,7 @@
   # the `outputs` function after being pulled and built.
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    agenix.url = "github:ryantm/agenix";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       # The `follows` keyword in inputs is used for inheritance.
@@ -31,7 +32,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs :
+  outputs = { self, nixpkgs, home-manager, agenix, ... }@inputs :
   let
     lib = nixpkgs.lib // home-manager.lib;
 	systems = [ "x86_64-linux" ];
@@ -58,7 +59,9 @@
         name = m;
         value = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = inputs;
           modules = [
+            agenix.nixosModules.default
             (./system + ("/" + m) + /configuration.nix)
           ];
         };
