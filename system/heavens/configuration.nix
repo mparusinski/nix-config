@@ -23,16 +23,16 @@
   # Tailscale
   services.tailscale.enable = true;
 
-  # Setting NGINX
   security.pam.services.nginx.setEnvironment = false;
   systemd.services.nginx.serviceConfig = {
     SupplementaryGroups = [ "shadow" ];
   };
-
+  # Setting NGINX
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "michal+acme@parusinski.me";
   services.nginx = {
     enable = true;
+
     recommendedTlsSettings = true;
     recommendedOptimisation = true;
     recommendedGzipSettings = true;
@@ -44,10 +44,7 @@
       enableACME = true;
       locations."/" = {
         proxyPass = "http://rpi1.parusinski.me:9000";
-        extraConfig = ''
-          auth_pam  "Password Required";
-          auth_pam_service_name "nginx";
-        '';
+        basicAuth = { nassie = "hello"; };
       };
       locations."/ping" = {
         # Intentionally omitting authentication because we want 
@@ -71,17 +68,5 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
-  # Taskserver
-  services.taskserver = {
-    enable = true;
-    fqdn = "taskd.parusinski.me";
-    listenHost = "::";
-    openFirewall = true;
-    organisations.personal.users = [ "michalparusinski" ];
-  };
-
-  services.postgresql.ensureDatabases = [ "simpleDailyInput" ];
-
-  networking.firewall.allowedTCPPorts = [ 80 443 2222 8384 22000 53589 ];
-  networking.firewall.allowedUDPPorts = [ 22000 21027 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 2222 8384 ];
 }
