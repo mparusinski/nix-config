@@ -30,9 +30,13 @@
       # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-wsl = {
+      url = github:nix-community/NixOS-WSL;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, ... }@inputs :
+  outputs = { self, nixpkgs, home-manager, agenix, nixos-wsl,... }@inputs :
   let
     lib = nixpkgs.lib // home-manager.lib;
 	systems = [ "x86_64-linux" ];
@@ -41,7 +45,7 @@
       inherit system;
       config.allowUnfree = true;
     });
-    machines = ["nassie" "thor" "heavens" "work-nix-vm"];
+    machines = ["nassie" "thor" "heavens" "work-nix-vm" "work-nixos-wsl" ];
   in {
     homeConfigurations =
       builtins.listToAttrs (builtins.map(m: {
@@ -60,7 +64,10 @@
         value = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = inputs;
-          modules = [
+          modules = if (m == "work-nixos-wsl") then [
+            nixos-wsl.nixosModules.wsl
+            (./system + ("/" + m) + /configuration.nix)
+          ] else [
             agenix.nixosModules.default
             (./system + ("/" + m) + /configuration.nix)
           ];
