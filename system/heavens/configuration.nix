@@ -28,6 +28,10 @@
   systemd.services.nginx.serviceConfig = {
     SupplementaryGroups = [ "shadow" ];
   };
+
+  # Secrets
+  age.secrets.nassie-waker-passwd.file = ../secrets/nassie-waker-passwd.age;
+
   # Setting NGINX
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "michal+acme@parusinski.me";
@@ -45,6 +49,8 @@
       enableACME = true;
       locations."/" = {
         proxyPass = "http://rpi1.parusinski.me:9000";
+        # basicAuth = { nassie = $(cat {age.secrets.nassie-waker-passwd.path}); };
+        # basicAuthFile = age.secrets.nassie-waker-passwd.path;
         basicAuth = { nassie = "hello"; };
       };
       locations."/ping" = {
