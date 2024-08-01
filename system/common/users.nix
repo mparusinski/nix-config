@@ -17,8 +17,4 @@
     isNormalUser = true;
     hashedPassword = "$6$Ug3dp395tU9ZZrUj$urA8z3p61DIMUjdH3aT9HjzM9vm4q09GEibMP3BByvPO1ACu9L.TtF3O.a3OpRUVLyrJ0YPZFzccuL7UTchou0";
   };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
 }
