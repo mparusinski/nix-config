@@ -26,7 +26,7 @@
   in {
     homeConfigurations =
       builtins.listToAttrs (builtins.map(m: {
-        name = "michalparusinski@" + m;
+        name = "mparus@" + m;
         value = lib.homeManagerConfiguration {
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs; };

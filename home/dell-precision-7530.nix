@@ -6,48 +6,49 @@
     ./programs/zsh.nix 
     ./programs/vim.nix
     ./programs/emacs.nix
-    ./programs/nnn.nix
     ./programs/kitty.nix
-    ./programs/gnome.nix
+    ./programs/nnn.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "michalparusinski";
-  home.homeDirectory = "/home/michalparusinski";
+  home.username = "mparus";
+  home.homeDirectory = "/home/mparus";
   
   home.packages = with pkgs; [
     git
+    keepassxc
     bat
     fzf
     thefuck
     mc
     tree
+    discord
+    spotify
     htop
     baobab
     jq
     bottom
+    stellarium
+    pulsemixer
+    mangohud
+    gamescope
     direnv
+    rofi
     ripgrep
-    gnumake
+    dunst
     w3m
-    tmux
+    autorandr
+    appimage-run
+    ghc
     bottom
     iotop
     comma
-    taskwarrior
-    taskwarrior-tui
-    nomacs
   ];
 
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "24.05";
+  services.syncthing = {
+    enable = true;
+  };
+
 
   programs.git = {
     enable = true;
@@ -68,14 +69,20 @@
     enableZshIntegration = true;
   };
 
-  dconf.settings = {
-    "org/gnome/desktop/session" = {
-      idle-delay = 0;
-    };
-    "org/gnome/desktop/screensaver" = {
-      lock-enabled = false;
-    };
+  programs.zathura = {
+    enable = true;
+    # package = "zathura-pdf-mupdf";
   };
 
   programs.home-manager.enable = true;
+
+  # This value determines the Home Manager release that your
+  # configuration is compatible with. This helps avoid breakage
+  # when a new Home Manager release introduces backwards
+  # incompatible changes.
+  #
+  # You can update Home Manager without changing this value. See
+  # the Home Manager release notes for a list of state version
+  # changes in each release.
+  home.stateVersion = "24.05";
 }
