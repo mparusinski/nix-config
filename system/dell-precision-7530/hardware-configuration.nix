@@ -8,46 +8,35 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/fa912933-2dcf-42c3-b6bc-92c37e7a01de";
-      fsType = "btrfs";
-      options = [ "subvol=root" "compress=zstd" "noatime" ];
-    };
+  boot.initrd.luks.devices."cryptdev".device = "/dev/disk/by-uuid/4d257de1-5a22-4854-a248-1acbea7133de";
 
-  boot.initrd.luks.devices."crypt".device = "/dev/disk/by-uuid/1e1bacb8-46cf-477b-926d-09c2c29623d1";
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/f5803a88-0484-4b71-9a6d-a87723d721b4";
+      fsType = "btrfs";
+      options = [ "subvol=nixos_root" "compress=zstd" "ssd" "space_cache=v2" "noatime" ];
+    };
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/fa912933-2dcf-42c3-b6bc-92c37e7a01de";
+    { device = "/dev/disk/by-uuid/f5803a88-0484-4b71-9a6d-a87723d721b4";
       fsType = "btrfs";
-      options = [ "subvol=home" "compress=zstd" "noatime" ];
-    };
-
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/fa912933-2dcf-42c3-b6bc-92c37e7a01de";
-      fsType = "btrfs";
-      options = [ "subvol=nix" "compress=zstd" "noatime" ];
-    };
-
-  fileSystems."/log" =
-    { device = "/dev/disk/by-uuid/fa912933-2dcf-42c3-b6bc-92c37e7a01de";
-      fsType = "btrfs";
-      options = [ "subvol=log" "compress=zstd" "noatime" ];
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/8C7F-59E5";
-      fsType = "vfat";
+      options = [ "subvol=home" "compress=zstd" "ssd" "space_cache=v2" "noatime" ];
     };
 
   fileSystems."/btr_pool" =
-    { device = "/dev/disk/by-uuid/fa912933-2dcf-42c3-b6bc-92c37e7a01de";
+    { device = "/dev/disk/by-uuid/f5803a88-0484-4b71-9a6d-a87723d721b4";
       fsType = "btrfs";
       options = [ "subvolid=5" ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/CE12-EEE6";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
     };
 
   swapDevices = [ ];
@@ -57,11 +46,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.eno1.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp57s0u2u4.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp111s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

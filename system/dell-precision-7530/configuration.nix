@@ -1,20 +1,13 @@
-#  Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
+# Edit this configuration file to define what should be installed on
+# your system. Help is available in the configuration.nix(5) man page, on
+# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../common/hosts.nix
-      ../common/users.nix
-      # ../common/gnome.nix
-      ../common/hyprland.nix
-      # ../common/xmonad.nix
-      ../common/pipewire.nix
-      ../common/gc.nix
     ];
 
   # Enable searching for and installing unfree packages
@@ -23,186 +16,113 @@
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.supportedFilesystems = [ "btrfs" "ntfs" ];
 
-  networking.hostName = "thor"; # Define your hostname.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.hostName = "dell-precision-7530";
+  networking.networkmanager.enable = true;
 
-  # Set your time zone.
   time.timeZone = "Europe/Paris";
   time.hardwareClockInLocalTime = true;
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "fr_FR.UTF-8";
   console = {
     earlySetup = true;
     font = "${pkgs.terminus_font}/share/consolefonts/ter-u32n.psf.gz";
     packages = with pkgs; [ terminus_font ];
-    useXkbConfig = true; # use xkbOptions in tty.
+    useXkbConfig = true; # use xkb.options in tty.
   };
 
-  # Enable xserver
-  # services.xserver.enable = true;
-  # services.xserver.displayManager.defaultSession = "none+xmonad";
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.mparus = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "docker" "cdrom" "libvirtd" ]; # Enable ‘sudo’ for the user.
+    hashedPassword = "$6$l1uvR/ebtdbjkm5q$77LijykP01hCqq9GhCai0OiJdBf5F8DUWd6b7lN.h1fYHIrTjbmCaGy3A6c0mQw2tnNEPmrejJI6fuVjppumW.";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGSZMXih0bhOeWWZ/scrXJsaxwxVqPqBCvML1OCPhMw/"
+    ];
+  };
+  users.users.mperez = {
+    isNormalUser = true;
+    hashedPassword = "$6$Ug3dp395tU9ZZrUj$urA8z3p61DIMUjdH3aT9HjzM9vm4q09GEibMP3BByvPO1ACu9L.TtF3O.a3OpRUVLyrJ0YPZFzccuL7UTchou0";
+  };
 
-  users.users.michalparusinski.extraGroups = [ "docker" "video" ];
-  users.users.michalparusinski.packages = with pkgs; [
-    firefox
-    docker-compose
-    git
-    distrobox
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+
+  # environment.systemPackages = with pkgs; [
+  #   vim
+  # ];
+
+  # XMONAD
+  services.xserver.windowManager.xmonad = {
+    enable = true;
+    enableContribAndExtras = true;
+  };
+  services.displayManager.defaultSession = "none+xmonad";
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
+      Xft.dpi: 192
+      Xft.autohint:0
+      Xft.lcdfilter: lcddefault
+      Xft.hintstyle: hintfull
+      Xft.hinting: 1
+      Xft.antialias: 1
+      Xft.rgba: rgb
+    EOF
+    ${pkgs.xorg.xset}/bin/xset r rate 200 50
+    ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
+    ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option compose:ralt
+  '';
+
+  # GDM
+  services.xserver.enable = true;
+  services.libinput = {
+    enable = true;
+    touchpad.tapping = false;
+  };
+  services.xserver.dpi = 192;
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    fira-code
+    fira-code-symbols
+    font-awesome
   ];
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # Enable brightness control
+  programs.light.enable = true;
+
+  # Packages for XMonad
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    cifs-utils
-    light
-    cdrtools
-    lame
-    easytag
-    virt-viewer
+    xfce.thunar
+    arandr
+    picom
+    dmenu
+    xmobar
+    glxinfo
+    vulkan-tools
+    vim
+    git
+    kitty
+    firefox
+    fzf
+    keepassxc
   ];
-  services.gvfs.enable = true;
+
+  services.udisks2.enable = true;
 
   # Enable steam
   programs.steam = {
     enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
-
-  # List services that you want to enable:
-  virtualisation.docker.enable = true;
-
-  # Setting zswap
-  zramSwap = {
-    enable = true;
-    memoryPercent = 10;
-  };
-
-  # Setting BTRBK services
-  services.btrbk = {
-    instances."home-snapshots" = {
-      onCalendar = "hourly";
-      settings = {
-        snapshot_preserve = "14d";
-        snapshot_preserve_min = "3d";
-        
-        volume."/btr_pool" = {
-          snapshot_dir = "snapshots";
-          subvolume = "home";
-        };
-      };
-    };
-  };
-  security.sudo = {
-    enable = true;
-    extraRules = [{
-      commands = [
-        {
-          command = "${pkgs.coreutils-full}/bin/test";
-          options = [ "NOPASSWD" ];
-        }
-        {
-          command = "${pkgs.coreutils-full}/bin/readlink";
-          options = [ "NOPASSWD" ];
-        }
-        {
-          command = "${pkgs.btrfs-progs}/bin/btrfs";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-      users = [ "btrbk" ];
-    }];
-  };
-
-  # Enable network shares
-  fileSystems."/media/nassie/public" = {
-    device = "//nassie/public";
-    fsType = "cifs";
-    options = let
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-    in ["${automount_opts},credentials=/etc/nixos/smb-secrets,uid=1000,gid=100"];
-  };
-  fileSystems."/media/nassie/snapshots" = {
-    device = "//nassie/snapshots";
-    fsType = "cifs";
-    options = let
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-    in ["${automount_opts},credentials=/etc/nixos/smb-secrets,uid=1000,gid=100"];
-  };
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
-
-  programs.kdeconnect.enable = true;
-  networking.firewall = { 
-    enable = true;
-    allowedTCPPortRanges = [ 
-      { from = 1714; to = 1764; } # KDE Connect
-    ];  
-    allowedTCPPorts = [ 27040 ];
-    allowedUDPPortRanges = [ 
-      { from = 1714; to = 1764; } # KDE Connect
-    ];  
-  };  
-
-  # rtkit is optional but recommended
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-  };
-
-  # Enabling bluetooth
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.settings = {
-    General = {
-      Enable = "Source,Sink,Media,Socket";
-    };
-  };
-  hardware.pulseaudio = {
-    package = pkgs.pulseaudioFull;
-  };
-  services.blueman.enable = true;
 
   # Enabling tailscale
   services.tailscale.enable = true;
 
-  # Virt-manager
-  virtualisation.libvirtd.enable = true;
-  programs.virt-manager.enable = true;
+  system.copySystemConfiguration = true;
+  system.stateVersion = "24.05"; # Did you read the comment?
 
-  # Enabling Gnome keyring
-  services.gnome.gnome-keyring.enable = true;
-  # security.pam.services.lightdm.enableGnomeKeyring = true;
-
-  # Enabling printing
-  services.avahi = {
-    enable = true;
-    nssmdns = true;
-    openFirewall = true;
-  };
-  services.printing = {
-    enable = true;
-    drivers = [ pkgs.cnijfilter2 ];
-  };
-
-  nix.settings.trusted-users = [ "root" "michalparusinski" ];
 }
 
