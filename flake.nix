@@ -1,27 +1,8 @@
 {
   description = "Michal's NixOS configuration";
 
-  # Setting up cache servers
-  nixConfig = {
-    substituters = [
-      "https://cache.nixos.org/"
-    ];
-    extra-substituters = [
-      "https://nix-community.cachix.org"
-    ];
-    extra-trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    ];
-  };
-
-  # This is the standard format for flake.nix.
-  # `inputs` are the dependencies of the flake,
-  # and `outputs` function will return all the build results of the flake.
-  # Each item in `inputs` will be passed as a parameter to
-  # the `outputs` function after being pulled and built.
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    agenix.url = "github:ryantm/agenix";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       # The `follows` keyword in inputs is used for inheritance.
@@ -30,13 +11,9 @@
       # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-wsl = {
-      url = github:nix-community/NixOS-WSL;
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, nixos-wsl,... }@inputs :
+  outputs = { self, nixpkgs, home-manager, ... }@inputs :
   let
     lib = nixpkgs.lib // home-manager.lib;
 	systems = [ "x86_64-linux" ];
@@ -45,7 +22,7 @@
       inherit system;
       config.allowUnfree = true;
     });
-    machines = ["nassie" "thor" "heavens" "work-nix-vm" "work-nixos-wsl" ];
+    machines = [ "dell-precision-7530" ];
   in {
     homeConfigurations =
       builtins.listToAttrs (builtins.map(m: {
@@ -64,11 +41,7 @@
         value = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = inputs;
-          modules = if (m == "work-nixos-wsl") then [
-            nixos-wsl.nixosModules.wsl
-            (./system + ("/" + m) + /configuration.nix)
-          ] else [
-            agenix.nixosModules.default
+          modules = [
             (./system + ("/" + m) + /configuration.nix)
           ];
         };
