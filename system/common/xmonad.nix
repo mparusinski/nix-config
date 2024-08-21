@@ -10,6 +10,7 @@ in
   services.xserver.windowManager.xmonad = {
     enable = true;
     enableContribAndExtras = true;
+    config = ./xmonad.hs;
   };
   services.displayManager = {
     defaultSession = "none+xmonad";
@@ -63,6 +64,8 @@ in
     glxinfo
     vulkan-tools
     kitty
+    acpilight
+    xmobar
   ];
 
   services.udisks2.enable = true;
