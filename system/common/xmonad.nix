@@ -12,6 +12,7 @@ in
     enableContribAndExtras = true;
     config = ./xmonad.hs;
   };
+  services.xserver.displayManager.lightdm.enable = true;
   services.displayManager = {
     defaultSession = "none+xmonad";
     autoLogin.enable = true;
@@ -52,7 +53,7 @@ in
   ];
 
   # Enable brightness control
-  programs.light.enable = true;
+  hardware.acpilight.enable = true;
 
   # Packages for XMonad
   environment.systemPackages = with pkgs; [
@@ -64,8 +65,8 @@ in
     glxinfo
     vulkan-tools
     kitty
-    acpilight
     xmobar
+    light
   ];
 
   services.udisks2.enable = true;

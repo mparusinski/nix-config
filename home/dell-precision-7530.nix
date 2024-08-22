@@ -8,6 +8,7 @@
     ./programs/emacs.nix
     ./programs/kitty.nix
     ./programs/nnn.nix
+    ./programs/xmobar.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
