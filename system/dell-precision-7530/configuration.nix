@@ -27,6 +27,8 @@
   boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.plymouth.enable = true;
+
   networking.hostName = "dell-precision-7530";
   networking.networkmanager.enable = true;
 

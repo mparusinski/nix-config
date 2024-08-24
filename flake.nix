@@ -31,7 +31,7 @@
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs; };
           modules = [
-            (./home + ("/" + m + ".nix"))
+            (./home + ("/" + m))
           ];
         };
       }) machines );

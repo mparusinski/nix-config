@@ -19,8 +19,8 @@ myStartupHook = do
     spawnOnce "picom --vsync -b"
 
 myBorderWidth        = 5
-myFocusedBorderColor = "#7FBBB3"
-myNormalBorderColor  = "#A7C080"
+myFocusedBorderColor = "#E69875"
+myNormalBorderColor  = "#9DA9A0"
 
 
 myWorkspaces = map show [1..9]

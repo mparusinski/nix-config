@@ -3,12 +3,13 @@
 {
   nixpkgs.config.allowUnfree = true;
   imports = [ 
-    ./programs/zsh.nix 
-    ./programs/vim.nix
-    ./programs/emacs.nix
-    ./programs/kitty.nix
-    ./programs/nnn.nix
-    ./programs/xmobar.nix
+    ../programs/zsh.nix 
+    ../programs/vim.nix
+    ../programs/emacs.nix
+    ../programs/kitty.nix
+    ../programs/nnn.nix
+    ../programs/xmobar.nix
+    ../scripts
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
