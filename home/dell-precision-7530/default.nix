@@ -9,6 +9,7 @@
     ../programs/kitty.nix
     ../programs/nnn.nix
     ../programs/xmobar.nix
+    ../programs/git.nix
     ../scripts
   ];
   # Home Manager needs a bit of information about you and the
@@ -49,17 +50,6 @@
 
   services.syncthing = {
     enable = true;
-  };
-
-
-  programs.git = {
-    enable = true;
-    lfs.enable = true;
-    userName = "Michal Parusinski";
-    userEmail = "michal@parusinski.me";
-    extraConfig = {
-      init.defaultBranch = "main";
-    };
   };
 
   programs.bat = {
