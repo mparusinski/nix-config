@@ -3,7 +3,11 @@
 {
   programs.vim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [ vim-airline ];
+    plugins = with pkgs.vimPlugins; [
+      vim-airline
+      vim-orgmode
+      vim-speeddating
+    ];
     settings = {
       ignorecase = true;
       expandtab = true;

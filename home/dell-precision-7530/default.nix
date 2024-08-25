@@ -10,7 +10,7 @@
     ../programs/nnn.nix
     ../programs/xmobar.nix
     ../programs/git.nix
-    ../scripts
+    # ../scripts
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
