@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
 let
   wallpaper = builtins.fetchurl {
@@ -67,7 +67,10 @@ in
     kitty
     xmobar
     light
+    lxqt.lxqt-policykit
   ];
 
   services.udisks2.enable = true;
+  services.gvfs.enable = true;
+  services.gvfs.package = lib.mkForce pkgs.gnome3.gvfs;
 }

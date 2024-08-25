@@ -16,6 +16,7 @@
       ../common/omv1.nix
       ../common/bluetooth.nix
       ../common/printing.nix
+      ../common/homeassistant.nix
     ];
 
   # Enable searching for and installing unfree packages
