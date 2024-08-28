@@ -10,6 +10,7 @@
     ../programs/nnn.nix
     ../programs/xmobar.nix
     ../programs/git.nix
+    ../programs/xmonad.nix
     # ../scripts
   ];
   # Home Manager needs a bit of information about you and the

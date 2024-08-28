@@ -15,13 +15,18 @@ import XMonad.Layout
 import XMonad.Layout.Spacing
 import XMonad.Layout.NoBorders ( noBorders, smartBorders )
 
+import System.Process
+import GHC.IO.Handle
+import Text.Read (readMaybe)
+
+data DPI = HiDPI | LowDPI
+
 myStartupHook = do
     spawnOnce "picom --vsync -b"
 
 myBorderWidth        = 5
 myFocusedBorderColor = "#E69875"
 myNormalBorderColor  = "#9DA9A0"
-
 
 myWorkspaces = map show [1..9]
 
@@ -35,6 +40,9 @@ myKeys     =
   , ("<XF86AudioLowerVolume>",  lowerVolume 3 >> return ())
   , ("<XF86AudioMute>",         toggleMute >> return ())
   , ("C-<Print>",               spawn "scrot -s")
+  -- TODO: Create a script to toggle this
+  , ("C-'",                     spawn "xrandr --dpi 96")
+  , ("C-S-'",                   spawn "xrandr --dpi 192")
   ]
 
 myLayout = avoidStruts $ spacing 7 $ smartBorders tiled ||| smartBorders (Mirror tiled) ||| noBorders Full
@@ -45,18 +53,34 @@ myLayout = avoidStruts $ spacing 7 $ smartBorders tiled ||| smartBorders (Mirror
     delta   = 3 / 100
     ratio   = 1 / 2
 
-mySB num = statusBarProp ( "xmobar -x " ++ show num ++ " ~/.config/xmobar/.xmobarrc") (pure myXmobarPP)
+mySB num dpi = statusBarProp ( "xmobar -x " ++ show num ++ dpiConf dpi) (pure myXmobarPP)
+  where dpiConf LowDPI = " ~/.config/xmobar/xmobarrc.lowdpi" 
+        dpiConf HiDPI  = " ~/.config/xmobar/xmobarrc.hidpi" 
+
+fetchDPI :: IO DPI
+fetchDPI = do
+  (_, maybeOutH, _, _) <- createProcess $ shell ".local/bin/what-dpi.sh"
+  maybe (return HiDPI) processOut maybeOutH
+  where processOut :: Handle -> IO DPI
+        processOut h = do
+          output <- hGetLine h
+          let sanitized = filter (flip elem "\n\r") output
+          let currDpi = readMaybe sanitized
+          return $ maybe HiDPI intToDPIEnum currDpi
+          where intToDPIEnum x = if x == "96" then LowDPI else HiDPI 
 
 main :: IO ()
-main = xmonad 
-     . ewmhFullscreen 
-     . ewmh
-     . withEasySB (mySB 0) toggleStrutsKey
-     . withEasySB (mySB 1) toggleStrutsKey
-     $ myConfig
-  where
-    toggleStrutsKey :: XConfig Layout -> (KeyMask, KeySym)
-    toggleStrutsKey XConfig { modMask = myModMask } = (myModMask, xK_b)
+main = do
+  dpi <- fetchDPI 
+  xmonadMain dpi 
+  where xmonadMain dpi = xmonad 
+                       . ewmhFullscreen 
+                       . ewmh
+                       . withEasySB (mySB 0 dpi) toggleStrutsKey
+                       . withEasySB (mySB 1 dpi) toggleStrutsKey
+                       $ myConfig
+                       where toggleStrutsKey :: XConfig Layout -> (KeyMask, KeySym)
+                             toggleStrutsKey XConfig { modMask = myModMask } = (myModMask, xK_b)
 
 myXmobarPP :: PP
 myXmobarPP = def
