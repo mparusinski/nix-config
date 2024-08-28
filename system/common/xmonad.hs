@@ -13,7 +13,7 @@ import XMonad.Actions.Volume
 import XMonad.Actions.SpawnOn
 import XMonad.Layout
 import XMonad.Layout.Spacing
--- import XMonad.Layout.NoBorders ( noBorders, smartBorders )
+import XMonad.Layout.NoBorders ( noBorders, smartBorders )
 
 myStartupHook = do
     spawnOnce "picom --vsync -b"
@@ -37,8 +37,8 @@ myKeys     =
   , ("C-<Print>",               spawn "scrot -s")
   ]
 
--- myLayout = avoidStruts $ spacing 7 $ smartBorders tiled ||| smartBorders (Mirror tiled) ||| noBorders Full
-myLayout = avoidStruts $ spacing 7 $ tiled ||| (Mirror tiled) ||| Full
+myLayout = avoidStruts $ spacing 7 $ smartBorders tiled ||| smartBorders (Mirror tiled) ||| noBorders Full
+-- myLayout = avoidStruts $ spacing 7 $ tiled ||| (Mirror tiled) ||| Full
   where
     tiled   = Tall nmaster delta ratio
     nmaster = 1

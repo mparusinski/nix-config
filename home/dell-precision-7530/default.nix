@@ -46,6 +46,7 @@
     bottom
     iotop
     comma
+    openarena
   ];
 
   services.syncthing = {
