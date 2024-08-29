@@ -12,6 +12,8 @@
     ../common/users.nix
   ];
 
+  mainUser.enable = true;
+
   wsl.enable = true;
   wsl.defaultUser = "mparus";
   networking.hostName = "wsl1";
