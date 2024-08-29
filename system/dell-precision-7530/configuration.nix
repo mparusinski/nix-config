@@ -52,10 +52,26 @@
     vim
   ];
 
-  programs.steam.enable = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+  };
   services.tailscale.enable = true;
 
   services.logind.lidSwitchExternalPower = "ignore";
+
+  # Hardware acceleration
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver
+      libvdpau-va-gl
+    ];
+  };
+  programs.gamemode.enable = true;
+  services.fwupd.enable = true;
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

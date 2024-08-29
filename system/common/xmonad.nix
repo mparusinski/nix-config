@@ -7,9 +7,7 @@ let
   };
 in
 {
-  services.xserver.windowManager.xmonad = {
-    enable = true;
-  };
+  services.xserver.windowManager.xmonad.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
   services.displayManager = {
     defaultSession = "none+xmonad";
