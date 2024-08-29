@@ -8,6 +8,7 @@
     # ../programs/emacs.nix
     ../programs/nnn.nix
     ../programs/git.nix
+    ../programs/bat.nix
     # ../scripts
   ];
   # Home Manager needs a bit of information about you and the
@@ -17,7 +18,6 @@
   
   home.packages = with pkgs; [
     git
-    bat
     fzf
     thefuck
     mc
@@ -33,10 +33,6 @@
     iotop
     comma
   ];
-
-  programs.bat = {
-    config.theme = "base16";
-  };
 
   programs.direnv = {
     enable = true;
