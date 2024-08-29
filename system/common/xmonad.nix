@@ -9,8 +9,6 @@ in
 {
   services.xserver.windowManager.xmonad = {
     enable = true;
-    enableContribAndExtras = true;
-    config = ./xmonad.hs;
   };
   services.xserver.displayManager.lightdm.enable = true;
   services.displayManager = {

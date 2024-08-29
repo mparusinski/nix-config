@@ -55,6 +55,8 @@
   programs.steam.enable = true;
   services.tailscale.enable = true;
 
+  services.logind.lidSwitchExternalPower = "ignore";
+
   system.stateVersion = "24.05"; # Did you read the comment?
 }
 
