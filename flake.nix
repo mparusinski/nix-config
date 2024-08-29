@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixos-wsl.url = "github:nix-community/nixos-wsl";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       # The `follows` keyword in inputs is used for inheritance.
@@ -13,7 +14,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs :
+  outputs = { self, nixpkgs, home-manager, nixos-wsl, ... }@inputs :
   let
     lib = nixpkgs.lib // home-manager.lib;
 	systems = [ "x86_64-linux" ];
@@ -22,7 +23,7 @@
       inherit system;
       config.allowUnfree = true;
     });
-    machines = [ "dell-precision-7530" ];
+    machines = [ "dell-precision-7530" "wsl1" ];
   in {
     homeConfigurations =
       builtins.listToAttrs (builtins.map(m: {
@@ -35,15 +36,23 @@
           ];
         };
       }) machines );
+    # TODO: Support for a default configuration
     nixosConfigurations = 
       builtins.listToAttrs (builtins.map(m: {
         name = m;
         value = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = inputs;
-          modules = [
-            (./system + ("/" + m) + /configuration.nix)
-          ];
+          
+          modules = if (lib.strings.hasPrefix "wsl" m) then
+            [
+              (./system + ("/" + m) + /configuration.nix)
+              nixos-wsl.nixosModules.wsl
+            ] 
+          else
+            [
+              (./system + ("/" + m) + /configuration.nix)
+            ];
         };
       }) machines );
   };
