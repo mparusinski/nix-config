@@ -11,44 +11,44 @@ machines.
 ```
 .
 .
-├── build_home.sh
-├── build_system.sh
+├── build.sh
 ├── flake.lock
 ├── flake.nix
-├── home
-│   ├── home_console.nix
-│   ├── home_graphical.nix
-│   ├── home_wsl.nix
-│   ├── programs
-│   └── themes
-└── system
-    ├── common
-    ├── heavens
-    ├── nassie
-    └── thor
+├── modules
+│   ├── nixos
+│   │   ├── users.nix 
+│   │   ├── ...
+│   │   └── gc.nix
+│   └── home-manager
+│       ├── git.nix
+│       ├── ...
+│       └── zsh.nix
+└── hosts
+    ├── dell-precision-7530
+    │   ├── configuration.nix
+    │   ├── hardware-configuration.nix
+    │   └── home.nix
+    └── wsl1
+        ├── configuration.nix
+        └── home.nix
 ```
 
-- `build_home.sh` builds and switches the home-manager setup for the current machine
-- `build_system.sh` builds and switches the NixOS configuration
+- `build.sh` builds and switches the NixOS and Home-manager
 - `flake.nix` defines the list of targets (NixOS and home-manager)
-- `home` directory with the home manager configuration
-- `system/common` directory with the common configuration for all machines
-- `system/<machine>` directory with the machine configuration
+- `modules/nixos` modules for nixos (e.g. configuration of users)
+- `modules/home-manager` modules for home-manager (e.g. configuration for user stuff)
+- `host/<machine>` directory with the machine configuration (nixos and home-manager)
 
 ## Installing
 
 To build a new configuration
 ```bash
-sudo ./build_system.sh
-```
-
-To build a new home manager configuration
-```bash
-./build_home.sh
+sudo ./build.sh
 ```
 
 ## Upgrading
 
 ```bash
 nix flake update
+sudo ./build.sh
 ```

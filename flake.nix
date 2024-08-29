@@ -6,10 +6,6 @@
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
-      # The `follows` keyword in inputs is used for inheritance.
-      # Here, `inputs.nixpkgs` of home-manager is kept consistent with
-      # the `inputs.nixpkgs` of the current flake,
-      # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -25,33 +21,34 @@
     });
     machines = [ "dell-precision-7530" "wsl1" ];
   in {
-    homeConfigurations =
-      builtins.listToAttrs (builtins.map(m: {
-        name = "mparus@" + m;
-        value = lib.homeManagerConfiguration {
-          pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = { inherit inputs; };
-          modules = [
-            (./home + ("/" + m))
-          ];
-        };
-      }) machines );
-    # TODO: Support for a default configuration
     nixosConfigurations = 
       builtins.listToAttrs (builtins.map(m: {
         name = m;
         value = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = inputs;
-          
+          # TODO: Find a better way to handle this
           modules = if (lib.strings.hasPrefix "wsl" m) then
             [
               (./system + ("/" + m) + /configuration.nix)
               nixos-wsl.nixosModules.wsl
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.backupFileExtension = "hmback";
+                home-manager.users."mparus" = import (./home + ("/" + m));
+              }
             ] 
           else
             [
-              (./system + ("/" + m) + /configuration.nix)
+              (./hosts + ("/" + m) + /configuration.nix)
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.backupFileExtension = "hmback";
+                home-manager.users."mparus" = import (./hosts + ("/" + m) + /home.nix);
+              }
             ];
         };
       }) machines );

@@ -3,14 +3,14 @@
 {
   nixpkgs.config.allowUnfree = true;
   imports = [ 
-    ../programs/zsh.nix 
-    ../programs/vim.nix
-    ../programs/emacs.nix
-    ../programs/kitty.nix
-    ../programs/nnn.nix
-    ../programs/xmobar.nix
-    ../programs/git.nix
-    ../programs/xmonad.nix
+    ../../modules/home-manager/zsh.nix 
+    ../../modules/home-manager/vim.nix
+    ../../modules/home-manager/emacs.nix
+    ../../modules/home-manager/kitty.nix
+    ../../modules/home-manager/nnn.nix
+    ../../modules/home-manager/xmobar.nix
+    ../../modules/home-manager/git.nix
+    ../../modules/home-manager/xmonad.nix
     # ../scripts
   ];
   # Home Manager needs a bit of information about you and the

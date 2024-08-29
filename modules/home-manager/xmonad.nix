@@ -4,7 +4,7 @@
   xsession.windowManager.xmonad = {
     enable = true;
     enableContribAndExtras = true;
-    config = ../programs/xmonad.hs;
+    config = ./xmonad.hs;
   };
 
   home.file.".local/bin/what-dpi.sh" = {

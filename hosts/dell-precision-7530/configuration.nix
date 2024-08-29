@@ -8,16 +8,16 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../common/users.nix
-      ../common/xmonad.nix
-      ../common/pipewire.nix
-      ../common/zramswap.nix
-      ../common/btrbk.nix
-      ../common/omv1.nix
-      ../common/bluetooth.nix
-      ../common/printing.nix
-      ../common/homeassistant.nix
-      ../common/gc.nix
+      ../../modules/nixos/users.nix
+      ../../modules/nixos/xmonad.nix
+      ../../modules/nixos/pipewire.nix
+      ../../modules/nixos/zramswap.nix
+      ../../modules/nixos/btrbk.nix
+      ../../modules/nixos/omv1.nix
+      ../../modules/nixos/bluetooth.nix
+      ../../modules/nixos/printing.nix
+      ../../modules/nixos/homeassistant.nix
+      ../../modules/nixos/gc.nix
     ];
 
   # Enable searching for and installing unfree packages
