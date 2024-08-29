@@ -17,6 +17,7 @@
       ../common/bluetooth.nix
       ../common/printing.nix
       ../common/homeassistant.nix
+      ../common/gc.nix
     ];
 
   # Enable searching for and installing unfree packages
@@ -32,6 +33,9 @@
 
   networking.hostName = "dell-precision-7530";
   networking.networkmanager.enable = true;
+
+  mainUser.enable = true;
+  mainUser.ssh.enable = true;
 
   time.timeZone = "Europe/Paris";
   time.hardwareClockInLocalTime = true;
