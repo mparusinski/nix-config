@@ -2,15 +2,14 @@
 { config, lib, pkgs, ...}:
 
 {
-  programs.git = {
+  programs.bat = {
     enable = true;
-    lfs.enable = true;
-    userName = "Michal Parusinski";
-    userEmail = "michal@parusinski.me";
-    extraConfig = {
-      init.defaultBranch = "main";
-      credential.helper = "store";
-      pull.rebase = false;
-    };
+    config.theme = "base16";
+    extraPackages = with pkgs.bat-extras; [
+      batdiff
+      batman
+      batgrep
+      batwatch
+    ];
   };
 }
