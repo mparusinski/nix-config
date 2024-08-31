@@ -11,6 +11,7 @@
     ../../modules/home-manager/xmobar.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/xmonad.nix
+    ../../modules/home-manager/bat.nix
     # ../scripts
   ];
   # Home Manager needs a bit of information about you and the
@@ -19,9 +20,7 @@
   home.homeDirectory = "/home/mparus";
   
   home.packages = with pkgs; [
-    git
     keepassxc
-    bat
     fzf
     thefuck
     mc

@@ -10,7 +10,6 @@
     settings.allow_remote_control = true;
     settings.listen_on = "unix:/tmp/mykitty";
     settings.enabled_layouts = "splits";
-    theme = "Everforest Dark Medium";
   };
   home.packages = [
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
