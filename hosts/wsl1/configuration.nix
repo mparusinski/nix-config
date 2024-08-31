@@ -9,7 +9,7 @@
 
 {
   imports = [
-    ../common/users.nix
+    ../../modules/nixos/users.nix
   ];
 
   mainUser.enable = true;

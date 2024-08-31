@@ -20,37 +20,26 @@
       config.allowUnfree = true;
     });
     machines = [ "dell-precision-7530" "wsl1" ];
+    configurationFile = m : ./hosts + ("/" + m) + /configuration.nix;
+    homeFile = m : ./hosts + ("/" + m) + /home.nix;
+    wslModules = m : if (lib.strings.hasPrefix "wsl" m) then [nixos-wsl.nixosModules.wsl] else [];
   in {
     nixosConfigurations = 
       builtins.listToAttrs (builtins.map(m: {
         name = m;
         value = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          # TODO: Find a better way to handle this
-          modules = if (lib.strings.hasPrefix "wsl" m) then
-            [
-              (./system + ("/" + m) + /configuration.nix)
-              nixos-wsl.nixosModules.wsl
+          modules = ([
+              (configurationFile m)
               home-manager.nixosModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.backupFileExtension = "hmback";
-                home-manager.users."mparus" = import (./home + ("/" + m));
+                home-manager.users."mparus" = import (homeFile m);
               }
-            ] 
-          else
-            [
-              (./hosts + ("/" + m) + /configuration.nix)
-              home-manager.nixosModules.home-manager
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.backupFileExtension = "hmback";
-                home-manager.users."mparus" = import (./hosts + ("/" + m) + /home.nix);
-              }
-            ];
-        };
+            ] ++ (wslModules m));
+          };
       }) machines );
   };
 }
