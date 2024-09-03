@@ -8,11 +8,10 @@
     ../../modules/home-manager/emacs.nix
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/nnn.nix
-    ../../modules/home-manager/xmobar.nix
+    # ../../modules/home-manager/xmobar.nix
     ../../modules/home-manager/git.nix
-    ../../modules/home-manager/xmonad.nix
+    # ../../modules/home-manager/xmonad.nix
     ../../modules/home-manager/bat.nix
-    # ../scripts
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
