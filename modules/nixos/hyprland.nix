@@ -25,6 +25,8 @@
     dunst
     libnotify
     hyprpaper
+    brightnessctl
+    playerctl
   ];
 
   services.libinput = {
@@ -44,7 +46,4 @@
   # XDG portals
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
-
-  # Enable brightness control
-  hardware.acpilight.enable = true;
 }
