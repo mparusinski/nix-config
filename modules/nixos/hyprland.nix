@@ -6,7 +6,26 @@
 #     sha256 = "sha256:1yz8dl0czycawwgglg8gx23ak530sbbjhz1mdj1ghdbd2kqa5nq2";
 #   };
 # in
+let
+  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+  session = "${pkgs.hyprland}/bin/Hyprland";
+  username = "mparus";
+in
 {
+  services.greetd = {
+    enable = true;
+    settings = {
+      initial_session = {
+        command = "${session}";
+        user = "mparus";
+      };
+      default_session = {
+        command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time -cmd ${session}";
+        user = "mparus";
+      };
+    };
+  };
+
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
 
@@ -46,4 +65,6 @@
   # XDG portals
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+
+  services.gvfs.enable = true;
 }

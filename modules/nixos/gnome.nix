@@ -9,8 +9,9 @@
   services.displayManager.autoLogin.user = "mparus";
 
   environment.systemPackages = with pkgs; [
-    brightnessctl
     playerctl
+    kitty
+    gnome.gnome-tweaks
   ];
 
   nixpkgs.overlays = [

@@ -12,6 +12,7 @@
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/xmonad.nix
     ../../modules/home-manager/bat.nix
+    ../../modules/home-manager/theme.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -46,6 +47,7 @@
     iotop
     comma
     openarena
+    firefox
   ];
 
   services.syncthing = {

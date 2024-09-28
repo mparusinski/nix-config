@@ -9,9 +9,10 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../../modules/nixos/users.nix
-      ../../modules/nixos/xmonad.nix
+      # ../../modules/nixos/xmonad.nix
       ../../modules/nixos/hyprland.nix
-      ../../modules/nixos/gnome.nix
+      # ../../modules/nixos/gnome.nix
+      # ../../modules/nixos/plasma.nix
       ../../modules/nixos/pipewire.nix
       ../../modules/nixos/zramswap.nix
       ../../modules/nixos/btrbk.nix
@@ -47,14 +48,6 @@
     packages = with pkgs; [ terminus_font ];
     useXkbConfig = true; # use xkb.options in tty.
   };
-
-  environment.systemPackages = with pkgs; [
-    firefox
-    fzf
-    keepassxc
-    git
-    vim
-  ];
 
   networking.firewall = {
     enable = true;
