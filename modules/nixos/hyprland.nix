@@ -20,7 +20,7 @@ in
         user = "mparus";
       };
       default_session = {
-        command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time -cmd ${session}";
+        command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${session}";
         user = "mparus";
       };
     };
@@ -33,10 +33,7 @@ in
     NIXOS_OZONE_WL = "1";
   };
   environment.systemPackages = with pkgs; [
-    (waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      })
-    ) # TODO: try out eww
+    waybar
     rofi-wayland
     xfce.thunar
     light

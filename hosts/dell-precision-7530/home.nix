@@ -13,6 +13,7 @@
     ../../modules/home-manager/xmonad.nix
     ../../modules/home-manager/bat.nix
     ../../modules/home-manager/theme.nix
+    ../../modules/home-manager/dev/rust.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -67,8 +68,6 @@
     enable = true;
     # package = "zathura-pdf-mupdf";
   };
-
-  services.kdeconnect.enable = true;
 
   programs.home-manager.enable = true;
 

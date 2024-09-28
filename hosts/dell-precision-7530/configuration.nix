@@ -49,16 +49,6 @@
     useXkbConfig = true; # use xkb.options in tty.
   };
 
-  networking.firewall = {
-    enable = true;
-    allowedTCPPortRanges = [
-      { from = 1714; to = 1764; } # KDE Connect
-    ];
-    allowedUDPPortRanges = [
-      { from = 1714; to = 1764; } # KDE Connect
-    ];
-  };
-
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
