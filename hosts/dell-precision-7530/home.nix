@@ -49,6 +49,7 @@
     comma
     openarena
     firefox
+    xonotic
   ];
 
   services.syncthing = {
