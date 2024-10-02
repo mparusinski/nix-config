@@ -14,6 +14,7 @@
     ../../modules/home-manager/bat.nix
     ../../modules/home-manager/theme.nix
     ../../modules/home-manager/dev/rust.nix
+    ../../modules/home-manager/networks.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -50,6 +51,7 @@
     openarena
     firefox
     xonotic
+    thunderbird
   ];
 
   services.syncthing = {

@@ -21,6 +21,7 @@
       ../../modules/nixos/printing.nix
       ../../modules/nixos/homeassistant.nix
       ../../modules/nixos/gc.nix
+      ../../modules/nixos/proton.nix
     ];
 
   # Enable searching for and installing unfree packages
