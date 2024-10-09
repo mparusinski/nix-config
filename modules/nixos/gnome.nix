@@ -14,6 +14,8 @@
     gnome.gnome-tweaks
   ];
 
+  services.flatpak.enable = true;
+
   nixpkgs.overlays = [
     # GNOME 46: triple-buffering-v4-46
     (final: prev: {
