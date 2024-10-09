@@ -52,6 +52,7 @@
     firefox
     xonotic
     thunderbird
+    chromium
   ];
 
   services.syncthing = {

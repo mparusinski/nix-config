@@ -10,8 +10,8 @@
       ./hardware-configuration.nix
       ../../modules/nixos/users.nix
       # ../../modules/nixos/xmonad.nix
-      ../../modules/nixos/hyprland.nix
-      # ../../modules/nixos/gnome.nix
+      # ../../modules/nixos/hyprland.nix
+      ../../modules/nixos/gnome.nix
       # ../../modules/nixos/plasma.nix
       ../../modules/nixos/pipewire.nix
       ../../modules/nixos/zramswap.nix
@@ -21,7 +21,7 @@
       ../../modules/nixos/printing.nix
       ../../modules/nixos/homeassistant.nix
       ../../modules/nixos/gc.nix
-      ../../modules/nixos/proton.nix
+      # ../../modules/nixos/proton.nix
     ];
 
   # Enable searching for and installing unfree packages
