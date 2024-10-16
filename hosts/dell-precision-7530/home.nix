@@ -53,6 +53,7 @@
     xonotic
     thunderbird
     chromium
+    dbeaver-bin
   ];
 
   services.syncthing = {
