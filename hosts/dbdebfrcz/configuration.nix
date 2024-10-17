@@ -40,14 +40,21 @@
   # PostgreSQL
   services.postgresql = {
     enable = true;
-    ensureDatabases = [ "pgmetricsdb" ];
     enableTCPIP = true;
     authentication = pkgs.lib.mkOverride 10 ''
       #type database  DBuser  auth-method
       local all       all     trust
-      host  pgmetricsdb  pgmetricsuser     0.0.0.0/32 scram-sha-256
-      host  pgmetricsdb  pgmetricsuser     ::/128 scram-sha-256
+      host  pgmetricsdb  pgmetricsuser     0.0.0.0/0 scram-sha-256
+      host  pgmetricsdb  pgmetricsuser     ::1/128 scram-sha-256
     '';
+  };
+
+  services.grafana.enable = true;
+  services.grafana.settings = {
+    server = {
+      http_addr = "0.0.0.0";
+      http_port = 3000;
+    };
   };
 
   # Prometheus
