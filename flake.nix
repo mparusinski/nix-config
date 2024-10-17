@@ -19,7 +19,7 @@
       inherit system;
       config.allowUnfree = true;
     });
-    machines = [ "dell-precision-7530" "wsl1" ];
+    machines = [ "dell-precision-7530" "dbdebfrcz" "wsl1" ];
     configurationFile = m : ./hosts + ("/" + m) + /configuration.nix;
     homeFile = m : ./hosts + ("/" + m) + /home.nix;
     wslModules = m : if (lib.strings.hasPrefix "wsl" m) then [nixos-wsl.nixosModules.wsl] else [];
