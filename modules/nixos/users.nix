@@ -18,16 +18,10 @@ in
         Extra groups for the main user. By default wheel for sudo access
       '';
     };
-    hashedPassword = lib.mkOption {
-      default = "$6$l1uvr/ebtdbjkm5q$77lijykp01hcqq9ghcai0oijdbf5f8duwd6b7ln.h1fyhirtjbmcagy3a6c0mqw2tnnepmrejji6fuvjppumw.";
-      description = ''
-        Hashed password for main user
-      '';
-    };
     ssh.enable = lib.mkEnableOption "Enable SSH keys for user";
     ssh.authorizedKeys = lib.mkOption {
       default = [
-        "ssh-ed25519 aaaac3nzac1lzdi1nte5aaaaigszmxih0bhoewwz/scrxjsaxwxvqpqbcvml1ocphmw/"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGSZMXih0bhOeWWZ/scrXJsaxwxVqPqBCvML1OCPhMw/ michal@parusinski.me"
       ];
       description = ''
         Keys for default user
@@ -41,8 +35,7 @@ in
     users.users.${cfg.userName} = {
       isNormalUser = true;
       extraGroups = cfg.extraGroups;
-      hashedPassword = cfg.hashedPassword;
-      openssh.authorizedKeys.keys = lib.mkIf cfg.ssh.enable cfg.authorizedKeys;
+      openssh.authorizedKeys.keys = lib.mkIf cfg.ssh.enable cfg.ssh.authorizedKeys;
     };
   };
 }

@@ -2,6 +2,8 @@
 {
   imports = [
     ./vpsadminos.nix
+    ../../modules/nixos/users.nix
+    ../../modules/nixos/gc.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -11,17 +13,14 @@
     git
   ];
 
-  users.users.mparus = {
-    isNormalUser  = true;
-    extraGroups  = [ "wheel" ];
-    openssh.authorizedKeys.keys  = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGSZMXih0bhOeWWZ/scrXJsaxwxVqPqBCvML1OCPhMw/ michal@parusinski.me" ];
-  };
+  mainUser.enable = true;
+  mainUser.ssh.enable = true;
 
   services.openssh.enable = true;
   services.openssh.settings.PermitRootLogin = "yes";
   services.openssh.ports = [ 2222 ];
-  #users.extraUsers.root.openssh.authorizedKeys.keys =
-  #  [ "..." ];
+
+  services.fail2ban.enable = true;
 
   networking.firewall = {
     enable = true;
