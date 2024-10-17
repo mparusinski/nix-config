@@ -51,11 +51,11 @@
     useXkbConfig = true; # use xkb.options in tty.
   };
 
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
+  # programs.steam = {
+  #   enable = true;
+  #   remotePlay.openFirewall = true;
+  #   dedicatedServer.openFirewall = true;
+  # };
   services.tailscale.enable = true;
 
   # Hardware acceleration
