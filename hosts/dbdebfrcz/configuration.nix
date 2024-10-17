@@ -4,6 +4,7 @@
     ./vpsadminos.nix
     ../../modules/nixos/users.nix
     ../../modules/nixos/gc.nix
+    ../../modules/nixos/prometheusclient.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
