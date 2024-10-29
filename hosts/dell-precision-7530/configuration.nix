@@ -23,6 +23,7 @@
       ../../modules/nixos/gc.nix
       # ../../modules/nixos/proton.nix
       ../../modules/nixos/appimage.nix
+      ../../modules/nixos/nix.nix
     ];
 
   # Enable searching for and installing unfree packages
