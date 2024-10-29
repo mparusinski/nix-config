@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 let
   wallpaper = builtins.fetchurl {
@@ -14,7 +19,7 @@ in
   #   autoLogin.enable = true;
   #   autoLogin.user = "mparus";
   # };
-    
+
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
     ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF

@@ -1,5 +1,14 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 {
-  environment.systemPackages = [ pkgs.nixfmt-rfc-style ];
+  environment.systemPackages = with pkgs; [
+    nixfmt-rfc-style
+    pre-commit
+    cabal-install
+  ];
 }

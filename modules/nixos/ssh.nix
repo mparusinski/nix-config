@@ -1,10 +1,15 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   # Changing SSH port
   services.openssh = {
     enable = true;
-    ports = [2222];
+    ports = [ 2222 ];
     openFirewall = true;
   };
 }

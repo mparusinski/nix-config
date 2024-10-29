@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ...}:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   programs.kitty = {
@@ -13,6 +18,11 @@
     theme = "Dracula";
   };
   home.packages = [
-    (pkgs.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    (pkgs.nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "DroidSansMono"
+      ];
+    })
   ];
 }

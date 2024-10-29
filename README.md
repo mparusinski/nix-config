@@ -16,7 +16,7 @@ machines.
 ├── flake.nix
 ├── modules
 │   ├── nixos
-│   │   ├── users.nix 
+│   │   ├── users.nix
 │   │   ├── ...
 │   │   └── gc.nix
 │   └── home-manager

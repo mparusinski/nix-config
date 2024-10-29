@@ -32,7 +32,7 @@ myWorkspaces = map show [1..9]
 
 myModMask  = mod4Mask
 myTerminal = "kitty"
-myKeys     = 
+myKeys     =
   [ ("M-v",                     toggleSmartSpacing)
   , ("<XF86MonBrightnessUp>",   spawn "light -A 5")
   , ("<XF86MonBrightnessDown>", spawn "light -U 5")
@@ -54,8 +54,8 @@ myLayout = avoidStruts $ spacing 7 $ smartBorders tiled ||| smartBorders (Mirror
     ratio   = 1 / 2
 
 mySB num dpi = statusBarProp ( "xmobar -x " ++ show num ++ dpiConf dpi) (pure myXmobarPP)
-  where dpiConf LowDPI = " ~/.config/xmobar/xmobarrc.lowdpi" 
-        dpiConf HiDPI  = " ~/.config/xmobar/xmobarrc.hidpi" 
+  where dpiConf LowDPI = " ~/.config/xmobar/xmobarrc.lowdpi"
+        dpiConf HiDPI  = " ~/.config/xmobar/xmobarrc.hidpi"
 
 fetchDPI :: IO DPI
 fetchDPI = do
@@ -67,14 +67,14 @@ fetchDPI = do
           let sanitized = filter (flip elem "\n\r") output
           let currDpi = readMaybe sanitized
           return $ maybe HiDPI intToDPIEnum currDpi
-          where intToDPIEnum x = if x == "96" then LowDPI else HiDPI 
+          where intToDPIEnum x = if x == "96" then LowDPI else HiDPI
 
 main :: IO ()
 main = do
-  dpi <- fetchDPI 
-  xmonadMain dpi 
-  where xmonadMain dpi = xmonad 
-                       . ewmhFullscreen 
+  dpi <- fetchDPI
+  xmonadMain dpi
+  where xmonadMain dpi = xmonad
+                       . ewmhFullscreen
                        . ewmh
                        . withEasySB (mySB 0 dpi) toggleStrutsKey
                        . withEasySB (mySB 1 dpi) toggleStrutsKey
@@ -84,7 +84,7 @@ main = do
 
 myXmobarPP :: PP
 myXmobarPP = def
-  { ppSep             = " | " 
+  { ppSep             = " | "
   , ppCurrent         = xmobarColor "#7FBBB3" "" . wrap "[" "]"
   , ppVisible         = xmobarColor "#A7C080" "" . wrap "[" "]"
   , ppHidden          = xmobarColor "#E67E80" "" . wrap "(" ")"

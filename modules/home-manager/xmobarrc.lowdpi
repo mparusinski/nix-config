@@ -13,7 +13,7 @@ Config { overrideRedirect = False
                         , "--high", "red"
                         , "--low", "green"
                         ] 10
-                    , Run Battery 
+                    , Run Battery
                         [ "--template", "<acstatus>: <left>% - <timeleft>"
                         , "--"
                         , "-O", "AC"
@@ -24,7 +24,7 @@ Config { overrideRedirect = False
                     , Run Memory ["--template", "Mem: <usedratio>%"] 10
                     , Run Date "%a %Y-%m-%d %H:%M" "date" 10
                     , Run XMonadLog
-                    ] 
+                    ]
         , sepChar  = "%"
         , alignSep = "}{"
         , template = "%XMonadLog% }{ %battery% | %cpu% | %memory% | %date% "

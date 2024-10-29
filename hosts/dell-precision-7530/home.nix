@@ -2,8 +2,8 @@
 
 {
   nixpkgs.config.allowUnfree = true;
-  imports = [ 
-    ../../modules/home-manager/zsh.nix 
+  imports = [
+    ../../modules/home-manager/zsh.nix
     ../../modules/home-manager/vim.nix
     ../../modules/home-manager/emacs.nix
     ../../modules/home-manager/kitty.nix
@@ -20,7 +20,7 @@
   # paths it should manage.
   home.username = "mparus";
   home.homeDirectory = "/home/mparus";
-  
+
   home.packages = with pkgs; [
     keepassxc
     fzf
@@ -60,7 +60,7 @@
   ];
 
   home.sessionVariables = {
-    PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig";
+    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
   };
 
   services.syncthing = {

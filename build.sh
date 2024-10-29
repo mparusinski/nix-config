@@ -22,9 +22,9 @@ while [ : ]; do
             ;;
         --) shift;
             break
-            ;;    
+            ;;
     esac
 done
-            
+
 echo "Building configuration for machine $MACHINE"
 nixos-rebuild switch --flake ./#$MACHINE --show-trace

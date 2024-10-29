@@ -2,33 +2,41 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../modules/nixos/users.nix
-      # ../../modules/nixos/xmonad.nix
-      # ../../modules/nixos/hyprland.nix
-      ../../modules/nixos/gnome.nix
-      # ../../modules/nixos/plasma.nix
-      ../../modules/nixos/pipewire.nix
-      ../../modules/nixos/zramswap.nix
-      ../../modules/nixos/btrbk.nix
-      ../../modules/nixos/omv1.nix
-      ../../modules/nixos/bluetooth.nix
-      ../../modules/nixos/printing.nix
-      ../../modules/nixos/homeassistant.nix
-      ../../modules/nixos/gc.nix
-      # ../../modules/nixos/proton.nix
-      ../../modules/nixos/appimage.nix
-      ../../modules/nixos/nix.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../modules/nixos/users.nix
+    # ../../modules/nixos/xmonad.nix
+    # ../../modules/nixos/hyprland.nix
+    ../../modules/nixos/gnome.nix
+    # ../../modules/nixos/plasma.nix
+    ../../modules/nixos/pipewire.nix
+    ../../modules/nixos/zramswap.nix
+    ../../modules/nixos/btrbk.nix
+    ../../modules/nixos/omv1.nix
+    ../../modules/nixos/bluetooth.nix
+    ../../modules/nixos/printing.nix
+    ../../modules/nixos/homeassistant.nix
+    ../../modules/nixos/gc.nix
+    # ../../modules/nixos/proton.nix
+    ../../modules/nixos/appimage.nix
+    ../../modules/nixos/nix.nix
+  ];
 
   # Enable searching for and installing unfree packages
   nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -73,4 +81,3 @@
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }
-

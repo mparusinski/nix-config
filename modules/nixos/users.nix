@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.mainUser;
@@ -13,7 +18,7 @@ in
       '';
     };
     extraGroups = lib.mkOption {
-      default = ["wheel"];
+      default = [ "wheel" ];
       description = ''
         Extra groups for the main user. By default wheel for sudo access
       '';

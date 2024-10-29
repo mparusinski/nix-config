@@ -2,8 +2,8 @@
 
 {
   nixpkgs.config.allowUnfree = true;
-  imports = [ 
-    ../../modules/home-manager/zsh.nix 
+  imports = [
+    ../../modules/home-manager/zsh.nix
     ../../modules/home-manager/vim.nix
     ../../modules/home-manager/nnn.nix
     ../../modules/home-manager/git.nix
@@ -13,7 +13,7 @@
   # paths it should manage.
   home.username = "mparus";
   home.homeDirectory = "/home/mparus";
-  
+
   home.packages = with pkgs; [
     git
     fzf

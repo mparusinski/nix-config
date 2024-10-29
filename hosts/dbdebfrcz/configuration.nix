@@ -7,7 +7,10 @@
     ../../modules/nixos/prometheusclient.nix
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   environment.systemPackages = with pkgs; [
     vim
@@ -65,25 +68,31 @@
     scrapeConfigs = [
       {
         job_name = "node_dbdebfrcz";
-        static_configs = [{
-          targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
-        }];
+        static_configs = [
+          {
+            targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
+          }
+        ];
       }
       {
         job_name = "node_homeassistant";
         metrics_path = "/metrics";
-        static_configs = [{
-          targets = [ "homeassistant:9100" ];
-        }];
+        static_configs = [
+          {
+            targets = [ "homeassistant:9100" ];
+          }
+        ];
       }
       {
         job_name = "home_mols";
         metrics_path = "/api/prometheus";
         bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkZmU5MDhhYzEwZDI0ZmQ4ODE0MWYxMTA5ODM4OWMxNCIsImlhdCI6MTcyODc1ODMzNywiZXhwIjoyMDQ0MTE4MzM3fQ.gSd9LfPm2QultokAAcALIeZTLcgbAZU6uy0U-Z05_LA";
         # bearer_token_file = "/etc/secrets/homeassistant_bearer_token";
-        static_configs = [{
-          targets = [ "homeassistant:8123" ];
-        }];
+        static_configs = [
+          {
+            targets = [ "homeassistant:8123" ];
+          }
+        ];
       }
     ];
   };

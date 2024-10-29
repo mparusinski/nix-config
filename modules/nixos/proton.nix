@@ -11,9 +11,9 @@
 
   services.pcscd.enable = true;
   programs.gnupg.agent = {
-     enable = true;
-     pinentryPackage = pkgs.pinentry-curses;
-     enableSSHSupport = true;
+    enable = true;
+    pinentryPackage = pkgs.pinentry-curses;
+    enableSSHSupport = true;
   };
 
   systemd.services.protonmailbridge = {

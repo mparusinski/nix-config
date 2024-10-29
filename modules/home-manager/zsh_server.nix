@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ...}:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   programs.zsh = {
@@ -16,7 +21,12 @@
     };
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "wd" "fzf" "vi-mode" ];
+      plugins = [
+        "git"
+        "wd"
+        "fzf"
+        "vi-mode"
+      ];
       theme = "gianu";
     };
     envExtra = ''
