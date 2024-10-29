@@ -56,6 +56,7 @@
     dbeaver-bin
     openssl
     postgresql
+    pokerth
   ];
 
   home.sessionVariables = {
