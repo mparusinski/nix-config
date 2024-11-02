@@ -16,8 +16,8 @@
     ./hardware-configuration.nix
     ../../modules/nixos/users.nix
     # ../../modules/nixos/xmonad.nix
-    # ../../modules/nixos/hyprland.nix
-    ../../modules/nixos/gnome.nix
+    ../../modules/nixos/hyprland.nix
+    # ../../modules/nixos/gnome.nix
     # ../../modules/nixos/plasma.nix
     ../../modules/nixos/pipewire.nix
     ../../modules/nixos/zramswap.nix

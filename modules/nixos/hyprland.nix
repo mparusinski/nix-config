@@ -48,6 +48,7 @@ in
     hyprpaper
     brightnessctl
     playerctl
+    pass-secret-service
   ];
 
   services.libinput = {
@@ -55,18 +56,23 @@ in
     touchpad.tapping = false;
   };
 
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    fira-code
-    fira-code-symbols
-    font-awesome
-  ];
-
   # XDG portals
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
 
   services.gvfs.enable = true;
+
+  services.flatpak.enable = true;
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    cantarell-fonts
+    fira-code
+    fira-code-symbols
+    font-awesome
+  ];
+
+  security.pam.services.greetd.enableGnomeKeyring = true;
 }

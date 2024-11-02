@@ -13,12 +13,12 @@ let
 in
 {
   services.xserver.windowManager.xmonad.enable = true;
-  # services.xserver.displayManager.lightdm.enable = true;
-  # services.displayManager = {
-  #   defaultSession = "none+xmonad";
-  #   autoLogin.enable = true;
-  #   autoLogin.user = "mparus";
-  # };
+  services.xserver.displayManager.lightdm.enable = true;
+  services.displayManager = {
+    defaultSession = "none+xmonad";
+    autoLogin.enable = true;
+    autoLogin.user = "mparus";
+  };
 
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.feh}/bin/feh --bg-fill ${wallpaper}
