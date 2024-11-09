@@ -30,6 +30,7 @@
     # ../../modules/nixos/proton.nix
     ../../modules/nixos/appimage.nix
     ../../modules/nixos/nix.nix
+    ../../modules/nixos/docker.nix
   ];
 
   # Enable searching for and installing unfree packages
@@ -48,6 +49,10 @@
   networking.networkmanager.enable = true;
 
   mainUser.enable = true;
+  mainUser.extraGroups = [
+    "wheel"
+    "docker"
+  ];
   mainUser.ssh.enable = true;
 
   time.timeZone = "Europe/Paris";
@@ -61,11 +66,6 @@
     useXkbConfig = true; # use xkb.options in tty.
   };
 
-  # programs.steam = {
-  #   enable = true;
-  #   remotePlay.openFirewall = true;
-  #   dedicatedServer.openFirewall = true;
-  # };
   services.tailscale.enable = true;
 
   # Hardware acceleration
@@ -79,6 +79,9 @@
   };
   programs.gamemode.enable = true;
   services.fwupd.enable = true;
+
+  virtualisation.docker.storageDriver = "btrfs";
+  environment.systemPackages = [ pkgs.distrobox ];
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }
