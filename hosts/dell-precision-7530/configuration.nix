@@ -52,6 +52,7 @@
   mainUser.extraGroups = [
     "wheel"
     "docker"
+    "audio"
   ];
   mainUser.ssh.enable = true;
 
@@ -69,6 +70,9 @@
   services.tailscale.enable = true;
 
   # Hardware acceleration
+  nixpkgs.config.packageOverrides = pkgs: {
+    intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
+  };
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
@@ -77,6 +81,7 @@
       libvdpau-va-gl
     ];
   };
+
   programs.gamemode.enable = true;
   services.fwupd.enable = true;
 
