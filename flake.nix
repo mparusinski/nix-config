@@ -8,6 +8,10 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -16,6 +20,7 @@
       nixpkgs,
       home-manager,
       nixos-wsl,
+      agenix,
       ...
     }@inputs:
     let
@@ -54,9 +59,11 @@
                   home-manager.backupFileExtension = "hmback";
                   home-manager.users."mparus" = import (homeFile m);
                 }
+                agenix.nixosModules.default
               ]
               ++ (wslModules m)
             );
+            specialArgs = { inherit inputs; };
           };
         }) machines
       );

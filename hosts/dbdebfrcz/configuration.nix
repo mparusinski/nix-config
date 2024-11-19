@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 {
   imports = [
     ./vpsadminos.nix
@@ -15,6 +15,7 @@
   environment.systemPackages = with pkgs; [
     vim
     git
+    inputs.agenix.packages.x86_64-linux.default
   ];
 
   mainUser.enable = true;
