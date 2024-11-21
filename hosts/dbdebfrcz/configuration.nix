@@ -7,6 +7,9 @@
     ../../modules/nixos/prometheusclient.nix
   ];
 
+  # Specifying secrets
+  age.secrets.hassBearerToken.file = ../../secrets/hassBearerToken.age;
+
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -65,6 +68,7 @@
   # Prometheus
   services.prometheus = {
     enable = true;
+    checkConfig = false; # Otherwise will complain about secret path
     globalConfig.scrape_interval = "1m"; # "1m"
     scrapeConfigs = [
       {
@@ -87,8 +91,7 @@
       {
         job_name = "home_mols";
         metrics_path = "/api/prometheus";
-        bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkZmU5MDhhYzEwZDI0ZmQ4ODE0MWYxMTA5ODM4OWMxNCIsImlhdCI6MTcyODc1ODMzNywiZXhwIjoyMDQ0MTE4MzM3fQ.gSd9LfPm2QultokAAcALIeZTLcgbAZU6uy0U-Z05_LA";
-        # bearer_token_file = "/etc/secrets/homeassistant_bearer_token";
+        bearer_token_file = config.age.secrets.hassBearerToken.path;
         static_configs = [
           {
             targets = [ "homeassistant:8123" ];
