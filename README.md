@@ -52,3 +52,8 @@ sudo ./build.sh
 nix flake update
 sudo ./build.sh
 ```
+
+Alternatively to build remotely use
+```bash
+NIX_SSHOPTS="-p 2222" nixos-rebuild switch --flake ./#vps-nix-vpsfreecz --build-host mparus@37.205.10.158 --target-host mparus@37.205.10.158 --use-remote-sudo
+```
