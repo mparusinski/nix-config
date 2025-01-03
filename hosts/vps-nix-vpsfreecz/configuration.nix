@@ -28,17 +28,18 @@
 
   mainUser.enable = true;
   mainUser.ssh.enable = true;
+  security.sudo.wheelNeedsPassword = false;
 
   services.openssh.enable = true;
   services.openssh.settings.PermitRootLogin = "no";
   services.openssh.settings.PasswordAuthentication = false;
-  services.openssh.ports = [ 22 ];
+  services.openssh.ports = [ 2222 ];
 
   services.fail2ban.enable = true;
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 22 ];
+    allowedTCPPorts = [ 2222 ];
   };
   networking.hostName = "vps-nix-vpsfreecz";
 
