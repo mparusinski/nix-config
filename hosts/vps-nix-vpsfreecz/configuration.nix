@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   imports = [
     ./vpsadminos.nix
@@ -27,15 +32,15 @@
   services.openssh.enable = true;
   services.openssh.settings.PermitRootLogin = "no";
   services.openssh.settings.PasswordAuthentication = false;
-  services.openssh.ports = [ 2222 ];
+  services.openssh.ports = [ 22 ];
 
   services.fail2ban.enable = true;
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 2222 ];
+    allowedTCPPorts = [ 22 ];
   };
-  networking.hostName = "dbdebfrcz";
+  networking.hostName = "vps-nix-vpsfreecz";
 
   systemd.extraConfig = ''
     DefaultTimeoutStartSec=900s
@@ -45,25 +50,38 @@
 
   services.tailscale.enable = true;
 
-  # PostgreSQL
-  services.postgresql = {
+  # MariaDB
+  services.mysql = {
     enable = true;
-    enableTCPIP = true;
-    authentication = pkgs.lib.mkOverride 10 ''
-      #type database  DBuser  auth-method
-      local all       all     trust
-      host  pgmetricsdb  pgmetricsuser     0.0.0.0/0 scram-sha-256
-      host  pgmetricsdb  pgmetricsuser     ::1/128 scram-sha-256
-    '';
+    package = pkgs.mariadb;
+    # Users configuration
+    # - create users metrics_ro and metrics_rw for database metricsdb
+    ensureDatabases = [
+      "metricsdb"
+    ];
+    ensureUsers = [
+      {
+        name = "metrics_ro";
+        ensurePermissions = {
+          "metricsdb.*" = "SELECT";
+        };
+      }
+      {
+        name = "metrics_rw";
+        ensurePermissions = {
+          "metricsdb.*" = "ALL PRIVILEGES";
+        };
+      }
+    ];
   };
 
-  services.grafana.enable = true;
-  services.grafana.settings = {
-    server = {
-      http_addr = "0.0.0.0";
-      http_port = 3000;
-    };
-  };
+  # services.grafana.enable = true;
+  # services.grafana.settings = {
+  #   server = {
+  #     http_addr = "0.0.0.0";
+  #     http_port = 3000;
+  #   };
+  # };
 
   # Prometheus
   services.prometheus = {
@@ -101,5 +119,5 @@
     ];
   };
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 }

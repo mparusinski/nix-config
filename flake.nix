@@ -36,7 +36,7 @@
       );
       machines = [
         "dell-precision-7530"
-        "dbdebfrcz"
+        "vps-nix-vpsfreecz"
         "wsl1"
       ];
       configurationFile = m: ./hosts + ("/" + m) + /configuration.nix;
