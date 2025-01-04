@@ -87,7 +87,7 @@
   # Wordpress
   services.wordpress.webserver = "nginx";
   services.wordpress.sites."michal.parusinski.me" = {
-    package = pkgs.wordpress6_5;
+    package = pkgs.wordpress_6_7;
   };
 
   # Nginx
