@@ -84,6 +84,15 @@
     };
   };
 
+  # Wordpress
+  services.wordpress.webserver = "nginx";
+  services.wordpress.sites."michal.parusinski.me" = {
+    package = pkgs.wordpress6_5;
+  };
+
+  # Nginx
+  services.prometheus.exporters.nginx.enable = true;
+
   # Prometheus
   services.prometheus = {
     enable = true;
@@ -114,6 +123,14 @@
         static_configs = [
           {
             targets = [ "homeassistant:8123" ];
+          }
+        ];
+      }
+      {
+        job_name = "nginx";
+        static_configs = [
+          {
+            targets = [ "localhost:9113" ];
           }
         ];
       }
