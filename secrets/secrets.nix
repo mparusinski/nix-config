@@ -10,4 +10,5 @@ in
 {
   # Specify for each secret who has access to it
   "hassBearerToken.age".publicKeys = users ++ systems;
+  "statsDBPass.age".publicKeys = users ++ systems;
 }

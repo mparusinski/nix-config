@@ -4,6 +4,17 @@
   inputs,
   ...
 }:
+let
+  statsConfig = {
+    db = "statsdb";
+    user = "stats_rw";
+  };
+
+  setStatsDBPass = pkgs.writeShellScriptBin "set-stats-db-pass" ''
+    PASSWORD=$(cat ${config.age.secrets.statsDBPass.path})
+    ${pkgs.mariadb}/bin/mysql -u root -e "GRANT ALL PRIVILEGES ON ${statsConfig.db}.* TO '${statsConfig.user}'@'localhost' IDENTIFIED BY '$PASSWORD';"
+  '';
+in
 {
   imports = [
     ./vpsadminos.nix
@@ -14,6 +25,7 @@
 
   # Specifying secrets
   age.secrets.hassBearerToken.file = ../../secrets/hassBearerToken.age;
+  age.secrets.statsDBPass.file = ../../secrets/statsDBPass.age;
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -36,10 +48,37 @@
   services.openssh.ports = [ 2222 ];
 
   services.fail2ban.enable = true;
+  services.fail2ban.jails = {
+    nginx-http-auth = ''
+      enabled  = true
+      port     = http,https
+      logpath  = /var/log/nginx/*.log
+      backend  = polling
+      journalmatch =
+    '';
+    nginx-botsearch = ''
+      enabled  = true
+      port     = http,https
+      logpath  = /var/log/nginx/*.log
+      backend  = polling
+      journalmatch =
+    '';
+    nginx-bad-request = ''
+      enabled  = true
+      port     = http,https
+      logpath  = /var/log/nginx/*.log
+      backend  = polling
+      journalmatch =
+    '';
+  };
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 2222 ];
+    allowedTCPPorts = [
+      80
+      443
+      2222
+    ];
   };
   networking.hostName = "vps-nix-vpsfreecz";
 
@@ -59,6 +98,7 @@
     # - create users metrics_ro and metrics_rw for database metricsdb
     ensureDatabases = [
       "metricsdb"
+      "${statsConfig.db}"
     ];
     ensureUsers = [
       {
@@ -73,7 +113,27 @@
           "metricsdb.*" = "ALL PRIVILEGES";
         };
       }
+      {
+        name = "${statsConfig.user}";
+        ensurePermissions = {
+          "${statsConfig.db}.*" = "ALL PRIVILEGES";
+        };
+      }
     ];
+  };
+
+  # TODO: Create units for all DB users
+  systemd.services.setdbpass = {
+    description = "Set MariaDB stats db password";
+    wants = [ "mysql.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      PermissionsStartOnly = true;
+      RemainAfterExit = true;
+      ExecStart = ''
+        ${setStatsDBPass}/bin/set-stats-db-pass
+      '';
+    };
   };
 
   services.grafana.enable = true;
@@ -84,27 +144,21 @@
     };
   };
 
-  # Rerouting michal.parusinski.me to localhost temporarily
-  networking.hosts = {
-    "127.0.1.1" = [
-      "michal.parusinski.me"
-      "en.michal.parusinski.me"
-      "fr.michal.parusinski.me"
-    ];
-  };
+  # Nginx
+  services.nginx.enable = true;
+  services.prometheus.exporters.nginx.enable = true;
 
-  # Wordpress
-  services.wordpress.webserver = "nginx";
-  services.wordpress.sites."michal.parusinski.me" = {
-    package = pkgs.wordpress_6_7;
-    settings = {
-      WPLANG = "en_IE";
-      WP_ALLOW_MULTISITE = true;
+  # Matomo (self hosted alternative to Google Analytics)
+  services.matomo = {
+    enable = true;
+    package = pkgs.matomo_5;
+    hostname = "stats.parusinski.me";
+    nginx = {
+      serverName = "stats.parusinski.me";
     };
   };
-
-  # Nginx
-  services.prometheus.exporters.nginx.enable = true;
+  security.acme.certs."stats.parusinski.me".email = "michal@parusinski.me";
+  security.acme.acceptTerms = true;
 
   # Prometheus
   services.prometheus = {
@@ -139,14 +193,14 @@
           }
         ];
       }
-      {
-        job_name = "nginx";
-        static_configs = [
-          {
-            targets = [ "localhost:9113" ];
-          }
-        ];
-      }
+      # {
+      #   job_name = "nginx";
+      #   static_configs = [
+      #     {
+      #       targets = [ "localhost:9113" ];
+      #     }
+      #   ];
+      # }
     ];
   };
 
