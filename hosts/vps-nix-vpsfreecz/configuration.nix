@@ -84,10 +84,23 @@
     };
   };
 
+  # Rerouting michal.parusinski.me to localhost temporarily
+  networking.hosts = {
+    "127.0.1.1" = [
+      "michal.parusinski.me"
+      "en.michal.parusinski.me"
+      "fr.michal.parusinski.me"
+    ];
+  };
+
   # Wordpress
   services.wordpress.webserver = "nginx";
   services.wordpress.sites."michal.parusinski.me" = {
     package = pkgs.wordpress_6_7;
+    settings = {
+      WPLANG = "en_IE";
+      WP_ALLOW_MULTISITE = true;
+    };
   };
 
   # Nginx
