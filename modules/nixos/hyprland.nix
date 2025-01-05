@@ -49,6 +49,7 @@ in
     brightnessctl
     playerctl
     pass-secret-service
+    alsa-utils
   ];
 
   services.libinput = {
