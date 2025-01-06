@@ -146,6 +146,7 @@ in
 
   # Nginx
   services.nginx.enable = true;
+  services.nginx.statusPage = true;
   services.prometheus.exporters.nginx.enable = true;
 
   # Matomo (self hosted alternative to Google Analytics)
@@ -193,14 +194,14 @@ in
           }
         ];
       }
-      # {
-      #   job_name = "nginx";
-      #   static_configs = [
-      #     {
-      #       targets = [ "localhost:9113" ];
-      #     }
-      #   ];
-      # }
+      {
+        job_name = "nginx";
+        static_configs = [
+          {
+            targets = [ "localhost:9113" ];
+          }
+        ];
+      }
     ];
   };
 
