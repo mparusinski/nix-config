@@ -74,6 +74,25 @@
     ];
   };
 
+  fileSystems."/btr_pool1" = {
+    device = "/dev/disk/by-uuid/604e2efa-2433-44df-b614-6c2e70bb9f04";
+    fsType = "btrfs";
+    options = [
+      "nofail"
+    ];
+  };
+
+  fileSystems."/media/nas_ext1" = {
+    device = "/dev/disk/by-uuid/604e2efa-2433-44df-b614-6c2e70bb9f04";
+    fsType = "btrfs";
+    options = [
+      "subvol=@nas"
+      "compress=zstd"
+      "noatime"
+      "nofail"
+    ];
+  };
+
   swapDevices = [
     { device = "/dev/disk/by-uuid/bb9a64bb-72cb-4f0d-a666-ee6a3959d941"; }
   ];
