@@ -25,6 +25,7 @@
 
   mainUser.enable = true;
   mainUser.ssh.enable = true;
+  security.sudo.wheelNeedsPassword = false;
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
@@ -46,8 +47,8 @@
     enable = true;
     ports = [ 2222 ];
     settings = {
-      PasswordAuthentication = true;
-      PermitRootLogin = "yes";
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
     };
   };
 
@@ -86,6 +87,45 @@
         users = [ "btrbk" ];
       }
     ];
+  };
+
+  services.samba = {
+    enable = true;
+    # You will still need to set up the user accounts to begin with:
+    # $ sudo smbpasswd -a yourusername
+
+    settings = {
+      nas_localdrive = {
+        path = "/media/nas_localdrive";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+      };
+      nas_localdrive_snapshots = {
+        path = "/btr_pool0/snapshots";
+        browseable = "yes";
+        "read only" = "yes";
+        "guest ok" = "no";
+      };
+    };
+  };
+
+  systemd.timers."auto-shutdown" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 4:00:00";
+      Unit = "auto-shutdown.service";
+    };
+  };
+
+  systemd.services."auto-shutdown" = {
+    script = ''
+      /run/current-system/sw/bin/poweroff
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+    };
   };
 
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .

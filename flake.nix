@@ -38,6 +38,7 @@
         "dell-precision-7530"
         "vps-nix-vpsfreecz"
         "wsl1"
+        "nmv1"
       ];
       configurationFile = m: ./hosts + ("/" + m) + /configuration.nix;
       homeFile = m: ./hosts + ("/" + m) + /home.nix;
