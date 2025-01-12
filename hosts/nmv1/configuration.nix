@@ -37,13 +37,6 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    curl
-    git
-  ];
-
   services.openssh = {
     enable = true;
     ports = [ 2222 ];
@@ -78,6 +71,20 @@
       };
     };
   };
+
+  services.jellyfin = {
+    enable = true;
+    dataDir = "/media/nas_ext1/films";
+  };
+  environment.systemPackages = with pkgs; [
+    vim
+    wget
+    curl
+    git
+    jellyfin
+    jellyfin-web
+    jellyfin-ffmpeg
+  ];
 
   security.sudo = {
     enable = true;
