@@ -86,7 +86,12 @@
   services.fwupd.enable = true;
 
   virtualisation.docker.storageDriver = "btrfs";
-  environment.systemPackages = [ pkgs.distrobox ];
+  environment.systemPackages = with pkgs; [ distrobox ];
+
+  services.gvfs = {
+    enable = true;
+    package = lib.mkForce pkgs.gnome.gvfs;
+  };
 
   system.stateVersion = "24.11";
 }
