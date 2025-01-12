@@ -19,6 +19,7 @@
   # Use systemd boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = [ "ntfs" ];
 
   networking.hostName = "nmv1"; # Define your hostname.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
@@ -53,12 +54,24 @@
   };
 
   services.btrbk = {
+    # TODO: Factorize this
     instances."nas_localdrive-snapshots" = {
       onCalendar = "hourly";
       settings = {
         snapshot_preserve = "7d";
         snapshot_preserve_min = "3d";
         volume."/btr_pool0" = {
+          snapshot_dir = "snapshots";
+          subvolume = "@nas";
+        };
+      };
+    };
+    instances."nas_ext1-snapshots" = {
+      onCalendar = "hourly";
+      settings = {
+        snapshot_preserve = "7d";
+        snapshot_preserve_min = "3d";
+        volume."/btr_pool1" = {
           snapshot_dir = "snapshots";
           subvolume = "@nas";
         };
