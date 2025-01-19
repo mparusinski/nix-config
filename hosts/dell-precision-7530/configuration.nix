@@ -86,7 +86,6 @@
   services.fwupd.enable = true;
 
   virtualisation.docker.storageDriver = "btrfs";
-  environment.systemPackages = with pkgs; [ distrobox ];
 
   services.gvfs = {
     enable = true;

@@ -39,6 +39,14 @@ machines.
 - `modules/home-manager` modules for home-manager (e.g. configuration for user stuff)
 - `host/<machine>` directory with the machine configuration (nixos and home-manager)
 
+
+## Adding a new configuration
+
+To add a new machine :
+1. Create a new folder with the (desired) machine name in the `host` subfolder.
+2. Copy over from `/etc/nixos/*.nix` to `hosts/<machine>`
+3. Add machine name to flake.nix
+
 ## Installing
 
 To build a new configuration
