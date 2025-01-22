@@ -5,7 +5,7 @@ usage () {
     echo "$APPLICATION [-h/--help] -- Build the NixOS configuration for machine (obtained from hostname)"
 }
 
-VALID_ARGS=$(getopt -o h --long help -- "$@")
+VALID_ARGS=$(getopt -o h --long help --long upgrade -- "$@")
 if [[ $? -ne 0 ]]; then
     exit 1;
 fi
@@ -20,6 +20,10 @@ while [ : ]; do
             exit 0
             shift
             ;;
+        --upgrade)
+            UPGRADE=true
+            shift
+            ;;
         --) shift;
             break
             ;;
@@ -27,4 +31,8 @@ while [ : ]; do
 done
 
 echo "Building configuration for machine $MACHINE"
-nixos-rebuild switch --flake ./#$MACHINE --show-trace
+if [ -z "$UPGRADE" ]; then
+    nixos-rebuild switch --flake ./#$MACHINE
+else
+    nixos-rebuild switch --flake ./#$MACHINE --upgrade
+fi

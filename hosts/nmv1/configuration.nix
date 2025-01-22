@@ -74,7 +74,8 @@
 
   services.jellyfin = {
     enable = true;
-    dataDir = "/media/nas_ext1/films";
+    openFirewall = true;
+    dataDir = "/btr_pool0/jellyfin_data";
   };
   environment.systemPackages = with pkgs; [
     vim
@@ -111,6 +112,7 @@
 
   services.samba = {
     enable = true;
+    openFirewall = true;
     # You will still need to set up the user accounts to begin with:
     # $ sudo smbpasswd -a yourusername
 
@@ -123,6 +125,18 @@
       };
       nas_localdrive_snapshots = {
         path = "/btr_pool0/snapshots";
+        browseable = "yes";
+        "read only" = "yes";
+        "guest ok" = "no";
+      };
+      nas_ext1 = {
+        path = "/media/nas_ext1";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+      };
+      nas_ext1_snapshots = {
+        path = "/btr_pool1/snapshots";
         browseable = "yes";
         "read only" = "yes";
         "guest ok" = "no";
@@ -147,6 +161,8 @@
       User = "root";
     };
   };
+
+  networking.firewall.enable = true;
 
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
