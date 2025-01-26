@@ -125,7 +125,7 @@ in
     settings = {
       mysqld = {
         skip-networking = "0";
-        bind-address = "100.96.17.32";
+        bind-address = "localhost,100.96.17.32";
       };
     };
     # Users configuration
