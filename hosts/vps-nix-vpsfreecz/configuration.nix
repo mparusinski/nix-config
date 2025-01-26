@@ -7,13 +7,40 @@
 let
   statsConfig = {
     db = "statsdb";
+    pass = config.age.secrets.statsDBPass.path;
     user = "stats_rw";
+    host = "localhost";
   };
 
-  setStatsDBPass = pkgs.writeShellScriptBin "set-stats-db-pass" ''
-    PASSWORD=$(cat ${config.age.secrets.statsDBPass.path})
-    ${pkgs.mariadb}/bin/mysql -u root -e "GRANT ALL PRIVILEGES ON ${statsConfig.db}.* TO '${statsConfig.user}'@'localhost' IDENTIFIED BY '$PASSWORD';"
-  '';
+  metricsRWConfig_remote = {
+    db = "metricsdb";
+    pass = config.age.secrets.metricsRWDBPass.path;
+    user = "metrics_rw";
+    host = "dell-precision-7530.taild5a36.ts.net";
+  };
+
+  metricsRWConfig_local = {
+    db = "metricsdb";
+    pass = config.age.secrets.metricsRWDBPass.path;
+    user = "metrics_rw";
+    host = "localhost";
+  };
+
+  createDBPass =
+    {
+      db,
+      pass,
+      user,
+      host,
+    }:
+    pkgs.writeShellScriptBin "create-db-pass" ''
+      PASSWORD=$(cat ${pass})
+      ${pkgs.mariadb}/bin/mysql -u root -e "GRANT ALL PRIVILEGES ON ${db}.* TO '${user}'@'${host}' IDENTIFIED BY '$PASSWORD';"
+    '';
+
+  setStatsDBPass = createDBPass statsConfig;
+  setMetricsRWPass_remote = createDBPass metricsRWConfig_remote;
+  setMetricsRWPass_local = createDBPass metricsRWConfig_local;
 in
 {
   imports = [
@@ -26,6 +53,7 @@ in
   # Specifying secrets
   age.secrets.hassBearerToken.file = ../../secrets/hassBearerToken.age;
   age.secrets.statsDBPass.file = ../../secrets/statsDBPass.age;
+  age.secrets.metricsRWDBPass.file = ../../secrets/metricsRWPass.age;
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -94,6 +122,12 @@ in
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
+    settings = {
+      mysqld = {
+        skip-networking = "0";
+        bind-address = "100.96.17.32";
+      };
+    };
     # Users configuration
     # - create users metrics_ro and metrics_rw for database metricsdb
     ensureDatabases = [
@@ -131,7 +165,9 @@ in
       PermissionsStartOnly = true;
       RemainAfterExit = true;
       ExecStart = ''
-        ${setStatsDBPass}/bin/set-stats-db-pass
+        ${setStatsDBPass}/bin/create-db-pass
+        ${setMetricsRWPass_remote}/bin/create-db-pass
+        ${setMetricsRWPass_local}/bin/create-db-pass
       '';
     };
   };

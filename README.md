@@ -102,7 +102,7 @@ sudo ./build.sh
 If the machine is remote and access via SSH is possible
 
 ```bash
-NIX_SSHOPTS="-p <port> nixos-rebuild switch --flake ./#machine --build-host <user>@<machine> --target-host <user>@<machine> --use-remote-sudo"
+NIX_SSHOPTS="-p <port>" nixos-rebuild switch --flake ./#machine --build-host <user>@<machine> --target-host <user>@<machine> --use-remote-sudo"
 ```
 
 ### Upgrade
@@ -117,4 +117,14 @@ nix flake update
 sudo nixos-rebuild switch --flake ./#machine --upgrade
 # or alternatively
 sudo ./build.sh --upgrade
+```
+
+### Other
+
+To add a secret, first edit the `secrets/secrets.nix` file and then
+
+```bash
+cd secrets
+nix run github:ryantm/agenix -- -e <passwordfile.age>
+git add <passwordfile.age>
 ```
