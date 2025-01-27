@@ -51,7 +51,10 @@ in
   ];
 
   # Specifying secrets
-  age.secrets.hassBearerToken.file = ../../secrets/hassBearerToken.age;
+  age.secrets.hassBearerToken = {
+    file = ../../secrets/hassBearerToken.age;
+    owner = "prometheus";
+  };
   age.secrets.statsDBPass.file = ../../secrets/statsDBPass.age;
   age.secrets.metricsRWDBPass.file = ../../secrets/metricsRWPass.age;
 
