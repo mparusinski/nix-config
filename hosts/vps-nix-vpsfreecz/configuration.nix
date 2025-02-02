@@ -48,6 +48,7 @@ in
     ../../modules/nixos/users.nix
     ../../modules/nixos/gc.nix
     ../../modules/nixos/prometheusclient.nix
+    ../../modules/nixos/mysql.nix
   ];
 
   # Specifying secrets
