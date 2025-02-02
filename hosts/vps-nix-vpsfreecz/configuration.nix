@@ -6,41 +6,41 @@
 }:
 let
   statsConfig = {
-    db = "statsdb";
-    pass = config.age.secrets.statsDBPass.path;
-    user = "stats_rw";
-    host = "localhost";
+    database = "statsdb";
+    passwordFile = config.age.secrets.statsDBPass.path;
+    username = "stats_rw";
+    hostname = "localhost";
   };
 
   metricsRWConfig_remote = {
-    db = "metricsdb";
-    pass = config.age.secrets.metricsRWDBPass.path;
-    user = "metrics_rw";
-    host = "dell-precision-7530.taild5a36.ts.net";
+    database = "metricsdb";
+    passwordFile = config.age.secrets.metricsRWDBPass.path;
+    username = "metrics_rw";
+    hostname = "dell-precision-7530.taild5a36.ts.net";
   };
 
   metricsRWConfig_local = {
-    db = "metricsdb";
-    pass = config.age.secrets.metricsRWDBPass.path;
-    user = "metrics_rw";
-    host = "localhost";
+    database = "metricsdb";
+    passwordFile = config.age.secrets.metricsRWDBPass.path;
+    username = "metrics_rw";
+    hostname = "localhost";
   };
 
-  createDBPass =
+  applyMySQLConf =
     {
-      db,
-      pass,
-      user,
-      host,
+      database,
+      passwordFile,
+      username,
+      hostname,
     }:
-    pkgs.writeShellScriptBin "create-db-pass" ''
-      PASSWORD=$(cat ${pass})
-      ${pkgs.mariadb}/bin/mysql -u root -e "GRANT ALL PRIVILEGES ON ${db}.* TO '${user}'@'${host}' IDENTIFIED BY '$PASSWORD';"
+    pkgs.writeShellScript "applyMySQLConf" ''
+      PASSWORD=$(cat ${passwordFile})
+      ${pkgs.mariadb}/bin/mysql -u root -e "GRANT ALL PRIVILEGES ON ${database}.* TO '${username}'@'${hostname}' IDENTIFIED BY '$PASSWORD';"
     '';
 
-  setStatsDBPass = createDBPass statsConfig;
-  setMetricsRWPass_remote = createDBPass metricsRWConfig_remote;
-  setMetricsRWPass_local = createDBPass metricsRWConfig_local;
+  setStatsDBPass = applyMySQLConf statsConfig;
+  setMetricsRWPass_remote = applyMySQLConf metricsRWConfig_remote;
+  setMetricsRWPass_local = applyMySQLConf metricsRWConfig_local;
 in
 {
   imports = [
@@ -135,7 +135,7 @@ in
     # - create users metrics_ro and metrics_rw for database metricsdb
     ensureDatabases = [
       "metricsdb"
-      "${statsConfig.db}"
+      "${statsConfig.database}"
     ];
     ensureUsers = [
       {
@@ -151,9 +151,9 @@ in
         };
       }
       {
-        name = "${statsConfig.user}";
+        name = "${statsConfig.username}";
         ensurePermissions = {
-          "${statsConfig.db}.*" = "ALL PRIVILEGES";
+          "${statsConfig.database}.*" = "ALL PRIVILEGES";
         };
       }
     ];
@@ -168,9 +168,9 @@ in
       PermissionsStartOnly = true;
       RemainAfterExit = true;
       ExecStart = ''
-        ${setStatsDBPass}/bin/create-db-pass
-        ${setMetricsRWPass_remote}/bin/create-db-pass
-        ${setMetricsRWPass_local}/bin/create-db-pass
+        ${setStatsDBPass}
+        ${setMetricsRWPass_remote}
+        ${setMetricsRWPass_local}
       '';
     };
   };
