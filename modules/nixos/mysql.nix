@@ -19,6 +19,9 @@ let
 
   # Function taking a list as input and returns a string
   genSystemdScript = list: lib.strings.concatStrings (map (conf: applyMySQLConf conf + "\n") list);
+  systemdScript = pkgs.writeShellScript "mysqlInitialConfiguration" ''
+    ${genSystemdScript cfg.configurations}
+  '';
 
   cfg = config.mysqlInitialConfiguration;
 in
@@ -51,9 +54,7 @@ in
       serviceConfig = {
         PermissionsStartOnly = true;
         RemainAfterExit = true;
-        ExecStart = ''
-          ${genSystemdScript cfg.configurations}
-        '';
+        ExecStart = "${systemdScript}";
       };
     };
   };

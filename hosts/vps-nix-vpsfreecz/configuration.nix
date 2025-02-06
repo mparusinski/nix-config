@@ -25,22 +25,6 @@ let
     username = "metrics_rw";
     hostname = "localhost";
   };
-
-  applyMySQLConf =
-    {
-      database,
-      passwordFile,
-      username,
-      hostname,
-    }:
-    pkgs.writeShellScript "applyMySQLConf" ''
-      PASSWORD=$(cat ${passwordFile})
-      ${pkgs.mariadb}/bin/mysql -u root -e "GRANT ALL PRIVILEGES ON ${database}.* TO '${username}'@'${hostname}' IDENTIFIED BY '$PASSWORD';"
-    '';
-
-  setStatsDBPass = applyMySQLConf statsConfig;
-  setMetricsRWPass_remote = applyMySQLConf metricsRWConfig_remote;
-  setMetricsRWPass_local = applyMySQLConf metricsRWConfig_local;
 in
 {
   imports = [
@@ -160,21 +144,12 @@ in
     ];
   };
 
-  # TODO: Create units for all DB users
-  systemd.services.setdbpass = {
-    description = "Set MariaDB stats db password";
-    wants = [ "mysql.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      PermissionsStartOnly = true;
-      RemainAfterExit = true;
-      ExecStart = ''
-        ${setStatsDBPass}
-        ${setMetricsRWPass_remote}
-        ${setMetricsRWPass_local}
-      '';
-    };
-  };
+  mysqlInitialConfiguration.enable = true;
+  mysqlInitialConfiguration.configurations = [
+    statsConfig
+    metricsRWConfig_remote
+    metricsRWConfig_local
+  ]; 
 
   services.grafana.enable = true;
   services.grafana.settings = {
