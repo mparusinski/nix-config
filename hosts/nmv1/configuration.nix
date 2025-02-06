@@ -13,6 +13,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/nixos/gc.nix
     ../../modules/nixos/users.nix
   ];
 
@@ -161,6 +162,8 @@
       User = "root";
     };
   };
+
+  services.tailscale.enable = true;
 
   networking.firewall.enable = true;
 
