@@ -16,6 +16,7 @@
     ../../modules/home-manager/dev/rust.nix
     ../../modules/home-manager/networks.nix
     ../../modules/home-manager/vscode.nix
+    ../../modules/home-manager/direnv.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -26,7 +27,6 @@
     keepassxc
     fzf
     thefuck
-    mc
     tree
     discord
     spotify
@@ -38,26 +38,22 @@
     pulsemixer
     mangohud
     gamescope
-    direnv
     rofi
     ripgrep
     dunst
     w3m
-    autorandr
     appimage-run
     ghc
     bottom
     iotop
     comma
-    openarena
     firefox
     xonotic
     thunderbird
     chromium
     dbeaver-bin
     openssl
-    postgresql
-    pokerth
+    acpi
   ];
 
   home.sessionVariables = {
