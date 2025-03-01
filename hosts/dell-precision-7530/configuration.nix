@@ -85,6 +85,11 @@
   programs.gamemode.enable = true;
   services.fwupd.enable = true;
 
+  programs.steam = {
+    enable = true;
+    gamescopeSession.enable = true;
+  };
+
   virtualisation.docker.storageDriver = "btrfs";
 
   services.gvfs = {
