@@ -35,6 +35,9 @@
   home.packages = with pkgs; [
     xorg.xdpyinfo
     killall
+    xfce.thunar
+    autorandr
+    arandr
   ];
 
 }
