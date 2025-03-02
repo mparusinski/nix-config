@@ -7,8 +7,8 @@
 
 let
   wallpaper = builtins.fetchurl {
-    url = "https://i.redd.it/t0ofiw8c1rqc1.jpeg";
-    sha256 = "sha256:1yz8dl0czycawwgglg8gx23ak530sbbjhz1mdj1ghdbd2kqa5nq2";
+    url = "https://get.wallhere.com/photo/mountains-digital-art-fantasy-art-pixel-art-castle-wilderness-Alps-Terrain-mountain-screenshot-computer-wallpaper-mountainous-landforms-geological-phenomenon-mountain-range-extreme-sport-623308.jpg";
+    sha256 = "sha256:19nlqck4ij3symg85z46h6kmbc1nwx6r7wc7jad1rxxby11bgw1h";
   };
 in
 {
@@ -58,20 +58,16 @@ in
 
   # Packages for XMonad
   environment.systemPackages = with pkgs; [
-    xfce.thunar
-    arandr
     picom
     dmenu
-    xmobar
     glxinfo
     vulkan-tools
     kitty
-    xmobar
-    light
-    lxqt.lxqt-policykit
   ];
+
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   services.udisks2.enable = true;
   services.gvfs.enable = true;
-  services.gvfs.package = lib.mkForce pkgs.gnome3.gvfs;
 }

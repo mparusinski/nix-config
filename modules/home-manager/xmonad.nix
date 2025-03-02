@@ -17,8 +17,24 @@
     recursive = true;
   };
 
+  home.file.".local/bin/switch-dpi.sh" = {
+    source = ./switch-dpi.sh;
+    recursive = true;
+  };
+
+  home.file.".config/xsession/xsession.hidpi" = {
+    source = ./xsession.hidpi;
+    recursive = true;
+  };
+
+  home.file.".config/xsession/xsession.lowdpi" = {
+    source = ./xsession.lowdpi;
+    recursive = true;
+  };
+
   home.packages = with pkgs; [
     xorg.xdpyinfo
+    killall
   ];
 
 }

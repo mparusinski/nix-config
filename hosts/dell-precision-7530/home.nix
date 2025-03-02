@@ -38,20 +38,16 @@
     pulsemixer
     mangohud
     gamescope
-    rofi
     ripgrep
     dunst
     w3m
     appimage-run
-    ghc
     bottom
     iotop
     comma
     firefox
     xonotic
     thunderbird
-    chromium
-    dbeaver-bin
     openssl
     acpi
   ];

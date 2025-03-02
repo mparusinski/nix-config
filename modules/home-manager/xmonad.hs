@@ -24,7 +24,8 @@ data DPI = HiDPI | LowDPI
 myStartupHook = do
     spawnOnce "picom --vsync -b"
 
-myBorderWidth        = 5
+myBorderWidth HiDPI  = 5
+myBorderWidth LowDPI = 3
 myFocusedBorderColor = "#E69875"
 myNormalBorderColor  = "#9DA9A0"
 
@@ -40,9 +41,7 @@ myKeys     =
   , ("<XF86AudioLowerVolume>",  lowerVolume 3 >> return ())
   , ("<XF86AudioMute>",         toggleMute >> return ())
   , ("C-<Print>",               spawn "scrot -s")
-  -- TODO: Create a script to toggle this
-  , ("C-'",                     spawn "xrandr --dpi 96")
-  , ("C-S-'",                   spawn "xrandr --dpi 192")
+  , ("C-'",                     spawn "~/.local/bin/switch-dpi.sh; killall xmobar; xmonad --restart")
   ]
 
 myLayout = avoidStruts $ spacing 7 $ smartBorders tiled ||| smartBorders (Mirror tiled) ||| noBorders Full
@@ -59,15 +58,15 @@ mySB num dpi = statusBarProp ( "xmobar -x " ++ show num ++ dpiConf dpi) (pure my
 
 fetchDPI :: IO DPI
 fetchDPI = do
-  (_, maybeOutH, _, _) <- createProcess $ shell ".local/bin/what-dpi.sh"
+  (_, maybeOutH, _, _) <- createProcess shellCmd { std_out = CreatePipe }
   maybe (return HiDPI) processOut maybeOutH
-  where processOut :: Handle -> IO DPI
+  where shellCmd = shell "~/.local/bin/what-dpi.sh"
+        processOut :: Handle -> IO DPI
         processOut h = do
           output <- hGetLine h
-          let sanitized = filter (flip elem "\n\r") output
-          let currDpi = readMaybe sanitized
+          let currDpi = readMaybe output :: Maybe Int
           return $ maybe HiDPI intToDPIEnum currDpi
-          where intToDPIEnum x = if x == "96" then LowDPI else HiDPI
+          where intToDPIEnum x = if x == 96 then LowDPI else HiDPI
 
 main :: IO ()
 main = do
@@ -78,7 +77,7 @@ main = do
                        . ewmh
                        . withEasySB (mySB 0 dpi) toggleStrutsKey
                        . withEasySB (mySB 1 dpi) toggleStrutsKey
-                       $ myConfig
+                       $ myConfig dpi
                        where toggleStrutsKey :: XConfig Layout -> (KeyMask, KeySym)
                              toggleStrutsKey XConfig { modMask = myModMask } = (myModMask, xK_b)
 
@@ -93,11 +92,11 @@ myXmobarPP = def
   , ppTitleSanitize   = xmobarStrip
   }
 
-myConfig = def
+myConfig dpi = def
   { modMask            = myModMask
   , terminal           = myTerminal
   , layoutHook         = myLayout
-  , borderWidth        = myBorderWidth
+  , borderWidth        = myBorderWidth dpi
   , startupHook        = myStartupHook
   , workspaces         = myWorkspaces
   , focusedBorderColor = myFocusedBorderColor
