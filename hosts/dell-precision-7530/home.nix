@@ -50,6 +50,7 @@
     thunderbird
     openssl
     acpi
+    fastfetch
   ];
 
   home.sessionVariables = {
