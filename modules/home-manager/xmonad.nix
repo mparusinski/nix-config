@@ -38,6 +38,8 @@
     xfce.thunar
     autorandr
     arandr
+    brightnessctl
+    dconf
   ];
 
 }

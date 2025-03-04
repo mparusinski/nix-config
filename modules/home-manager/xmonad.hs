@@ -21,8 +21,9 @@ import Text.Read (readMaybe)
 
 data DPI = HiDPI | LowDPI
 
+myStartupHook :: X()
 myStartupHook = do
-    spawnOnce "picom --vsync -b"
+    spawnOnce "picom --vsync --backend glx -b"
 
 myBorderWidth HiDPI  = 5
 myBorderWidth LowDPI = 3
@@ -35,8 +36,8 @@ myModMask  = mod4Mask
 myTerminal = "kitty"
 myKeys     =
   [ ("M-v",                     toggleSmartSpacing)
-  , ("<XF86MonBrightnessUp>",   spawn "light -A 5")
-  , ("<XF86MonBrightnessDown>", spawn "light -U 5")
+  , ("<XF86MonBrightnessUp>",   spawn "brightnessctl s +10%")
+  , ("<XF86MonBrightnessDown>", spawn "brightnessctl s 10-%")
   , ("<XF86AudioRaiseVolume>",  raiseVolume 3 >> return ())
   , ("<XF86AudioLowerVolume>",  lowerVolume 3 >> return ())
   , ("<XF86AudioMute>",         toggleMute >> return ())
@@ -97,9 +98,9 @@ myConfig dpi = def
   , terminal           = myTerminal
   , layoutHook         = myLayout
   , borderWidth        = myBorderWidth dpi
-  , startupHook        = myStartupHook
   , workspaces         = myWorkspaces
   , focusedBorderColor = myFocusedBorderColor
   , normalBorderColor  = myNormalBorderColor
+  , startupHook        = myStartupHook
   }
   `additionalKeysP` myKeys

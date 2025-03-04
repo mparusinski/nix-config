@@ -15,6 +15,7 @@
     settings.allow_remote_control = true;
     settings.listen_on = "unix:/tmp/mykitty";
     settings.enabled_layouts = "splits";
+    settings.background_opacity = "0.9";
     theme = "Everforest Dark Hard";
   };
   home.packages = [
