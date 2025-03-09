@@ -51,6 +51,7 @@
     openssl
     acpi
     fastfetch
+    sil
   ];
 
   home.sessionVariables = {

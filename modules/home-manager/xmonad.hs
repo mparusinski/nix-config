@@ -60,14 +60,14 @@ mySB num dpi = statusBarProp ( "xmobar -x " ++ show num ++ dpiConf dpi) (pure my
 fetchDPI :: IO DPI
 fetchDPI = do
   (_, maybeOutH, _, _) <- createProcess shellCmd { std_out = CreatePipe }
-  maybe (return HiDPI) processOut maybeOutH
+  maybe (return LowDPI) processOut maybeOutH
   where shellCmd = shell "~/.local/bin/what-dpi.sh"
         processOut :: Handle -> IO DPI
         processOut h = do
           output <- hGetLine h
           let currDpi = readMaybe output :: Maybe Int
           return $ maybe HiDPI intToDPIEnum currDpi
-          where intToDPIEnum x = if x == 96 then LowDPI else HiDPI
+          where intToDPIEnum x = if x == 192 then HiDPI else LowDPI
 
 main :: IO ()
 main = do
