@@ -96,7 +96,7 @@ in
       2222
     ];
   };
-  networking.hostName = "vps-nix-vpsfreecz";
+  networking.hostName = "frcz-vps1";
 
   systemd.extraConfig = ''
     DefaultTimeoutStartSec=900s
@@ -113,7 +113,7 @@ in
     settings = {
       mysqld = {
         skip-networking = "0";
-        bind-address = "localhost,100.96.17.32";
+        bind-address = "localhost,100.115.129.21";
       };
     };
     # Users configuration

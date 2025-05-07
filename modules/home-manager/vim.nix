@@ -24,6 +24,7 @@
     extraConfig = ''
       au BufRead,BufNewFile xmobarrc set filetype=haskell
       inoremap jk <Esc>
+      nnoremap tt :tabedit<Space>
     '';
   };
 }

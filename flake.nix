@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-    nixos-wsl.url = "github:nix-community/nixos-wsl";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -19,7 +18,6 @@
       self,
       nixpkgs,
       home-manager,
-      nixos-wsl,
       agenix,
       ...
     }@inputs:
@@ -36,13 +34,10 @@
       );
       machines = [
         "dell-precision-7530"
-        "vps-nix-vpsfreecz"
-        "wsl1"
-        "nmv1"
+        "frcz-vps1"
       ];
       configurationFile = m: ./hosts + ("/" + m) + /configuration.nix;
       homeFile = m: ./hosts + ("/" + m) + /home.nix;
-      wslModules = m: if (lib.strings.hasPrefix "wsl" m) then [ nixos-wsl.nixosModules.wsl ] else [ ];
     in
     {
       nixosConfigurations = builtins.listToAttrs (
@@ -62,7 +57,6 @@
                 }
                 agenix.nixosModules.default
               ]
-              ++ (wslModules m)
             );
             specialArgs = { inherit inputs; };
           };
