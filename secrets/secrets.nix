@@ -4,8 +4,8 @@ let
   users = [ mparus ];
 
   # SSH public keys of the systems who will need to access the secrets
-  vps-nix-vpsfreecz = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGog+SaFVPhrq36aO9A7rC5Y/DUzSAdLcBjUdyZDdg1R";
-  systems = [ vps-nix-vpsfreecz ];
+  frcz-vps1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPQQIL4nT/ydLmWaWjLL9FDmckNCcDzgnO3PVsJEbZ9g";
+  systems = [ frcz-vps1 ];
 in
 {
   # Specify for each secret who has access to it
