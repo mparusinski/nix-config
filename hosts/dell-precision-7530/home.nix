@@ -74,11 +74,6 @@
     # package = "zathura-pdf-mupdf";
   };
 
-  programs.zellij = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-
   programs.home-manager.enable = true;
 
   # This value determines the Home Manager release that your
