@@ -16,13 +16,20 @@ let
     database = "metricsdb";
     passwordFile = config.age.secrets.metricsRWDBPass.path;
     username = "metrics_rw";
-    hostname = "dell-precision-7530.taild5a36.ts.net";
+    hostname = "dell-precision-7530-1.taild5a36.ts.net";
   };
 
   metricsRWConfig_local = {
     database = "metricsdb";
     passwordFile = config.age.secrets.metricsRWDBPass.path;
     username = "metrics_rw";
+    hostname = "localhost";
+  };
+
+  metricsROConfig_local = {
+    database = "metricsdb";
+    passwordFile = config.age.secrets.metricsRODBPass.path;
+    username = "metrics_ro";
     hostname = "localhost";
   };
 in
@@ -42,6 +49,7 @@ in
   };
   age.secrets.statsDBPass.file = ../../secrets/statsDBPass.age;
   age.secrets.metricsRWDBPass.file = ../../secrets/metricsRWPass.age;
+  age.secrets.metricsRODBPass.file = ../../secrets/metricsROPass.age;
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -113,7 +121,7 @@ in
     settings = {
       mysqld = {
         skip-networking = "0";
-        bind-address = "localhost,100.115.129.21";
+        bind-address = "localhost,100.86.188.22";
       };
     };
     # Users configuration
@@ -149,7 +157,8 @@ in
     statsConfig
     metricsRWConfig_remote
     metricsRWConfig_local
-  ]; 
+    metricsROConfig_local
+  ];
 
   services.grafana.enable = true;
   services.grafana.settings = {

@@ -12,4 +12,5 @@ in
   "hassBearerToken.age".publicKeys = users ++ systems;
   "statsDBPass.age".publicKeys = users ++ systems;
   "metricsRWPass.age".publicKeys = users ++ systems;
+  "metricsROPass.age".publicKeys = users ++ systems;
 }
