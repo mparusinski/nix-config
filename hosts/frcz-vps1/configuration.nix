@@ -200,25 +200,6 @@ in
         ];
       }
       {
-        job_name = "node_homeassistant";
-        metrics_path = "/metrics";
-        static_configs = [
-          {
-            targets = [ "homeassistant:9100" ];
-          }
-        ];
-      }
-      {
-        job_name = "home_mols";
-        metrics_path = "/api/prometheus";
-        bearer_token_file = config.age.secrets.hassBearerToken.path;
-        static_configs = [
-          {
-            targets = [ "homeassistant:8123" ];
-          }
-        ];
-      }
-      {
         job_name = "nginx";
         static_configs = [
           {
