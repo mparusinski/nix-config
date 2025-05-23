@@ -25,6 +25,7 @@ in
     ../../modules/nixos/gc.nix
     ../../modules/nixos/prometheusclient.nix
     ../../modules/nixos/mysql.nix
+    ../../modules/nixos/apps/sound-sifter.nix
   ];
 
   # Specifying secrets
