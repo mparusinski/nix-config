@@ -10,8 +10,7 @@
   environment.systemPackages = with pkgs; [
     nixfmt-rfc-style
     pre-commit
-    cabal-install
-    nixd
+    cachix
   ];
 
   # This line is not working
