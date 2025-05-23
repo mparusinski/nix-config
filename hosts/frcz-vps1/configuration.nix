@@ -11,27 +11,6 @@ let
     username = "stats_rw";
     hostname = "localhost";
   };
-
-  metricsRWConfig_remote = {
-    database = "metricsdb";
-    passwordFile = config.age.secrets.metricsRWDBPass.path;
-    username = "metrics_rw";
-    hostname = "dell-precision-7530-1.taild5a36.ts.net";
-  };
-
-  metricsRWConfig_local = {
-    database = "metricsdb";
-    passwordFile = config.age.secrets.metricsRWDBPass.path;
-    username = "metrics_rw";
-    hostname = "localhost";
-  };
-
-  metricsROConfig_local = {
-    database = "metricsdb";
-    passwordFile = config.age.secrets.metricsRODBPass.path;
-    username = "metrics_ro";
-    hostname = "localhost";
-  };
 in
 {
   imports = [
@@ -43,13 +22,7 @@ in
   ];
 
   # Specifying secrets
-  age.secrets.hassBearerToken = {
-    file = ../../secrets/hassBearerToken.age;
-    owner = "prometheus";
-  };
   age.secrets.statsDBPass.file = ../../secrets/statsDBPass.age;
-  age.secrets.metricsRWDBPass.file = ../../secrets/metricsRWPass.age;
-  age.secrets.metricsRODBPass.file = ../../secrets/metricsROPass.age;
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -127,22 +100,9 @@ in
     # Users configuration
     # - create users metrics_ro and metrics_rw for database metricsdb
     ensureDatabases = [
-      "metricsdb"
       "${statsConfig.database}"
     ];
     ensureUsers = [
-      {
-        name = "metrics_ro";
-        ensurePermissions = {
-          "metricsdb.*" = "SELECT";
-        };
-      }
-      {
-        name = "metrics_rw";
-        ensurePermissions = {
-          "metricsdb.*" = "ALL PRIVILEGES";
-        };
-      }
       {
         name = "${statsConfig.username}";
         ensurePermissions = {
@@ -155,9 +115,6 @@ in
   mysqlInitialConfiguration.enable = true;
   mysqlInitialConfiguration.configurations = [
     statsConfig
-    metricsRWConfig_remote
-    metricsRWConfig_local
-    metricsROConfig_local
   ];
 
   services.grafana.enable = true;
