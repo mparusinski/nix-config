@@ -11,6 +11,12 @@ let
     username = "stats_rw";
     hostname = "localhost";
   };
+  statsConfig_remote = {
+    database = "statsdb";
+    passwordFile = config.age.secrets.statsDBPass.path;
+    username = "stats_rw";
+    hostname = "dell-precision-7530-1.taild5a36.ts.net";
+  };
 in
 {
   imports = [
@@ -94,7 +100,9 @@ in
     settings = {
       mysqld = {
         skip-networking = "0";
-        bind-address = "localhost,100.86.188.22";
+        # We allow localhost connections, and one via tailscale (the IP below
+        # is the tailscale IP of frcz-vps1)
+        bind-address = "localhost,100.122.154.117";
       };
     };
     # Users configuration
@@ -115,6 +123,7 @@ in
   mysqlInitialConfiguration.enable = true;
   mysqlInitialConfiguration.configurations = [
     statsConfig
+    statsConfig_remote
   ];
 
   services.grafana.enable = true;
