@@ -38,9 +38,11 @@ let
     dj-database-url
     django-celery-results
     flower
+    hypercorn
   ]));
 in
 {
+  age.secrets.soundSifterEnv.file = ../../../secrets/soundSifterEnv.age;
   users.users.sound_sifter = {
     isNormalUser = true;
     description = "Robotic account for Sound Sifter application";
@@ -58,8 +60,10 @@ in
       }
     ];
     authentication = pkgs.lib.mkOverride 10 ''
-      #type database  DBuser  auth-method
+      #type database  DBuser  origin-address  auth-method
       local all       all     trust
+      host  all       all     127.0.0.1/32    trust
+      host  all       all     ::1/128         trust
     '';
   };
   services.rabbitmq = {
@@ -69,27 +73,70 @@ in
   systemd = {
     tmpfiles.settings = {
       "sound-sifter" = {
-        soundSifterDeployment = {
+        "${soundSifterDeployment}" = {
           d = {
             group = "users";
             user = "sound_sifter";
-            mode = "0700";
+            mode = "0755";
+          };
+        };
+        "${soundSifterDeployment}/bin" = {
+          d = {
+            group = "users";
+            user = "sound_sifter";
+            mode = "0755";
+          };
+        };
+        "${soundSifterDeployment}/static" = {
+          d = {
+            group = "users";
+            user = "sound_sifter";
+            mode = "0755";
           };
         };
       };
     };
-    services.sound-sifter = {
+    services.sound-sifter-web = {
       description = "Sound sifter deployment";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target"];
+      environment = {
+        REGISTRATION_OPEN = "Y";
+        STATIC_ROOT="${soundSifterDeployment}/static";
+      };
       preStart = ''
-        ${djangoEnv}/bin/python ${soundSifterDeployment}/bin/manage.py migrate;
-        ${djangoEnv}/bin/python ${soundSifterDeployment}/bin/manage.py collectstatic --no-input;
+        mkdir -p ${soundSifterDeployment}/static
+        ${djangoEnv}/bin/python ${soundSifterDeployment}/bin/manage.py migrate
+        ${djangoEnv}/bin/python ${soundSifterDeployment}/bin/manage.py collectstatic --no-input
       '';
       serviceConfig = {
-        ExecStart = ''${djangoEnv}/bin/celery --version'';
-        RemainAfterExit = true;
+        EnvironmentFile = "${config.age.secrets.soundSifterEnv.path}";
+        WorkingDirectory = "${soundSifterDeployment}/bin";
+        # Setting the umask to 777 is overkill but couldn't find a reliable way to set the file of the socket
+        ExecStart = ''
+          ${djangoEnv}/bin/hypercorn --workers 2 --umask 0777 --bind unix:/${soundSifterDeployment}/app.sock sound_sifter.asgi:application
+        '';
         User = "sound_sifter";
+      };
+    };
+  };
+  services.nginx.virtualHosts = {
+    "frcz-vps1" = {
+      # enableACME = true;
+      # forceSSL = true;
+      locations = {
+        "/" = {
+          #proxyPass = "http://localhost:8080";
+          #Socket not working for some reason
+          proxyPass = "http://unix:/${soundSifterDeployment}/app.sock";
+        };
+        "/static/" = {
+          root = "${soundSifterDeployment}/static";
+          extraConfig = ''
+            expires 365d;
+            add_header Cache-Control "public, immutable";
+          '';
+        };
       };
     };
   };

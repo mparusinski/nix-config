@@ -15,7 +15,7 @@ let
     database = "statsdb";
     passwordFile = config.age.secrets.statsDBPass.path;
     username = "stats_rw";
-    hostname = "dell-precision-7530-1.taild5a36.ts.net";
+    hostname = "dell-precision-7530.taild5a36.ts.net";
   };
 in
 {

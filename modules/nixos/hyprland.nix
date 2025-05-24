@@ -50,6 +50,7 @@ in
     playerctl
     pass-secret-service
     alsa-utils
+    iosevka
   ];
 
   services.libinput = {
