@@ -103,7 +103,7 @@ in
         skip-networking = "0";
         # We allow localhost connections, and one via tailscale (the IP below
         # is the tailscale IP of frcz-vps1)
-        bind-address = "localhost,100.122.154.117";
+        bind-address = "localhost,100.70.143.71";
       };
     };
     # Users configuration

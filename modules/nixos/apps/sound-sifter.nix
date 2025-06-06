@@ -2,6 +2,28 @@
 
 let
   soundSifterDeployment = "/srv/sound_sifter";
+  applyDBConf =
+    {
+      database,
+      username,
+      passwordFile
+    } :
+    pkgs.writeShellScript "applyDBConf"
+    ''
+      PASSWORD=$(cat ${passwordFile})
+      ${pkgs.postgresql}/bin/psql -c "ALTER USER ${username} PASSWORD '$PASSWORD';"
+      ${pkgs.postgresql}/bin/psql -c "ALTER ROLE ${username} SET client_encoding TO 'utf8';"
+      ${pkgs.postgresql}/bin/psql -c "ALTER ROLE ${username} SET default_transaction_isolation TO 'read committed';"
+      ${pkgs.postgresql}/bin/psql -c "ALTER ROLE ${username} SET timezone TO 'UTC';"
+      ${pkgs.postgresql}/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE ${database} TO ${username};"
+      ${pkgs.postgresql}/bin/psql -c "ALTER DATABASE ${database} OWNER TO ${username};"
+    '';
+  dbConfig = {
+    database = "sound_sifter_db";
+    username = "sound_sifter_rw";
+    passwordFile = config.age.secrets.soundSifterDBPass.path;
+  };
+  dbConfigScript = applyDBConf dbConfig;
   djangoEnv = let
     django-registration = pkgs.python3.pkgs.buildPythonPackage rec {
       pname = "django-registration";
@@ -47,6 +69,7 @@ let
 in
 {
   age.secrets.soundSifterEnv.file = ../../../secrets/soundSifterEnv.age;
+  age.secrets.soundSifterDBPass.file = ../../../secrets/soundSifterDBPass.age;
   users.users.sound_sifter = {
     isNormalUser = true;
     description = "Robotic account for Sound Sifter application";
@@ -59,11 +82,10 @@ in
   ];
   services.postgresql = {
     enable = true;
-    ensureDatabases = [ "sound_sifter" ];
+    ensureDatabases = [ dbConfig.database ];
     ensureUsers = [
       {
-        name = "sound_sifter";
-        ensureDBOwnership = true;
+        name = dbConfig.username;
       }
     ];
     authentication = pkgs.lib.mkOverride 10 ''
@@ -72,6 +94,19 @@ in
       host  all       all     127.0.0.1/32    trust
       host  all       all     ::1/128         trust
     '';
+  };
+  systemd.services.applySoundSifterDBConf = {
+    description = "Apply Sound Sifter DB Configuration";
+    wants = [ "postgresql.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      PermissionsStartOnly = true;
+      RemainAfterExit = true;
+      ExecStart = ''
+        ${dbConfigScript}
+      '';
+      User = "postgres";
+    };
   };
   services.rabbitmq = {
     enable = true;
@@ -101,18 +136,23 @@ in
             mode = "0755";
           };
         };
+        "/var/log/sound_sifter" = {
+          d = {
+            group = "users";
+            user = "sound_sifter";
+            mode = "0755";
+          };
+        };
       };
     };
     services.sound-sifter-web = {
       description = "Sound sifter deployment";
       after = [ "network.target" ];
+      wants = [ "applySoundSifterDBConf.service" ];
       wantedBy = [ "multi-user.target"];
-      environment = {
-        REGISTRATION_OPEN = "Y";
-        STATIC_ROOT="${soundSifterDeployment}/static";
-      };
       preStart = ''
         mkdir -p ${soundSifterDeployment}/static
+        # ${djangoEnv}/bin/python ${soundSifterDeployment}/bin/manage.py createsuperuser --username mparus --no-input
         ${djangoEnv}/bin/python ${soundSifterDeployment}/bin/manage.py migrate
         ${djangoEnv}/bin/python ${soundSifterDeployment}/bin/manage.py collectstatic --no-input
       '';
@@ -127,10 +167,12 @@ in
       };
     };
   };
+  security.acme.certs."snd-sifter.parusinski.me".email = "michal@parusinski.me";
+  services.nginx.recommendedProxySettings = true;
   services.nginx.virtualHosts = {
-    "frcz-vps1" = {
-      # enableACME = true;
-      # forceSSL = true;
+    "snd-sifter.parusinski.me" = {
+      enableACME = true;
+      forceSSL = true;
       locations = {
         "/" = {
           #proxyPass = "http://localhost:8080";
