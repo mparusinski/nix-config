@@ -24,6 +24,23 @@ let
     passwordFile = config.age.secrets.soundSifterDBPass.path;
   };
   dbConfigScript = applyDBConf dbConfig;
+  applyRabbitMQConf = 
+    {
+      username,
+      passwordFile
+    } :
+    pkgs.writeShellScript "applyRabbitMqConf"
+    ''
+      PASSWORD=$(cat ${passwordFile})
+      ${pkgs.rabbitmq-server}/bin/rabbitmqctl delete_user ${username}
+      ${pkgs.rabbitmq-server}/bin/rabbitmqctl add_user ${username} '$PASSWORD'
+      ${pkgs.rabbitmq-server}/bin/rabbitmqctl set_permissions ${username} ".*" ".*" ".*"
+    '';
+  rabbitMQConf = {
+    username = "sound_sifter";
+    passwordFile = config.age.secrets.soundSifterMQPass.path;
+  };
+  mqConfigScript = applyRabbitMQConf rabbitMQConf;
   djangoEnv = let
     django-registration = pkgs.python3.pkgs.buildPythonPackage rec {
       pname = "django-registration";
@@ -70,6 +87,11 @@ in
 {
   age.secrets.soundSifterEnv.file = ../../../secrets/soundSifterEnv.age;
   age.secrets.soundSifterDBPass.file = ../../../secrets/soundSifterDBPass.age;
+  age.secrets.soundSifterMQPass = {
+    file = ../../../secrets/soundSifterMQPass.age;
+    owner = "rabbitmq";
+    mode = "600";
+  };
   users.users.sound_sifter = {
     isNormalUser = true;
     description = "Robotic account for Sound Sifter application";
@@ -111,6 +133,19 @@ in
   services.rabbitmq = {
     enable = true;
     # managementPlugin.enable = true;
+  };
+  systemd.services.applySoundSifterMQConf = {
+    description = "Apply Sound Sifter MQ Configuration";
+    wants = [ "rabbitmq.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      PermissionsStartOnly = true;
+      RemainAfterExit = true;
+      ExecStart = ''
+        ${mqConfigScript}
+      '';
+      User = "rabbitmq";
+    };
   };
   systemd = {
     tmpfiles.settings = {
@@ -162,6 +197,21 @@ in
         # Setting the umask to 777 is overkill but couldn't find a reliable way to set the file of the socket
         ExecStart = ''
           ${djangoEnv}/bin/hypercorn --workers 2 --umask 0777 --bind unix:/${soundSifterDeployment}/app.sock sound_sifter.asgi:application
+        '';
+        User = "sound_sifter";
+      };
+    };
+    services.sound-sifter-worker = {
+      description = "Sound sifter deployment";
+      after = [ "network.target" ];
+      wants = [ "applySoundSifterDBConf.service" ];
+      wantedBy = [ "multi-user.target"];
+      serviceConfig = {
+        EnvironmentFile = "${config.age.secrets.soundSifterEnv.path}";
+        WorkingDirectory = "${soundSifterDeployment}/bin";
+        # Setting the umask to 777 is overkill but couldn't find a reliable way to set the file of the socket
+        ExecStart = ''
+          ${djangoEnv}/bin/celery -A sound_sifter worker --loglevel=info
         '';
         User = "sound_sifter";
       };
