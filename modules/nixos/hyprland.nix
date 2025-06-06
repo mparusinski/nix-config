@@ -50,7 +50,6 @@ in
     playerctl
     pass-secret-service
     alsa-utils
-    iosevka
   ];
 
   services.libinput = {
@@ -74,6 +73,7 @@ in
     fira-code
     fira-code-symbols
     font-awesome
+    nerd-fonts.iosevka 
   ];
 
   security.pam.services.greetd.enableGnomeKeyring = true;

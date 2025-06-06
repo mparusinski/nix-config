@@ -29,7 +29,7 @@
         "fzf"
         "vi-mode"
       ];
-      theme = "gianu";
+      theme = "gallois";
     };
     sessionVariables = {
       EDITOR = "vim";
