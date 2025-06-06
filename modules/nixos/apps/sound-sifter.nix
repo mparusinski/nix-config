@@ -40,6 +40,10 @@ let
     flower
     hypercorn
   ]));
+  # TODO: Require sudo for this command
+  soundSifter_createSuperUser = pkgs.writeScriptBin "soundSifter_createSuperUser" ''
+    ${djangoEnv}/bin/python ${soundSifterDeployment}/bin/manage.py createsuperuser
+  '';
 in
 {
   age.secrets.soundSifterEnv.file = ../../../secrets/soundSifterEnv.age;
@@ -50,6 +54,9 @@ in
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGSZMXih0bhOeWWZ/scrXJsaxwxVqPqBCvML1OCPhMw/ michal@parusinski.me"
     ];
   };
+  environment.systemPackages = with pkgs; [
+    soundSifter_createSuperUser
+  ];
   services.postgresql = {
     enable = true;
     ensureDatabases = [ "sound_sifter" ];
