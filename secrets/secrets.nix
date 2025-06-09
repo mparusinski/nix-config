@@ -11,6 +11,5 @@ in
   # Specify for each secret who has access to it
   "statsDBPass.age".publicKeys = users ++ systems;
   "soundSifterDBPass.age".publicKeys = users ++ systems;
-  "soundSifterMQPass.age".publicKeys = users ++ systems;
   "soundSifterEnv.age".publicKeys = users ++ systems;
 }

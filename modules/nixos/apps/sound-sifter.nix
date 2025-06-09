@@ -24,23 +24,6 @@ let
     passwordFile = config.age.secrets.soundSifterDBPass.path;
   };
   dbConfigScript = applyDBConf dbConfig;
-  applyRabbitMQConf = 
-    {
-      username,
-      passwordFile
-    } :
-    pkgs.writeShellScript "applyRabbitMqConf"
-    ''
-      PASSWORD=$(cat ${passwordFile})
-      ${pkgs.rabbitmq-server}/bin/rabbitmqctl delete_user ${username}
-      ${pkgs.rabbitmq-server}/bin/rabbitmqctl add_user ${username} '$PASSWORD'
-      ${pkgs.rabbitmq-server}/bin/rabbitmqctl set_permissions ${username} ".*" ".*" ".*"
-    '';
-  rabbitMQConf = {
-    username = "sound_sifter";
-    passwordFile = config.age.secrets.soundSifterMQPass.path;
-  };
-  mqConfigScript = applyRabbitMQConf rabbitMQConf;
   djangoEnv = let
     django-registration = pkgs.python3.pkgs.buildPythonPackage rec {
       pname = "django-registration";
@@ -74,24 +57,20 @@ let
     psycopg2
     spotipy
     celery
+    redis
     dj-database-url
     django-celery-results
     flower
     hypercorn
   ]));
-  # TODO: Require sudo for this command
-  soundSifter_createSuperUser = pkgs.writeScriptBin "soundSifter_createSuperUser" ''
-    ${djangoEnv}/bin/python ${soundSifterDeployment}/bin/manage.py createsuperuser
-  '';
+  # # TODO: Require sudo for this command
+  # soundSifter_createSuperUser = pkgs.writeScriptBin "soundSifter_createSuperUser" ''
+  #   ${djangoEnv}/bin/python ${soundSifterDeployment}/bin/manage.py createsuperuser
+  # '';
 in
 {
   age.secrets.soundSifterEnv.file = ../../../secrets/soundSifterEnv.age;
   age.secrets.soundSifterDBPass.file = ../../../secrets/soundSifterDBPass.age;
-  age.secrets.soundSifterMQPass = {
-    file = ../../../secrets/soundSifterMQPass.age;
-    owner = "rabbitmq";
-    mode = "600";
-  };
   users.users.sound_sifter = {
     isNormalUser = true;
     description = "Robotic account for Sound Sifter application";
@@ -99,9 +78,9 @@ in
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGSZMXih0bhOeWWZ/scrXJsaxwxVqPqBCvML1OCPhMw/ michal@parusinski.me"
     ];
   };
-  environment.systemPackages = with pkgs; [
-    soundSifter_createSuperUser
-  ];
+
+  services.redis.servers."sndsft".enable = true;
+  services.redis.servers."sndsft".port = 6379;
   services.postgresql = {
     enable = true;
     ensureDatabases = [ dbConfig.database ];
@@ -128,23 +107,6 @@ in
         ${dbConfigScript}
       '';
       User = "postgres";
-    };
-  };
-  services.rabbitmq = {
-    enable = true;
-    # managementPlugin.enable = true;
-  };
-  systemd.services.applySoundSifterMQConf = {
-    description = "Apply Sound Sifter MQ Configuration";
-    wants = [ "rabbitmq.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      PermissionsStartOnly = true;
-      RemainAfterExit = true;
-      ExecStart = ''
-        ${mqConfigScript}
-      '';
-      User = "rabbitmq";
     };
   };
   systemd = {
