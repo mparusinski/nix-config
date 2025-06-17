@@ -9,9 +9,6 @@
   gtk = {
     enable = true;
 
-    cursorTheme.package = pkgs.bibata-cursors;
-    cursorTheme.name = "Bibata-Modern-Ice";
-
     theme.package = pkgs.dracula-theme;
     theme.name = "Dracula";
 

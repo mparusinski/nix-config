@@ -192,7 +192,7 @@ in
           proxyPass = "http://unix:/${soundSifterDeployment}/app.sock";
         };
         "/static/" = {
-          root = "${soundSifterDeployment}/static";
+          root = "${soundSifterDeployment}";
           extraConfig = ''
             expires 365d;
             add_header Cache-Control "public, immutable";

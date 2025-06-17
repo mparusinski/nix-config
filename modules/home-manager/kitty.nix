@@ -6,11 +6,6 @@
 }:
 
 {
-  home.file.".config/kitty/current-theme.conf" = {
-    source = ./Black_Metal__Mayhem.conf;
-    recursive = true;
-  };
-
   programs.kitty = {
     enable = true;
     settings.enable_audio_bell = false;
@@ -22,9 +17,7 @@
     settings.allow_remote_control = true;
     settings.listen_on = "unix:/tmp/mykitty";
     settings.enabled_layouts = "splits";
-    extraConfig = ''
-      include ~/.config/kitty/current-theme.conf
-    '';
+    settings.themeFile = "Dracula";
   };
   home.packages = with pkgs; [
     iosevka
