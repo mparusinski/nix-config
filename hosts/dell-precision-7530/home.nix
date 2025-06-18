@@ -5,15 +5,12 @@
   imports = [
     ../../modules/home-manager/zsh.nix
     ../../modules/home-manager/vim.nix
-    ../../modules/home-manager/emacs.nix
     ../../modules/home-manager/kitty.nix
-    ../../modules/home-manager/nnn.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/bat.nix
     ../../modules/home-manager/theme.nix
     ../../modules/home-manager/dev/rust.nix
     ../../modules/home-manager/networks.nix
-    ../../modules/home-manager/vscode.nix
     ../../modules/home-manager/direnv.nix
   ];
   # Home Manager needs a bit of information about you and the
@@ -62,16 +59,6 @@
 
   programs.bat = {
     config.theme = "base16";
-  };
-
-  programs.direnv = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-
-  programs.zathura = {
-    enable = true;
-    # package = "zathura-pdf-mupdf";
   };
 
   programs.home-manager.enable = true;
