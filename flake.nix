@@ -38,8 +38,15 @@
       ];
       configurationFile = m: ./hosts + ("/" + m) + /configuration.nix;
       homeFile = m: ./hosts + ("/" + m) + /home.nix;
+      # Setup for every system
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
     {
+      devShells.x86_64-linux.default = pkgs.mkShell {
+        packages = [
+          agenix.packages.x86_64-linux.default
+        ];
+      };
       nixosConfigurations = builtins.listToAttrs (
         builtins.map (m: {
           name = m;
@@ -55,7 +62,6 @@
                   home-manager.backupFileExtension = "hmback";
                   home-manager.users."mparus" = import (homeFile m);
                 }
-                agenix.nixosModules.default
               ]
             );
             specialArgs = { inherit inputs; };

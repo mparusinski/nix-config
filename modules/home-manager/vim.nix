@@ -18,6 +18,7 @@
       vim-speeddating
       vim-better-whitespace
       dracula-vim
+      SimpylFold
     ];
     # settings = {
     #   ignorecase = true;
@@ -35,6 +36,21 @@
       au BufRead,BufNewFile xmobarrc set filetype=haskell
       inoremap jk <Esc>
       nnoremap tt :tabedit<Space>
+      nnoremap <C-J> <C-W><C-J>
+      nnoremap <C-K> <C-W><C-K>
+      nnoremap <C-L> <C-W><C-L>
+      nnoremap <C-H> <C-W><C-H>
+      set foldmethod=indent
+      set foldlevel=99
+      let g:SimpylFold_docstring_preview=1
+
+      au BufNewFile,BufRead *.py set tabstop=4
+      au BufNewFile,BufRead *.py set softtabstop=4
+      au BufNewFile,BufRead *.py set shiftwidth=4
+      au BufNewFile,BufRead *.py set textwidth=79
+      au BufNewFile,BufRead *.py set expandtab
+      au BufNewFile,BufRead *.py set autoindent
+      au BufNewFile,BufRead *.py set fileformat=unix
     '';
   };
 }

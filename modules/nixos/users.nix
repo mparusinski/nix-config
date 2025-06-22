@@ -32,6 +32,12 @@ in
         Keys for default user
       '';
     };
+    password.enable = lib.mkEnableOption "Enable hashed password file for user";
+    password.hashedPasswordFile = lib.mkOption {
+      description = ''
+        Password file for user
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -41,6 +47,7 @@ in
       isNormalUser = true;
       extraGroups = cfg.extraGroups;
       openssh.authorizedKeys.keys = lib.mkIf cfg.ssh.enable cfg.ssh.authorizedKeys;
+      hashedPasswordFile = lib.mkIf cfg.password.enable cfg.password.hashedPasswordFile;
     };
   };
 }

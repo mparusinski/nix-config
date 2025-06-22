@@ -33,7 +33,9 @@ in
 
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
+  # Enable this for debugging hyprland`
 
+  # Force chromium and electron apps to use wayland
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
   };
@@ -73,7 +75,7 @@ in
     fira-code
     fira-code-symbols
     font-awesome
-    nerd-fonts.iosevka 
+    nerd-fonts.iosevka
   ];
 
   security.pam.services.greetd.enableGnomeKeyring = true;
