@@ -91,7 +91,6 @@ in
   '';
 
   time.timeZone = "Europe/Amsterdam";
-
   services.tailscale.enable = true;
 
   # MariaDB
