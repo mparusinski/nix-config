@@ -5,10 +5,11 @@ let
 
   # SSH public keys of the systems who will need to access the secrets
   frcz-vps1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILxwthiIUo0Ta+3CbXdTC3j8jhrb6cQFEghwlpWeekou";
+  systems = [ frcz-vps1 ];
 in
 {
   # Specify for each secret who has access to it
-  "statsDBPass.age".publicKeys = users ++ [ frcz-vps1 ];
-  "soundSifterDBPass.age".publicKeys = users ++ [ frcz-vps1 ];
-  "soundSifterEnv.age".publicKeys = users ++ [ frcz-vps1 ];
+  "statsDBPass.age".publicKeys = users ++ systems;
+  "soundSifterDBPass.age".publicKeys = users ++ systems;
+  "soundSifterEnv.age".publicKeys = users ++ systems;
 }

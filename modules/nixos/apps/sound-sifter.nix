@@ -62,6 +62,7 @@ let
     django-celery-results
     flower
     hypercorn
+    django-bootstrap5
   ]));
   # # TODO: Require sudo for this command
   # soundSifter_createSuperUser = pkgs.writeScriptBin "soundSifter_createSuperUser" ''
@@ -96,19 +97,19 @@ in
       host  all       all     ::1/128         trust
     '';
   };
-  systemd.services.applySoundSifterDBConf = {
-    description = "Apply Sound Sifter DB Configuration";
-    wants = [ "postgresql.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      PermissionsStartOnly = true;
-      RemainAfterExit = true;
-      ExecStart = ''
-        ${dbConfigScript}
-      '';
-      User = "postgres";
-    };
-  };
+  # systemd.services.applySoundSifterDBConf = {
+  #   description = "Apply Sound Sifter DB Configuration";
+  #   wants = [ "postgresql.service" ];
+  #   wantedBy = [ "multi-user.target" ];
+  #   serviceConfig = {
+  #     PermissionsStartOnly = true;
+  #     RemainAfterExit = true;
+  #     ExecStart = ''
+  #       ${dbConfigScript}
+  #     '';
+  #     User = "postgres";
+  #   };
+  # };
   systemd = {
     tmpfiles.settings = {
       "sound-sifter" = {

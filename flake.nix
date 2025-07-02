@@ -11,22 +11,20 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pre-commit-hooks = {
-      url = "github:cachix/git-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
     {
       self,
       nixpkgs,
+      home-manager,
+      agenix,
       ...
     }@inputs:
     let
-      lib = nixpkgs.lib // inputs.home-manager.lib;
+      lib = nixpkgs.lib // home-manager.lib;
       systems = [ "x86_64-linux" ];
-      forAllSystems = lib.genAttrs systems;
+      forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
       pkgsFor = lib.genAttrs systems (
         system:
         import nixpkgs {
@@ -44,17 +42,9 @@
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
     {
-      checks = forAllSystems (system: {
-        pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            nixpkgs-fmt.enable = true;
-          };
-        };
-      });
       devShells.x86_64-linux.default = pkgs.mkShell {
         packages = [
-          inputs.agenix.packages.x86_64-linux.default
+          agenix.packages.x86_64-linux.default
         ];
       };
       nixosConfigurations = builtins.listToAttrs (
@@ -65,12 +55,13 @@
             modules = (
               [
                 (configurationFile m)
-                inputs.home-manager.nixosModules.home-manager
+                agenix.nixosModules.default
+                home-manager.nixosModules.home-manager
                 {
-                  inputs.home-manager.useGlobalPkgs = true;
-                  inputs.home-manager.useUserPackages = true;
-                  inputs.home-manager.backupFileExtension = "hmback";
-                  inputs.home-manager.users."mparus" = import (homeFile m);
+                  home-manager.useGlobalPkgs = true;
+                  home-manager.useUserPackages = true;
+                  home-manager.backupFileExtension = "hmback";
+                  home-manager.users."mparus" = import (homeFile m);
                 }
               ]
             );
