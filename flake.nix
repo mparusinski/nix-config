@@ -11,6 +11,10 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pre-commit-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -19,12 +23,13 @@
       nixpkgs,
       home-manager,
       agenix,
+      pre-commit-hooks,
       ...
     }@inputs:
     let
       lib = nixpkgs.lib // home-manager.lib;
       systems = [ "x86_64-linux" ];
-      forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+      forAllSystems = nixpkgs.lib.genAttrs systems;
       pkgsFor = lib.genAttrs systems (
         system:
         import nixpkgs {
@@ -42,6 +47,15 @@
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
     {
+      checks = forAllSystems (system: {
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            nixpkgs-fmt.enable = true;
+            convco.enable = true;
+          };
+        };
+      });
       devShells.x86_64-linux.default = pkgs.mkShell {
         packages = [
           agenix.packages.x86_64-linux.default
