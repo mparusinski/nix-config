@@ -28,6 +28,7 @@
     ../../modules/nixos/appimage.nix
     ../../modules/nixos/nix.nix
     ../../modules/nixos/docker.nix
+    ../../modules/nixos/office.nix
   ];
 
   # Enable searching for and installing unfree packages
@@ -83,10 +84,10 @@
   programs.gamemode.enable = true;
   services.fwupd.enable = true;
 
-  # programs.steam = {
-  #   enable = true;
-  #   gamescopeSession.enable = true;
-  # };
+  programs.steam = {
+    enable = true;
+    gamescopeSession.enable = true;
+  };
 
   virtualisation.docker.storageDriver = "btrfs";
 
