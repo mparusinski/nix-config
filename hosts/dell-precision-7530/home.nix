@@ -47,7 +47,7 @@
     openssl
     acpi
     fastfetch
-    sil
+    krita
   ];
 
   home.sessionVariables = {
