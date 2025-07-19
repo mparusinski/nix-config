@@ -57,7 +57,7 @@
   time.timeZone = "Europe/Paris";
   time.hardwareClockInLocalTime = true;
 
-  i18n.defaultLocale = "fr_FR.UTF-8";
+  i18n.defaultLocale = "en_IE.UTF-8";
   console = {
     earlySetup = true;
     font = "${pkgs.terminus_font}/share/consolefonts/ter-u32n.psf.gz";
