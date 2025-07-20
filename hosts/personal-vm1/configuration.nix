@@ -146,7 +146,6 @@ in
   # Prometheus
   services.prometheus = {
     enable = true;
-    checkConfig = false; # Otherwise will complain about secret path
     globalConfig.scrape_interval = "1m"; # "1m"
     scrapeConfigs = [
       {
@@ -164,6 +163,15 @@ in
             targets = [ "localhost:9113" ];
           }
         ];
+      }
+      {
+        job_name = "homeassistant";
+        static_configs = [
+          {
+            targets = [ "homeassistant:8123" ];
+          }
+        ];
+        metrics_path = "/api/prometheus";
       }
     ];
   };
