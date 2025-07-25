@@ -78,5 +78,6 @@ in
     nerd-fonts.iosevka
   ];
 
-  security.pam.services.greetd.enableGnomeKeyring = true;
+  # Power saving stuff
+  services.tlp.enable = true;
 }

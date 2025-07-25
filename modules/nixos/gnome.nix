@@ -15,7 +15,11 @@
 
   environment.systemPackages = with pkgs; [
     gnome-tweaks
+    gnomeExtensions.caffeine
   ];
 
-  services.flatpak.enable = true;
+  programs.kdeconnect = {
+    enable = true;
+    package = pkgs.gnomeExtensions.gsconnect;
+  };
 }

@@ -15,20 +15,16 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/nixos/users.nix
-    # ../../modules/nixos/hyprland.nix
-    ../../modules/nixos/gnome.nix
-    ../../modules/nixos/pipewire.nix
     ../../modules/nixos/zramswap.nix
     ../../modules/nixos/btrbk.nix
-    # ../../modules/nixos/omv1.nix
-    ../../modules/nixos/bluetooth.nix
     ../../modules/nixos/printing.nix
-    # ../../modules/nixos/homeassistant.nix
     ../../modules/nixos/gc.nix
     ../../modules/nixos/appimage.nix
     ../../modules/nixos/nix.nix
     ../../modules/nixos/docker.nix
     ../../modules/nixos/office.nix
+    ../../modules/nixos/pipewire.nix
+    ../../modules/nixos/gnome.nix
   ];
 
   # Enable searching for and installing unfree packages
@@ -68,17 +64,9 @@
   services.tailscale.enable = true;
 
   # Hardware acceleration
-  # nixpkgs.config.packageOverrides = pkgs: {
-  #   intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
-  # };
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    # extraPackages = with pkgs; [
-    #   intel-media-driver
-    #   intel-vaapi-driver
-    #   libvdpau-va-gl
-    # ];
   };
 
   programs.gamemode.enable = true;
@@ -88,6 +76,8 @@
     enable = true;
     gamescopeSession.enable = true;
   };
+
+  services.thermald.enable = true;
 
   virtualisation.docker.storageDriver = "btrfs";
 

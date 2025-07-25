@@ -8,6 +8,7 @@
 {
   programs.kitty = {
     enable = true;
+    settings.transparency = "0.9";
     settings.enable_audio_bell = false;
     settings.visual_bell_duration = "0.5";
     settings.confirm_os_window_close = 0;
