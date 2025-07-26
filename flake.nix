@@ -73,7 +73,6 @@
                 agenix.nixosModules.default
                 home-manager.nixosModules.home-manager
                 {
-                  home-manager.useGlobalPkgs = true;
                   home-manager.useUserPackages = true;
                   home-manager.backupFileExtension = "hmback";
                   home-manager.users."mparus" = import (homeFile m);

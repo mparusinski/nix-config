@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 {
   config,
   lib,
@@ -25,6 +21,7 @@
     ../../modules/nixos/office.nix
     ../../modules/nixos/pipewire.nix
     ../../modules/nixos/gnome.nix
+    ../../modules/nixos/xmonad.nix
   ];
 
   # Enable searching for and installing unfree packages
@@ -62,6 +59,9 @@
   };
 
   services.tailscale.enable = true;
+
+  personalGnome.enable = true;
+  personalXMonad.enable = true;
 
   # Hardware acceleration
   hardware.graphics = {

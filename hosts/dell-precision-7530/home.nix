@@ -13,6 +13,7 @@
     ../../modules/home-manager/networks.nix
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/vscode.nix
+    ../../modules/home-manager/xmonad.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
