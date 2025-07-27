@@ -6,6 +6,10 @@
 }:
 
 {
+  imports = [
+    ./xmobar.nix
+  ];
+
   xsession.windowManager.xmonad = {
     enable = true;
     enableContribAndExtras = true;
@@ -40,6 +44,7 @@
     arandr
     brightnessctl
     dconf
+    rofi
   ];
 
 }
