@@ -49,6 +49,7 @@
     acpi
     fastfetch
     krita
+    fd
   ];
 
   home.sessionVariables = {
