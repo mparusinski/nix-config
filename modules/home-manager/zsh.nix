@@ -24,10 +24,13 @@
       plugins = [
         "git"
         "wd"
-        "fzf"
         "vi-mode"
       ];
       theme = "gallois";
     };
+  };
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
   };
 }
