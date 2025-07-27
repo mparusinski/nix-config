@@ -14,6 +14,7 @@
       gp = "git push";
       ga = "git add";
       gd = "git diff";
+      nix-shell = "nix-shell --run $SHELL";
       saq = "eval \"$(ssh-agent -s)\"";
     };
     history = {

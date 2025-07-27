@@ -20,8 +20,13 @@ in
     services.displayManager.autoLogin.user = "mparus";
 
     environment.systemPackages = with pkgs; [
-      gnome-tweaks
       gnomeExtensions.caffeine
+      gnomeExtensions.blur-my-shell
+    ];
+
+    environment.gnome.excludePacakges = with pkgs; [
+      epiphany
+      geary
     ];
 
     programs.kdeconnect = {
