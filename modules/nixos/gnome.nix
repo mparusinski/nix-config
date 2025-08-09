@@ -24,7 +24,7 @@ in
       gnomeExtensions.blur-my-shell
     ];
 
-    environment.gnome.excludePacakges = with pkgs; [
+    environment.gnome.excludePackages = with pkgs; [
       epiphany
       geary
     ];

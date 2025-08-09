@@ -15,6 +15,7 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    everforest.url = "git+https://codeberg.org/mparus/everforest-nix.git";
   };
 
   outputs =
@@ -24,6 +25,7 @@
       home-manager,
       agenix,
       pre-commit-hooks,
+      everforest,
       ...
     }@inputs:
     let
@@ -71,11 +73,15 @@
               [
                 (configurationFile m)
                 agenix.nixosModules.default
+                everforest.nixosModules.everforest
                 home-manager.nixosModules.home-manager
                 {
                   home-manager.useUserPackages = true;
                   home-manager.backupFileExtension = "hmback";
-                  home-manager.users."mparus" = import (homeFile m);
+                  home-manager.users."mparus".imports = [
+                    (homeFile m)
+                    everforest.homeModules.everforest
+                  ];
                 }
               ]
             );

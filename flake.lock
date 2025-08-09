@@ -45,6 +45,24 @@
         "type": "github"
       }
     },
+    "everforest": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1754245639,
+        "narHash": "sha256-86Ixz4TunQnSQz/BgH6llGO8vO7aAfG7etBd3GuXd+k=",
+        "ref": "refs/heads/main",
+        "rev": "0aabc5e052df34caf1d84d037ead6f89b55aec1c",
+        "revCount": 55,
+        "type": "git",
+        "url": "https://codeberg.org/mparus/everforest-nix.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/mparus/everforest-nix.git"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -126,6 +144,22 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1744098102,
+        "narHash": "sha256-tzCdyIJj9AjysC3OuKA+tMD/kDEDAF9mICPDU7ix0JA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c8cd81426f45942bb2906d5ed2fe21d2f19d95b7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1753115646,
         "narHash": "sha256-yLuz5cz5Z+sn8DRAfNkrd2Z1cV6DaYO9JMrEz4KZo/c=",
         "owner": "NixOS",
@@ -165,8 +199,9 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "everforest": "everforest",
         "home-manager": "home-manager_2",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "pre-commit-hooks": "pre-commit-hooks"
       }
     },

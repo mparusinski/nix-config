@@ -13,7 +13,6 @@
     ../../modules/home-manager/networks.nix
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/vscode.nix
-    ../../modules/home-manager/xmonad.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -50,6 +49,7 @@
     fastfetch
     krita
     fd
+    feh
   ];
 
   home.sessionVariables = {
@@ -60,9 +60,9 @@
     enable = true;
   };
 
-  programs.bat = {
-    config.theme = "base16";
-  };
+  # Theming
+  gtk.enable = true;
+  everforest.enable = true;
 
   programs.home-manager.enable = true;
 

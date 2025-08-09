@@ -23,6 +23,9 @@
         "org.gnome.Nautilus.desktop"
       ];
     };
+    "/org/gnome/settings-daemon/plugins/power" = {
+      sleep-inactive-battery-type = "nothing";
+    };
   };
 
 }

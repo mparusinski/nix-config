@@ -20,7 +20,7 @@
     ../../modules/nixos/docker.nix
     ../../modules/nixos/office.nix
     ../../modules/nixos/pipewire.nix
-    ../../modules/nixos/gnome.nix
+    ../../modules/nixos/hyprland.nix
   ];
 
   # Enable searching for and installing unfree packages
@@ -59,7 +59,19 @@
 
   services.tailscale.enable = true;
 
-  personalGnome.enable = true;
+  personalHyprland.enable = true;
+
+  # Bluetooth
+  services.blueman.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true; # Show battery charge of Bluetooth devices
+      };
+    };
+  };
 
   # Hardware acceleration
   hardware.graphics = {
@@ -83,6 +95,9 @@
     enable = true;
     package = lib.mkForce pkgs.gnome.gvfs;
   };
+
+  # theming
+  everforest.enable = true;
 
   system.stateVersion = "24.11";
 }

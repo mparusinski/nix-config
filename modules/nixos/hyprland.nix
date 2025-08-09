@@ -6,9 +6,9 @@
 }:
 
 let
-#   tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
-#   session = "${pkgs.hyprland}/bin/Hyprland";
-#   username = "mparus";
+  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+  session = "${pkgs.hyprland}/bin/Hyprland";
+  username = "mparus";
   cfg = config.personalHyprland;
 in
 {
@@ -17,19 +17,19 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # services.greetd = {
-    #   enable = true;
-    #   settings = {
-    #     initial_session = {
-    #       command = "${session}";
-    #       user = "mparus";
-    #     };
-    #     default_session = {
-    #       command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${session}";
-    #       user = "mparus";
-    #     };
-    #   };
-    # };
+    services.greetd = {
+      enable = true;
+      settings = {
+        initial_session = {
+          command = "${session}";
+          user = "mparus";
+        };
+        default_session = {
+          command = "${tuigreet} --greeting 'Welcome to NixOS!' --asterisks --remember --remember-user-session --time --cmd ${session}";
+          user = "mparus";
+        };
+      };
+    };
 
     programs.hyprland.enable = true;
     programs.hyprland.xwayland.enable = true;
@@ -77,7 +77,7 @@ in
       nerd-fonts.iosevka
     ];
 
-    ## Power saving stuff
-    # services.tlp.enable = true;
+    # Power saving stuff
+     services.tlp.enable = true;
   };
 }
