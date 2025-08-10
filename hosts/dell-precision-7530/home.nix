@@ -24,8 +24,6 @@
     fzf
     thefuck
     tree
-    discord
-    spotify
     htop
     baobab
     jq
@@ -43,13 +41,13 @@
     comma
     firefox
     xonotic
-    thunderbird
     openssl
     acpi
     fastfetch
     krita
     fd
     feh
+    bluetuith
   ];
 
   home.sessionVariables = {

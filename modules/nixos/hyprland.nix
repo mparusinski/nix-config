@@ -42,7 +42,6 @@ in
     environment.systemPackages = with pkgs; [
       waybar
       rofi-wayland
-      xfce.thunar
       light
       lxqt.lxqt-policykit
       dunst
@@ -78,6 +77,6 @@ in
     ];
 
     # Power saving stuff
-     services.tlp.enable = true;
+    services.tlp.enable = true;
   };
 }
