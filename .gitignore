@@ -1,2 +1,3 @@
 backups
 .direnv
+.pre-commit-config.yaml

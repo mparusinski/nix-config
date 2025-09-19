@@ -1,9 +1,8 @@
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  ...
+{ config
+, lib
+, pkgs
+, inputs
+, ...
 }:
 
 {
@@ -20,8 +19,9 @@
     ../../modules/nixos/docker.nix
     ../../modules/nixos/office.nix
     ../../modules/nixos/pipewire.nix
-    ../../modules/nixos/hyprland.nix
-    ../../modules/nixos/thunar.nix
+    ../../modules/nixos/gnome.nix
+    # ../../modules/nixos/hyprland.nix
+    # ../../modules/nixos/thunar.nix
   ];
 
   # Enable searching for and installing unfree packages
@@ -60,7 +60,7 @@
 
   services.tailscale.enable = true;
 
-  personalHyprland.enable = true;
+  personalGnome.enable = true;
 
   # Bluetooth
   services.blueman.enable = true;
@@ -101,7 +101,7 @@
   };
 
   # theming
-  everforest.enable = true;
+  dracula.enable = true;
 
   system.stateVersion = "24.11";
 }

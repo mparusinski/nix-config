@@ -15,18 +15,17 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    everforest.url = "git+https://codeberg.org/mparus/everforest-nix.git";
+    dracula.url = "github:mparusinski/dracula-nix";
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      agenix,
-      pre-commit-hooks,
-      everforest,
-      ...
+    { self
+    , nixpkgs
+    , home-manager
+    , agenix
+    , pre-commit-hooks
+    , dracula
+    , ...
     }@inputs:
     let
       lib = nixpkgs.lib // home-manager.lib;
@@ -62,31 +61,42 @@
         packages = [
           agenix.packages.x86_64-linux.default
         ];
+        shellHook =
+          let
+            originShellHook = self.checks.x86_64-linux.pre-commit-check.shellHook;
+          in
+          ''
+            ${originShellHook}
+            echo "Welcome to nix development shell"
+          '';
+        buildInputs = self.checks.x86_64-linux.pre-commit-check.enabledPackages;
       };
       nixosConfigurations = builtins.listToAttrs (
-        builtins.map (m: {
-          name = m;
-          value = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = (
-              [
-                (configurationFile m)
-                agenix.nixosModules.default
-                everforest.nixosModules.everforest
-                home-manager.nixosModules.home-manager
-                {
-                  home-manager.useUserPackages = true;
-                  home-manager.backupFileExtension = "hmback";
-                  home-manager.users."mparus".imports = [
-                    (homeFile m)
-                    everforest.homeModules.everforest
-                  ];
-                }
-              ]
-            );
-            specialArgs = { inherit inputs; };
-          };
-        }) machines
+        builtins.map
+          (m: {
+            name = m;
+            value = nixpkgs.lib.nixosSystem {
+              system = "x86_64-linux";
+              modules = (
+                [
+                  (configurationFile m)
+                  agenix.nixosModules.default
+                  dracula.nixosModules.dracula
+                  home-manager.nixosModules.home-manager
+                  {
+                    home-manager.useUserPackages = true;
+                    home-manager.backupFileExtension = "hmback";
+                    home-manager.users."mparus".imports = [
+                      (homeFile m)
+                      dracula.homeModules.dracula
+                    ];
+                  }
+                ]
+              );
+              specialArgs = { inherit inputs; };
+            };
+          })
+          machines
       );
     };
 }

@@ -60,7 +60,7 @@
 
   # Theming
   gtk.enable = true;
-  everforest.enable = true;
+  dracula.enable = true;
 
   programs.home-manager.enable = true;
 
