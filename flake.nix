@@ -16,6 +16,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dracula.url = "github:mparusinski/dracula-nix";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
   };
 
   outputs =
@@ -25,6 +26,7 @@
     , agenix
     , pre-commit-hooks
     , dracula
+    , nixos-wsl
     , ...
     }@inputs:
     let
@@ -41,6 +43,7 @@
       machines = [
         "dell-precision-7530"
         "personal-vm1"
+	"wsl1"
       ];
       configurationFile = m: ./hosts + ("/" + m) + /configuration.nix;
       homeFile = m: ./hosts + ("/" + m) + /home.nix;
@@ -82,6 +85,7 @@
                   (configurationFile m)
                   agenix.nixosModules.default
                   dracula.nixosModules.dracula
+                  nixos-wsl.nixosModules.default
                   home-manager.nixosModules.home-manager
                   {
                     home-manager.useUserPackages = true;
