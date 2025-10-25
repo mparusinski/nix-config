@@ -48,19 +48,24 @@
     fd
     feh
     bluetuith
+    xsane
+    ubuntu-sans
+    ubuntu-classic
+    roboto
   ];
 
   home.sessionVariables = {
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
   };
 
-  services.syncthing = {
-    enable = true;
-  };
+  fonts.fontconfig.enable = true;
+  services.syncthing.enable = true;
+  services.syncthing.extraOptions = [
+    "--allow-newer-config"
+  ];
 
   # Theming
   gtk.enable = true;
-  dracula.enable = true;
 
   programs.home-manager.enable = true;
 

@@ -15,7 +15,6 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    dracula.url = "github:mparusinski/dracula-nix";
   };
 
   outputs =
@@ -24,7 +23,6 @@
     , home-manager
     , agenix
     , pre-commit-hooks
-    , dracula
     , ...
     }@inputs:
     let
@@ -81,14 +79,12 @@
                 [
                   (configurationFile m)
                   agenix.nixosModules.default
-                  dracula.nixosModules.dracula
                   home-manager.nixosModules.home-manager
                   {
                     home-manager.useUserPackages = true;
                     home-manager.backupFileExtension = "hmback";
                     home-manager.users."mparus".imports = [
                       (homeFile m)
-                      dracula.homeModules.dracula
                     ];
                   }
                 ]

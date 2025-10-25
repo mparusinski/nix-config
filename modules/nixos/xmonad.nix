@@ -1,8 +1,7 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
+{ lib
+, config
+, pkgs
+, ...
 }:
 
 let
@@ -34,6 +33,7 @@ in
           Xft.hinting: 1
           Xft.antialias: 1
           Xft.rgba: rgb
+          Xcursor.size: 32
         EOF
         ${pkgs.xorg.xset}/bin/xset r rate 200 50
         ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option caps:super
