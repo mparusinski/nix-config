@@ -23,6 +23,7 @@
     ripgrep
     iotop
     comma
+    fd
   ];
 
   programs.home-manager.enable = true;
