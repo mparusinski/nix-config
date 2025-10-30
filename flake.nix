@@ -13,6 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    stylix.url = "github:nix-community/stylix/release-25.05";
   };
 
   outputs =
@@ -22,6 +23,7 @@
     , agenix
     , pre-commit-hooks
     , nixos-wsl
+    , stylix
     , ...
     }@inputs:
     let
@@ -80,6 +82,7 @@
                   (configurationFile m)
                   agenix.nixosModules.default
                   nixos-wsl.nixosModules.default
+                  stylix.nixosModules.stylix
                   home-manager.nixosModules.home-manager
                   {
                     home-manager.useUserPackages = true;

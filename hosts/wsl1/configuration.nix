@@ -9,7 +9,7 @@
   wsl.defaultUser = "mparus";
   mainUser.enable = true;
 
-  networking.hostName = "wsl1"; 
+  networking.hostName = "wsl1";
   time.timeZone = "Europe/Paris";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -18,6 +18,9 @@
     git
     vim
   ];
+
+  stylix.enable = true;
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/dracula.yaml";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
