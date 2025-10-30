@@ -1,10 +1,11 @@
-{ config
-, lib
-, pkgs
+{ pkgs
 , ...
 }:
 
 {
+  home.packages = with pkgs; [
+    nixd
+  ];
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -18,6 +19,20 @@
       vim-better-whitespace
       SimpylFold
     ];
+    coc = {
+      enable = true;
+      settings.languageserver = {
+        nix = {
+          command = "nixd";
+          filetypes = [
+            "nix"
+          ];
+          rootPatterns = [
+            "flake.nix"
+          ];
+        };
+      };
+    };
     # settings = {
     #   ignorecase = true;
     #   expandtab = true;
