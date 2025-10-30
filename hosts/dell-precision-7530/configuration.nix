@@ -100,8 +100,5 @@
     package = lib.mkForce pkgs.gnome.gvfs;
   };
 
-  # theming
-  dracula.enable = true;
-
   system.stateVersion = "24.11";
 }

@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 
 {
@@ -17,7 +16,6 @@
       vim-orgmode
       vim-speeddating
       vim-better-whitespace
-      dracula-vim
       SimpylFold
     ];
     # settings = {

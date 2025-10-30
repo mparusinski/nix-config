@@ -2,11 +2,8 @@
   description = "Michal's NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,7 +12,6 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    dracula.url = "github:mparusinski/dracula-nix";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
   };
 
@@ -25,7 +21,6 @@
     , home-manager
     , agenix
     , pre-commit-hooks
-    , dracula
     , nixos-wsl
     , ...
     }@inputs:
@@ -84,7 +79,6 @@
                 [
                   (configurationFile m)
                   agenix.nixosModules.default
-                  dracula.nixosModules.dracula
                   nixos-wsl.nixosModules.default
                   home-manager.nixosModules.home-manager
                   {
