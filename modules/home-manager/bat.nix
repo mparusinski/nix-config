@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 {
@@ -10,6 +11,7 @@
     extraPackages = with pkgs.bat-extras; [
       batdiff
       batman
+      batgrep
       batwatch
     ];
   };

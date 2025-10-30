@@ -1,16 +1,17 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 
 {
   programs.git = {
     enable = true;
     lfs.enable = true;
-    settings = {
-      user.email = "michal@parusinski.me";
-      user.name = "Michal Parusinski";
+    userName = "Michal Parusinski";
+    userEmail = "michal@parusinski.me";
+    extraConfig = {
       init.defaultBranch = "main";
       credential.helper = "store";
       pull.rebase = false;
