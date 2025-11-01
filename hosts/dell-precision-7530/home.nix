@@ -8,7 +8,6 @@
     ../../modules/home-manager/kitty.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/bat.nix
-    ../../modules/home-manager/theme.nix
     ../../modules/home-manager/dev/rust.nix
     ../../modules/home-manager/networks.nix
     ../../modules/home-manager/direnv.nix
@@ -22,9 +21,7 @@
   home.packages = with pkgs; [
     keepassxc
     fzf
-    thefuck
     tree
-    htop
     baobab
     jq
     bottom
@@ -34,9 +31,7 @@
     gamescope
     ripgrep
     dunst
-    w3m
     appimage-run
-    bottom
     iotop
     comma
     firefox

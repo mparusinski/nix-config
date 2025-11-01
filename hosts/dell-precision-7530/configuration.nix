@@ -21,8 +21,6 @@
     ../../modules/nixos/office.nix
     ../../modules/nixos/pipewire.nix
     ../../modules/nixos/gnome.nix
-    # ../../modules/nixos/hyprland.nix
-    # ../../modules/nixos/thunar.nix
   ];
 
   # Enable searching for and installing unfree packages
@@ -100,6 +98,10 @@
     enable = true;
     package = lib.mkForce pkgs.gnome.gvfs;
   };
+
+  # Theming
+  stylix.enable = true;
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/dracula.yaml";
 
   system.stateVersion = "24.11";
 }
