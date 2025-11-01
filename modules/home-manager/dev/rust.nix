@@ -1,8 +1,5 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ pkgs
+, ...
 }:
 
 {
@@ -13,4 +10,16 @@
     rustc
     rustfmt
   ];
+
+  programs.neovim.coc.settings.languageserver = {
+    rust = {
+      command = "rust-analyzer";
+      filetypes = [
+        "rust"
+      ];
+      rootPatterns = [
+        "Cargo.toml"
+      ];
+    };
+  };
 }

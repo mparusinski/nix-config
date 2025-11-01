@@ -3,10 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,6 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    stylix.url = "github:nix-community/stylix/release-25.05";
   };
 
   outputs =
@@ -25,19 +23,12 @@
     , agenix
     , pre-commit-hooks
     , nixos-wsl
+    , stylix
     , ...
     }@inputs:
     let
-      lib = nixpkgs.lib // home-manager.lib;
       systems = [ "x86_64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
-      pkgsFor = lib.genAttrs systems (
-        system:
-        import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        }
-      );
       machines = [
         "dell-precision-7530"
         "personal-vm1"
@@ -78,21 +69,20 @@
             name = m;
             value = nixpkgs.lib.nixosSystem {
               system = "x86_64-linux";
-              modules = (
-                [
-                  (configurationFile m)
-                  agenix.nixosModules.default
-                  nixos-wsl.nixosModules.default
-                  home-manager.nixosModules.home-manager
-                  {
-                    home-manager.useUserPackages = true;
-                    home-manager.backupFileExtension = "hmback";
-                    home-manager.users."mparus".imports = [
-                      (homeFile m)
-                    ];
-                  }
-                ]
-              );
+              modules = [
+                (configurationFile m)
+                agenix.nixosModules.default
+                nixos-wsl.nixosModules.default
+                stylix.nixosModules.stylix
+                home-manager.nixosModules.home-manager
+                {
+                  home-manager.useUserPackages = true;
+                  home-manager.backupFileExtension = "hmback";
+                  home-manager.users."mparus".imports = [
+                    (homeFile m)
+                  ];
+                }
+              ];
               specialArgs = { inherit inputs; };
             };
           })
