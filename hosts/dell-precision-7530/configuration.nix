@@ -17,6 +17,7 @@
     ../../modules/nixos/appimage.nix
     ../../modules/nixos/nix.nix
     ../../modules/nixos/docker.nix
+    ../../modules/nixos/distrobox.nix
     ../../modules/nixos/office.nix
     ../../modules/nixos/pipewire.nix
     ../../modules/nixos/gnome.nix
@@ -99,9 +100,6 @@
     enable = true;
     package = lib.mkForce pkgs.gnome.gvfs;
   };
-
-  # theming
-  dracula.enable = true;
 
   system.stateVersion = "24.11";
 }

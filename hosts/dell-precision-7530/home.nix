@@ -52,6 +52,7 @@
     ubuntu-sans
     ubuntu-classic
     roboto
+    discord
   ];
 
   home.sessionVariables = {
