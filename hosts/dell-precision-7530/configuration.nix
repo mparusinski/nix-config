@@ -103,5 +103,8 @@
   stylix.enable = true;
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/dracula.yaml";
 
+  # Allowing VIM CoC to function well with rust lang analyzer
+  programs.nix-ld.enable = true;
+
   system.stateVersion = "24.11";
 }

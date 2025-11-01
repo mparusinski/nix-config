@@ -14,7 +14,6 @@
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins; [
       vim-airline
-      vim-orgmode
       vim-speeddating
       vim-better-whitespace
       SimpylFold
