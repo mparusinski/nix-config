@@ -48,6 +48,7 @@
     ubuntu-classic
     roboto
     discord
+    bluetui
   ];
 
   home.sessionVariables = {

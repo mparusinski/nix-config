@@ -20,7 +20,7 @@
     ../../modules/nixos/distrobox.nix
     ../../modules/nixos/office.nix
     ../../modules/nixos/pipewire.nix
-    ../../modules/nixos/gnome.nix
+    ../../modules/nixos/hyprland.nix
   ];
 
   # Enable searching for and installing unfree packages
@@ -59,7 +59,7 @@
 
   services.tailscale.enable = true;
 
-  personalGnome.enable = true;
+  personalHyprland.enable = true;
 
   # Bluetooth
   services.blueman.enable = true;
