@@ -21,7 +21,7 @@
     ../../modules/nixos/office.nix
     ../../modules/nixos/pipewire.nix
     ../../modules/nixos/hyprland.nix
-    ../../modules/nixos/iwd.nix
+    ../../modules/nixos/networkmanager.nix
   ];
 
   # Enable searching for and installing unfree packages
