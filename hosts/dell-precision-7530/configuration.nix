@@ -21,6 +21,7 @@
     ../../modules/nixos/office.nix
     ../../modules/nixos/pipewire.nix
     ../../modules/nixos/hyprland.nix
+    ../../modules/nixos/iwd.nix
   ];
 
   # Enable searching for and installing unfree packages
@@ -36,7 +37,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "dell-precision-7530";
-  networking.networkmanager.enable = true;
 
   mainUser.enable = true;
   mainUser.extraGroups = [
@@ -98,6 +98,16 @@
     enable = true;
     package = lib.mkForce pkgs.gnome.gvfs;
   };
+
+  # AMD Graphics specifics
+  hardware.amdgpu = {
+    initrd.enable = true;
+    opencl.enable = true;
+  };
+  environment.systemPackages = with pkgs; [
+    ocl-icd
+    clinfo
+  ];
 
   # Theming
   stylix.enable = true;
