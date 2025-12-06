@@ -6,6 +6,6 @@ git add '**/*.nix'
 git commit -m "$(date)"
 
 # Push changes
-git push origin master
+git push origin main
 
 set +x
