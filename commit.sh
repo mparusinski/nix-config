@@ -2,7 +2,7 @@
 
 set -x
 
-git add **/*.nix
+git add '**/*.nix'
 git commit -m "$(date)"
 
 # Push changes
