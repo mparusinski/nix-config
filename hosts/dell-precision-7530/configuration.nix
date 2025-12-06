@@ -22,6 +22,7 @@
     ../../modules/nixos/pipewire.nix
     ../../modules/nixos/hyprland.nix
     ../../modules/nixos/networkmanager.nix
+    ../../modules/nixos/virt-manager.nix
   ];
 
   # Enable searching for and installing unfree packages
@@ -43,13 +44,14 @@
     "wheel"
     "docker"
     "audio"
+    "libvirtd"
   ];
   mainUser.ssh.enable = true;
 
   time.timeZone = "Europe/Paris";
   time.hardwareClockInLocalTime = true;
 
-  i18n.defaultLocale = "fr_FR.UTF-8";
+  i18n.defaultLocale = "en_IE.UTF-8";
   console = {
     earlySetup = true;
     font = "${pkgs.terminus_font}/share/consolefonts/ter-u32n.psf.gz";
