@@ -1,6 +1,4 @@
-{ config
-, lib
-, pkgs
+{ pkgs
 , ...
 }:
 
@@ -11,13 +9,13 @@
     settings.visual_bell_duration = "0.5";
     settings.confirm_os_window_close = 0;
     settings.font_size = "12.0";
-    settings.font_family = "iosevka";
+    settings.font_family = "hermit";
     settings.allow_remote_control = true;
     settings.listen_on = "unix:/tmp/mykitty";
     settings.enabled_layouts = "splits";
   };
   home.packages = with pkgs; [
-    iosevka
+    hermit
     kitty-themes
   ];
 }

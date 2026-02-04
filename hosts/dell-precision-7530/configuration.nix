@@ -55,7 +55,7 @@
   console = {
     earlySetup = true;
     font = "${pkgs.terminus_font}/share/consolefonts/ter-u32n.psf.gz";
-    packages = with pkgs; [ terminus_font ];
+    packages = with pkgs; [ hermit ];
     useXkbConfig = true; # use xkb.options in tty.
   };
 

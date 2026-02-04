@@ -5,9 +5,8 @@
 }:
 
 let
-  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+  tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
   session = "${pkgs.hyprland}/bin/Hyprland";
-  username = "mparus";
   cfg = config.personalHyprland;
 in
 {
@@ -68,11 +67,8 @@ in
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
       liberation_ttf
-      cantarell-fonts
-      fira-code
-      fira-code-symbols
+      hermit
       font-awesome
-      nerd-fonts.iosevka
     ];
 
     # Power saving stuff

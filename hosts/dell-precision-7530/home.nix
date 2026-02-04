@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   nixpkgs.config.allowUnfree = true;
@@ -11,7 +11,6 @@
     ../../modules/home-manager/dev/rust.nix
     ../../modules/home-manager/networks.nix
     ../../modules/home-manager/direnv.nix
-    ../../modules/home-manager/vscode.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -19,20 +18,16 @@
   home.homeDirectory = "/home/mparus";
 
   home.packages = with pkgs; [
-    keepassxc
     fzf
     tree
-    baobab
     jq
     bottom
-    stellarium
     pulsemixer
     mangohud
     gamescope
     ripgrep
     dunst
     appimage-run
-    iotop
     comma
     firefox
     xonotic
@@ -42,11 +37,7 @@
     krita
     fd
     feh
-    bluetuith
     xsane
-    ubuntu-sans
-    ubuntu-classic
-    roboto
     discord
     bluetui
   ];
