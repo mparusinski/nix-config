@@ -134,7 +134,7 @@ in
   # Matomo (self hosted alternative to Google Analytics)
   services.matomo = {
     enable = true;
-    package = pkgs.matomo_5;
+    package = pkgs.matomo;
     hostname = "stats.parusinski.me";
     nginx = {
       serverName = "stats.parusinski.me";

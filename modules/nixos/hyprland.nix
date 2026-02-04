@@ -1,8 +1,7 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
+{ lib
+, config
+, pkgs
+, ...
 }:
 
 let
@@ -41,7 +40,7 @@ in
     };
     environment.systemPackages = with pkgs; [
       waybar
-      rofi-wayland
+      rofi
       light
       lxqt.lxqt-policykit
       dunst
@@ -67,7 +66,7 @@ in
     fonts.packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       liberation_ttf
       cantarell-fonts
       fira-code
