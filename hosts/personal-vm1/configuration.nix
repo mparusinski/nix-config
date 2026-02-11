@@ -118,18 +118,9 @@ in
     statsConfig_remote
   ];
 
-  services.grafana.enable = true;
-  services.grafana.settings = {
-    server = {
-      http_addr = "0.0.0.0";
-      http_port = 3000;
-    };
-  };
-
   # Nginx
   services.nginx.enable = true;
   services.nginx.statusPage = true;
-  services.prometheus.exporters.nginx.enable = true;
 
   # Matomo (self hosted alternative to Google Analytics)
   services.matomo = {
@@ -142,37 +133,4 @@ in
   };
   security.acme.certs."stats.parusinski.me".email = "michal@parusinski.me";
   security.acme.acceptTerms = true;
-
-  # Prometheus
-  services.prometheus = {
-    enable = true;
-    globalConfig.scrape_interval = "1m"; # "1m"
-    scrapeConfigs = [
-      {
-        job_name = "node_dbdebfrcz";
-        static_configs = [
-          {
-            targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
-          }
-        ];
-      }
-      {
-        job_name = "nginx";
-        static_configs = [
-          {
-            targets = [ "localhost:9113" ];
-          }
-        ];
-      }
-      {
-        job_name = "homeassistant";
-        static_configs = [
-          {
-            targets = [ "homeassistant:8123" ];
-          }
-        ];
-        metrics_path = "/api/prometheus";
-      }
-    ];
-  };
 }

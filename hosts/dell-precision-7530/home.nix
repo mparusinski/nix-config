@@ -11,6 +11,7 @@
     ../../modules/home-manager/dev/rust.nix
     ../../modules/home-manager/networks.nix
     ../../modules/home-manager/direnv.nix
+    ../../modules/home-manager/proton.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -40,6 +41,7 @@
     xsane
     discord
     bluetui
+    proton-pass
   ];
 
   home.sessionVariables = {

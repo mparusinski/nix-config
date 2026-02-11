@@ -54,13 +54,11 @@
   i18n.defaultLocale = "en_IE.UTF-8";
   console = {
     earlySetup = true;
-    font = "${pkgs.terminus_font}/share/consolefonts/ter-u32n.psf.gz";
     packages = with pkgs; [ hermit ];
     useXkbConfig = true; # use xkb.options in tty.
   };
 
   services.tailscale.enable = true;
-
   personalHyprland.enable = true;
 
   # Bluetooth

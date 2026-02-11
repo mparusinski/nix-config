@@ -69,6 +69,7 @@ in
       liberation_ttf
       hermit
       font-awesome
+      nerd-fonts.hurmit
     ];
 
     # Power saving stuff
