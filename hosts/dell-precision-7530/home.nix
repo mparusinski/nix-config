@@ -20,8 +20,6 @@
 
   home.packages = with pkgs; [
     fzf
-    tree
-    jq
     bottom
     pulsemixer
     mangohud
@@ -31,17 +29,17 @@
     appimage-run
     comma
     firefox
-    xonotic
     openssl
     acpi
     fastfetch
     krita
     fd
-    feh
     xsane
     discord
     bluetui
     proton-pass
+    mplayer
+    spotify
   ];
 
   home.sessionVariables = {
