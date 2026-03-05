@@ -40,6 +40,7 @@
     proton-pass
     mplayer
     spotify
+    gpodder
   ];
 
   home.sessionVariables = {
