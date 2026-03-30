@@ -3,12 +3,10 @@
 {
   nixpkgs.config.allowUnfree = true;
   imports = [
-    ../../modules/home-manager/zsh.nix
+    ../../modules/home-manager/shell-config.nix
     ../../modules/home-manager/vim.nix
-    ../../modules/home-manager/dev/rust.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/bat.nix
-    ../../modules/home-manager/direnv.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -17,14 +15,8 @@
 
   home.packages = with pkgs; [
     git
-    fzf
-    mc
-    tree
-    htop
     ripgrep
-    iotop
     comma
-    fd
   ];
 
   programs.home-manager.enable = true;

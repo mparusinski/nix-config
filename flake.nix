@@ -45,6 +45,7 @@
           src = ./.;
           hooks = {
             nixpkgs-fmt.enable = true;
+            convco.enable = true;
           };
         };
       });

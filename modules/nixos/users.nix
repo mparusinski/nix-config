@@ -1,8 +1,7 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
+{ lib
+, config
+, pkgs
+, ...
 }:
 
 let
@@ -41,8 +40,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.zsh.enable = true;
-    users.defaultUserShell = pkgs.zsh;
+    programs.fish.enable = true;
+    users.defaultUserShell = pkgs.fish;
     users.users.${cfg.userName} = {
       isNormalUser = true;
       extraGroups = cfg.extraGroups;

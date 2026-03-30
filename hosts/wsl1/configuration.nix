@@ -7,6 +7,7 @@
 
   wsl.enable = true;
   wsl.defaultUser = "mparus";
+  wsl.interop.includePath = false;
   mainUser.enable = true;
 
   networking.hostName = "wsl1";
