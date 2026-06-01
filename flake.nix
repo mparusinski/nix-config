@@ -4,26 +4,19 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     home-manager.url = "github:nix-community/home-manager/release-25.11";
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     pre-commit-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    stylix.url = "github:nix-community/stylix/release-25.11";
   };
 
   outputs =
     { self
     , nixpkgs
     , home-manager
-    , agenix
     , pre-commit-hooks
     , nixos-wsl
-    , stylix
     , ...
     }@inputs:
     let
@@ -31,7 +24,6 @@
       forAllSystems = nixpkgs.lib.genAttrs systems;
       machines = [
         "dell-precision-7530"
-        "personal-vm1"
         "wsl1"
       ];
       configurationFile = m: ./hosts + ("/" + m) + /configuration.nix;
@@ -43,16 +35,10 @@
       checks = forAllSystems (system: {
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
-          hooks = {
-            nixpkgs-fmt.enable = true;
-            convco.enable = true;
-          };
+          hooks.nixpkgs-fmt.enable = true;
         };
       });
       devShells.x86_64-linux.default = pkgs.mkShell {
-        packages = [
-          agenix.packages.x86_64-linux.default
-        ];
         shellHook =
           let
             originShellHook = self.checks.x86_64-linux.pre-commit-check.shellHook;
@@ -71,9 +57,7 @@
               system = "x86_64-linux";
               modules = [
                 (configurationFile m)
-                agenix.nixosModules.default
                 nixos-wsl.nixosModules.default
-                stylix.nixosModules.stylix
                 home-manager.nixosModules.home-manager
                 {
                   home-manager.useUserPackages = true;
