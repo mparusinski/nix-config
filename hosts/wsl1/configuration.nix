@@ -1,14 +1,19 @@
 { pkgs, ... }:
 
+let
+  mainUser = "mparus";
+in
 {
   imports = [
     ../../modules/nixos/users.nix
   ];
 
   wsl.enable = true;
-  wsl.defaultUser = "mparus";
+  wsl.defaultUser = mainUser;
   wsl.interop.includePath = false;
   mainUser.enable = true;
+
+  nix.settings.trusted-users = [ "root" "@wheel" mainUser ];
 
   networking.hostName = "wsl1";
   time.timeZone = "Europe/Paris";
@@ -18,6 +23,7 @@
   environment.systemPackages = with pkgs; [
     git
     vim
+    devenv
   ];
 
   virtualisation.podman = {
