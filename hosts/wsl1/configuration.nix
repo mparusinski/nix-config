@@ -14,6 +14,7 @@ in
   mainUser.enable = true;
 
   nix.settings.trusted-users = [ "root" "@wheel" mainUser ];
+  nixpkgs.config.allowUnfree = true;
 
   networking.hostName = "wsl1";
   time.timeZone = "Europe/Paris";
