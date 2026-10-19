@@ -50,7 +50,7 @@
         buildInputs = self.checks.x86_64-linux.pre-commit-check.enabledPackages;
       };
       nixosConfigurations = builtins.listToAttrs (
-        builtins.map
+        map
           (m: {
             name = m;
             value = nixpkgs.lib.nixosSystem {
