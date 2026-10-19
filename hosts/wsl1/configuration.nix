@@ -25,6 +25,7 @@ in
     git
     vim
     devenv
+    podman-compose
   ];
 
   virtualisation.podman = {
