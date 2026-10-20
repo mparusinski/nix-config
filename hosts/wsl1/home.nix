@@ -16,7 +16,6 @@
   home.packages = with pkgs; [
     git
     ripgrep
-    comma
   ];
 
   programs.home-manager.enable = true;
