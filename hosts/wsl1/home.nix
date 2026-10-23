@@ -13,11 +13,6 @@
   home.username = "mparus";
   home.homeDirectory = "/home/mparus";
 
-  home.packages = with pkgs; [
-    git
-    ripgrep
-  ];
-
   programs.home-manager.enable = true;
 
   # This value determines the Home Manager release that your

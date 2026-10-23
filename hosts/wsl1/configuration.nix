@@ -26,6 +26,7 @@ in
     vim
     devenv
     podman-compose
+    ripgrep
   ];
 
   virtualisation.podman = {
