@@ -13,6 +13,7 @@
   home.username = "mparus";
   home.homeDirectory = "/home/mparus";
 
+  programs.uv.enable = true;
   programs.home-manager.enable = true;
 
   # This value determines the Home Manager release that your

@@ -64,5 +64,7 @@
       au BufNewFile,BufRead *.py set autoindent
       au BufNewFile,BufRead *.py set fileformat=unix
     '';
+    withPython3 = false;
+    withRuby = false;
   };
 }
