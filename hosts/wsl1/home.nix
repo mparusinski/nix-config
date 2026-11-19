@@ -7,6 +7,7 @@
     ../../modules/home-manager/vim.nix
     ../../modules/home-manager/git.nix
     ../../modules/home-manager/bat.nix
+    ../../modules/home-manager/zellij.nix
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
